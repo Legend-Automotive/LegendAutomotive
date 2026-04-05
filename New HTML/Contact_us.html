@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Contact Us | Legend Automotive</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface": "#131313",
+                    "tertiary-container": "#ceb05a",
+                    "surface-variant": "#353535",
+                    "surface-container": "#20201f",
+                    "on-tertiary-fixed": "#241a00",
+                    "tertiary-fixed": "#ffe089",
+                    "on-secondary-fixed-variant": "#584400",
+                    "on-tertiary-fixed-variant": "#574400",
+                    "on-error-container": "#ffdad6",
+                    "primary": "#f2ca50",
+                    "error-container": "#93000a",
+                    "surface-container-lowest": "#0e0e0e",
+                    "secondary-container": "#b08c10",
+                    "surface-dim": "#131313",
+                    "primary-container": "#d4af37",
+                    "secondary": "#eac249",
+                    "tertiary": "#ebcc72",
+                    "primary-fixed": "#ffe088",
+                    "tertiary-fixed-dim": "#e3c46b",
+                    "secondary-fixed": "#ffe08b",
+                    "on-primary-fixed": "#241a00",
+                    "on-primary-container": "#554300",
+                    "on-secondary-fixed": "#241a00",
+                    "on-secondary-container": "#352800",
+                    "outline": "#99907c",
+                    "inverse-surface": "#e5e2e1",
+                    "on-primary-fixed-variant": "#574500",
+                    "surface-container-high": "#2a2a2a",
+                    "primary-fixed-dim": "#e9c349",
+                    "on-surface": "#e5e2e1",
+                    "inverse-primary": "#735c00",
+                    "outline-variant": "#4d4635",
+                    "surface-container-highest": "#353535",
+                    "error": "#ffb4ab",
+                    "surface-container-low": "#1c1b1b",
+                    "on-tertiary-container": "#554300",
+                    "on-error": "#690005",
+                    "on-primary": "#3c2f00",
+                    "secondary-fixed-dim": "#eac249",
+                    "surface-bright": "#393939",
+                    "inverse-on-surface": "#313030",
+                    "background": "#131313",
+                    "on-background": "#e5e2e1",
+                    "on-secondary": "#3d2f00",
+                    "on-surface-variant": "#d0c5af",
+                    "surface-tint": "#e9c349",
+                    "on-tertiary": "#3d2f00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #131313; color: #e5e2e1; }
+        .font-manrope { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-panel { background: rgba(28, 27, 27, 0.7); backdrop-filter: blur(20px); }
+        .gold-glow:focus { box-shadow: 0 4px 20px -5px rgba(242, 202, 80, 0.3); border-bottom: 2px solid #f2ca50; }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#131313]/80 backdrop-blur-xl bg-gradient-to-b from-[#131313] to-transparent">
+<div class="flex justify-between items-center max-w-7xl mx-auto px-8 h-20">
+<div class="text-2xl font-bold tracking-tighter text-[#f2ca50] italic">Legend Automotive</div>
+<div class="hidden md:flex gap-8 items-center">
+<a class="font-manrope tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-[#f2ca50] transition-colors duration-300" href="#">Home</a>
+<a class="font-manrope tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-[#f2ca50] transition-colors duration-300" href="#">Explore</a>
+<a class="font-manrope tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-[#f2ca50] transition-colors duration-300" href="#">About</a>
+<a class="font-manrope tracking-wider uppercase text-sm font-semibold text-[#f2ca50] border-b-2 border-[#d4af37] pb-1" href="#">Contact Us</a>
+<a class="font-manrope tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-[#f2ca50] transition-colors duration-300" href="#">Admin</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-[#f2ca50] scale-95 active:scale-90 transition-transform">person</button>
+</div>
+</div>
+</nav>
+<main class="pt-32 pb-24">
+<!-- Hero Section -->
+<section class="max-w-7xl mx-auto px-8 mb-24">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-end">
+<div>
+<span class="font-manrope text-primary tracking-[0.3em] uppercase text-xs font-bold mb-4 block">Connect with Excellence</span>
+<h1 class="font-manrope text-6xl md:text-8xl font-extrabold tracking-tighter leading-none text-on-surface mb-8">
+                        The <span class="text-primary italic">Legend</span> Awaits.
+                    </h1>
+<p class="text-on-surface-variant text-lg max-w-md leading-relaxed">
+                        Step into the gallery of sovereign engineering. Whether you seek a masterpiece or require bespoke service, our concierge is at your command.
+                    </p>
+</div>
+<div class="hidden lg:block relative h-64 overflow-hidden rounded-xl">
+<img alt="Luxury car detail" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" data-alt="Close-up of a sleek black luxury sports car headlight with elegant rim lighting and dark atmospheric studio background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlCqFE9k72Lmtanebb05uvTpBnFqinCvHIrDuwevU_sb5NR4PN6_gDfNFavOWZsqnxtOBD918Qs5lqQc0-wIY6RY3qOkNt8ZF4N5s_iY0vZYSJCiHo80esqdlUw5_UGSxNLUR3a_UjDBS_rP1IsI7mY1WIYJ1lfsFxc7Ow79WXxp6KwN4CWDSByJn1Mbl8Aiw9puoufJoQFAy1FsR5GHrgMVE6y-FioqBJTrsIwbygBQlW_48sNI_bOz-pIndBfE4Mc4RzEAgHOJ4Q"/>
+</div>
+</div>
+</section>
+<!-- Main Content Grid -->
+<section class="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-12 gap-12">
+<!-- Contact Form Area -->
+<div class="lg:col-span-7 bg-surface-container-low p-10 rounded-xl relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+<h2 class="font-manrope text-3xl font-bold text-on-surface mb-10 tracking-tight">Inquiry Portal</h2>
+<form class="space-y-8">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="relative">
+<label class="block text-on-surface-variant text-xs uppercase tracking-widest font-semibold mb-2 ml-1">Full Name</label>
+<input class="w-full bg-surface-container-lowest border-none p-4 text-on-surface placeholder-neutral-700 gold-glow focus:ring-0 transition-all duration-300" placeholder="John Doe" type="text"/>
+</div>
+<div class="relative">
+<label class="block text-on-surface-variant text-xs uppercase tracking-widest font-semibold mb-2 ml-1">Email Address</label>
+<input class="w-full bg-surface-container-lowest border-none p-4 text-on-surface placeholder-neutral-700 gold-glow focus:ring-0 transition-all duration-300" placeholder="john@example.com" type="email"/>
+</div>
+</div>
+<div class="relative">
+<label class="block text-on-surface-variant text-xs uppercase tracking-widest font-semibold mb-2 ml-1">Subject</label>
+<select class="w-full bg-surface-container-lowest border-none p-4 text-on-surface gold-glow focus:ring-0 transition-all duration-300 appearance-none">
+<option>Vehicle Procurement</option>
+<option>Service &amp; Maintenance</option>
+<option>Fleet Solutions</option>
+<option>General Inquiry</option>
+</select>
+</div>
+<div class="relative">
+<label class="block text-on-surface-variant text-xs uppercase tracking-widest font-semibold mb-2 ml-1">Your Message</label>
+<textarea class="w-full bg-surface-container-lowest border-none p-4 text-on-surface placeholder-neutral-700 gold-glow focus:ring-0 transition-all duration-300" placeholder="Tell us about your requirements..." rows="5"></textarea>
+</div>
+<button class="w-full py-4 bg-gradient-to-r from-primary to-primary-container text-on-primary font-manrope font-extrabold uppercase tracking-widest text-sm rounded-md hover:opacity-90 transition-all duration-300 transform active:scale-[0.98]" type="submit">
+                        Dispatch Inquiry
+                    </button>
+</form>
+</div>
+<!-- Sidebar Info -->
+<div class="lg:col-span-5 flex flex-col gap-8">
+<!-- Contact Cards -->
+<div class="grid grid-cols-1 gap-6">
+<!-- Phone -->
+<div class="bg-surface-container-high p-8 rounded-xl flex items-center gap-6 group hover:translate-x-1 transition-transform duration-300">
+<div class="w-14 h-14 rounded-full bg-surface-container-highest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">call</span>
+</div>
+<div>
+<p class="text-on-surface-variant text-xs uppercase tracking-widest mb-1">Direct Line</p>
+<p class="text-xl font-bold font-manrope">+20 106 442 4446</p>
+</div>
+</div>
+<!-- Email -->
+<div class="bg-surface-container-high p-8 rounded-xl flex items-center gap-6 group hover:translate-x-1 transition-transform duration-300">
+<div class="w-14 h-14 rounded-full bg-surface-container-highest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">mail</span>
+</div>
+<div>
+<p class="text-on-surface-variant text-xs uppercase tracking-widest mb-1">Electronic Mail</p>
+<p class="text-xl font-bold font-manrope">info@legendautomotive.com</p>
+</div>
+</div>
+<!-- Location Card -->
+<div class="bg-surface-container-high p-8 rounded-xl">
+<p class="text-on-surface-variant text-xs uppercase tracking-widest mb-4">The Cairo Showroom</p>
+<div class="flex items-start gap-6">
+<div class="w-14 h-14 rounded-full bg-surface-container-highest flex-shrink-0 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl">location_on</span>
+</div>
+<div>
+<p class="text-lg font-bold font-manrope leading-tight mb-2">New Cairo, District 5</p>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-4">
+                                    Strategic Automotive Hub,<br/>
+                                    Cairo, Egypt
+                                </p>
+<span class="inline-flex items-center text-primary text-xs font-bold uppercase tracking-widest">
+                                    Open: Mon - Sat 09:00 - 21:00
+                                </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactive Map Placeholder -->
+<div class="flex-grow min-h-[300px] rounded-xl overflow-hidden grayscale contrast-125 brightness-75 relative group">
+<div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 pointer-events-none"></div>
+<img alt="Map of Cairo" class="w-full h-full object-cover" data-alt="Detailed dark monochromatic street map of New Cairo showing geometric grid layout and urban infrastructure" data-location="Cairo, Egypt" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_yfGuI2OKeweB2rRhAXuYJn2k2UEPJn7rpAhQ6shFqZzawXhY9GvLfsyXGT9lvCC3JBSZ0BrspGwa-7KbWe6eE0yDPEUlhG0kTockin46_1yBBXAGuKmQKq7v2qp13fAriRgSveWx-82P0C6P4Ccp0brXyAmwrCVo1zxXU6yLE55-eaYlsThIK5NkioHEqCliCbojrc9fH9fJ1_sK7ciEdbT1gBawcYndBcz--ydNVplTPawP5sS78BQbmoxePPS-pjCfs4K8XMYO"/>
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center animate-pulse">
+<div class="w-4 h-4 bg-on-primary rounded-full"></div>
+</div>
+</div>
+<div class="absolute bottom-4 left-4 z-20 glass-panel px-4 py-2 rounded-lg border border-outline-variant/20">
+<span class="text-xs font-bold uppercase tracking-tighter text-on-surface">Precision Location: 30.0444° N, 31.2357° E</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#0e0e0e] w-full border-t border-[#4d4635]/15">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 px-12 py-16 max-w-7xl mx-auto">
+<div class="space-y-6">
+<div class="text-lg font-bold text-[#d4af37]">Legend Automotive</div>
+<p class="font-inter text-xs text-neutral-500 leading-relaxed max-w-xs">
+                    Curating the world's most exceptional automotive legends. A sanctuary for performance, luxury, and heritage.
+                </p>
+</div>
+<div class="space-y-4">
+<p class="font-manrope text-xs font-bold text-[#f2ca50] uppercase tracking-widest">Navigation</p>
+<div class="flex flex-col gap-3">
+<a class="font-inter text-xs text-neutral-500 hover:text-[#d4af37] hover:translate-x-1 transition-transform duration-200" href="#">Browse Brands</a>
+<a class="font-inter text-xs text-neutral-500 hover:text-[#d4af37] hover:translate-x-1 transition-transform duration-200" href="#">Compare Vehicles</a>
+<a class="font-inter text-xs text-neutral-500 hover:text-[#d4af37] hover:translate-x-1 transition-transform duration-200" href="#">About Us</a>
+<a class="font-inter text-xs text-[#f2ca50] hover:translate-x-1 transition-transform duration-200" href="#">Contact Details</a>
+</div>
+</div>
+<div class="space-y-6 text-right md:text-left">
+<p class="font-manrope text-xs font-bold text-[#f2ca50] uppercase tracking-widest">Stay Connected</p>
+<div class="flex gap-4 opacity-80 hover:opacity-100 transition-opacity justify-end md:justify-start">
+<span class="material-symbols-outlined text-neutral-500 cursor-pointer hover:text-primary transition-colors">public</span>
+<span class="material-symbols-outlined text-neutral-500 cursor-pointer hover:text-primary transition-colors">shield</span>
+<span class="material-symbols-outlined text-neutral-500 cursor-pointer hover:text-primary transition-colors">verified_user</span>
+</div>
+<p class="font-inter text-xs text-neutral-500">© 2024 Legend Automotive. All Rights Reserved.</p>
+</div>
+</div>
+</footer>
+</body></html>

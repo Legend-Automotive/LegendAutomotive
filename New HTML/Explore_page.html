@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Explore Luxury Electric | Legend Automotive</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface": "#131313",
+                    "tertiary-container": "#ceb05a",
+                    "surface-variant": "#353535",
+                    "surface-container": "#20201f",
+                    "on-tertiary-fixed": "#241a00",
+                    "tertiary-fixed": "#ffe089",
+                    "on-secondary-fixed-variant": "#584400",
+                    "on-tertiary-fixed-variant": "#574400",
+                    "on-error-container": "#ffdad6",
+                    "primary": "#f2ca50",
+                    "error-container": "#93000a",
+                    "surface-container-lowest": "#0e0e0e",
+                    "secondary-container": "#b08c10",
+                    "surface-dim": "#131313",
+                    "primary-container": "#d4af37",
+                    "secondary": "#eac249",
+                    "tertiary": "#ebcc72",
+                    "primary-fixed": "#ffe088",
+                    "tertiary-fixed-dim": "#e3c46b",
+                    "secondary-fixed": "#ffe08b",
+                    "on-primary-fixed": "#241a00",
+                    "on-primary-container": "#554300",
+                    "on-secondary-fixed": "#241a00",
+                    "on-secondary-container": "#352800",
+                    "outline": "#99907c",
+                    "inverse-surface": "#e5e2e1",
+                    "on-primary-fixed-variant": "#574500",
+                    "surface-container-high": "#2a2a2a",
+                    "primary-fixed-dim": "#e9c349",
+                    "on-surface": "#e5e2e1",
+                    "inverse-primary": "#735c00",
+                    "outline-variant": "#4d4635",
+                    "surface-container-highest": "#353535",
+                    "error": "#ffb4ab",
+                    "surface-container-low": "#1c1b1b",
+                    "on-tertiary-container": "#554300",
+                    "on-error": "#690005",
+                    "on-primary": "#3c2f00",
+                    "secondary-fixed-dim": "#eac249",
+                    "surface-bright": "#393939",
+                    "inverse-on-surface": "#313030",
+                    "background": "#131313",
+                    "on-background": "#e5e2e1",
+                    "on-secondary": "#3d2f00",
+                    "on-surface-variant": "#d0c5af",
+                    "surface-tint": "#e9c349",
+                    "on-tertiary": "#3d2f00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(42, 42, 42, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary selection:text-on-primary">
+<!-- TopNavBar Implementation -->
+<header class="fixed top-0 w-full z-50 bg-[#131313]/80 backdrop-blur-xl">
+<div class="bg-gradient-to-b from-[#131313] to-transparent">
+<nav class="flex justify-between items-center max-w-7xl mx-auto px-8 h-20">
+<a class="text-2xl font-bold tracking-tighter text-[#f2ca50] italic" href="#">Legend Automotive</a>
+<div class="hidden md:flex items-center space-x-10 font-manrope tracking-wider uppercase text-sm font-semibold">
+<a class="text-neutral-400 hover:text-[#f2ca50] transition-colors duration-300" href="#">Home</a>
+<a class="text-[#f2ca50] border-b-2 border-[#d4af37] pb-1" href="#">Explore</a>
+<a class="text-neutral-400 hover:text-[#f2ca50] transition-colors duration-300" href="#">About</a>
+<a class="text-neutral-400 hover:text-[#f2ca50] transition-colors duration-300" href="#">Contact Us</a>
+<a class="text-neutral-400 hover:text-[#f2ca50] transition-colors duration-300" href="#">Admin</a>
+</div>
+<div class="flex items-center space-x-6 text-[#f2ca50]">
+<button class="scale-95 active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<button class="scale-95 active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</button>
+</div>
+</nav>
+</div>
+</header>
+<main class="pt-32 pb-20 px-8 max-w-7xl mx-auto">
+<!-- Hero Title Section -->
+<div class="mb-16">
+<h1 class="font-headline text-6xl font-extrabold tracking-tighter text-on-surface mb-4">
+                THE <span class="text-primary italic">SOVEREIGN</span> COLLECTION
+            </h1>
+<p class="text-on-surface-variant max-w-2xl font-body text-lg leading-relaxed">
+                Discover the pinnacle of sustainable performance. Every vehicle in our gallery is hand-selected for its legendary status and uncompromising luxury.
+            </p>
+</div>
+<div class="flex flex-col lg:flex-row gap-12">
+<!-- Sidebar Filters -->
+<aside class="w-full lg:w-72 flex-shrink-0 space-y-12">
+<!-- Search Filter -->
+<div class="space-y-4">
+<label class="font-headline font-bold text-xs uppercase tracking-widest text-primary">Search</label>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest border-none focus:ring-1 focus:ring-primary rounded-md py-3 px-4 text-on-surface placeholder:text-neutral-600 transition-all" placeholder="Model or Brand..." type="text"/>
+</div>
+</div>
+<!-- Brand Filter -->
+<div class="space-y-4">
+<label class="font-headline font-bold text-xs uppercase tracking-widest text-primary">Manufacturer</label>
+<div class="flex flex-wrap gap-2">
+<button class="px-4 py-2 rounded-full bg-surface-container-high text-on-surface text-xs font-medium hover:bg-primary hover:text-on-primary transition-colors">Aether</button>
+<button class="px-4 py-2 rounded-full bg-primary text-on-primary text-xs font-medium">Lucid</button>
+<button class="px-4 py-2 rounded-full bg-surface-container-high text-on-surface text-xs font-medium hover:bg-primary hover:text-on-primary transition-colors">Rimac</button>
+<button class="px-4 py-2 rounded-full bg-surface-container-high text-on-surface text-xs font-medium hover:bg-primary hover:text-on-primary transition-colors">Porsche</button>
+<button class="px-4 py-2 rounded-full bg-surface-container-high text-on-surface text-xs font-medium hover:bg-primary hover:text-on-primary transition-colors">Lotus</button>
+</div>
+</div>
+<!-- Price Range -->
+<div class="space-y-6">
+<div class="flex justify-between items-center">
+<label class="font-headline font-bold text-xs uppercase tracking-widest text-primary">Price Range</label>
+<span class="text-xs text-on-surface-variant font-mono">$120k - $2.5M</span>
+</div>
+<div class="relative h-1 bg-surface-container-high rounded-full">
+<div class="absolute h-full left-1/4 right-1/4 bg-primary rounded-full"></div>
+<div class="absolute top-1/2 -translate-y-1/2 left-1/4 w-4 h-4 bg-on-surface border-2 border-primary rounded-full shadow-lg"></div>
+<div class="absolute top-1/2 -translate-y-1/2 right-1/4 w-4 h-4 bg-on-surface border-2 border-primary rounded-full shadow-lg"></div>
+</div>
+</div>
+<!-- Vehicle Type -->
+<div class="space-y-4">
+<label class="font-headline font-bold text-xs uppercase tracking-widest text-primary">Vehicle Class</label>
+<div class="space-y-3">
+<label class="flex items-center group cursor-pointer">
+<input checked="" class="w-4 h-4 rounded-sm bg-surface-container-lowest border-outline-variant text-primary focus:ring-primary focus:ring-offset-background" type="checkbox"/>
+<span class="ml-3 text-sm text-on-surface-variant group-hover:text-on-surface transition-colors">Hypercar</span>
+</label>
+<label class="flex items-center group cursor-pointer">
+<input class="w-4 h-4 rounded-sm bg-surface-container-lowest border-outline-variant text-primary focus:ring-primary focus:ring-offset-background" type="checkbox"/>
+<span class="ml-3 text-sm text-on-surface-variant group-hover:text-on-surface transition-colors">Grand Tourer</span>
+</label>
+<label class="flex items-center group cursor-pointer">
+<input checked="" class="w-4 h-4 rounded-sm bg-surface-container-lowest border-outline-variant text-primary focus:ring-primary focus:ring-offset-background" type="checkbox"/>
+<span class="ml-3 text-sm text-on-surface-variant group-hover:text-on-surface transition-colors">Luxury Sedan</span>
+</label>
+<label class="flex items-center group cursor-pointer">
+<input class="w-4 h-4 rounded-sm bg-surface-container-lowest border-outline-variant text-primary focus:ring-primary focus:ring-offset-background" type="checkbox"/>
+<span class="ml-3 text-sm text-on-surface-variant group-hover:text-on-surface transition-colors">Performance SUV</span>
+</label>
+</div>
+</div>
+<button class="w-full py-4 bg-surface-container-highest text-primary font-headline font-bold text-xs uppercase tracking-widest hover:bg-primary hover:text-on-primary transition-all duration-300">
+                    Clear All Filters
+                </button>
+</aside>
+<!-- Vehicle Grid -->
+<div class="flex-grow">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-12">
+<!-- Car Card 1 -->
+<div class="group relative flex flex-col space-y-4">
+<div class="aspect-[16/10] overflow-hidden rounded-xl bg-surface-container-low relative">
+<img class="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" data-alt="luxury electric hypercar in a dark studio with dramatic gold rim lighting reflecting off its polished black body" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzhjWiSBh3t66ib_jd4T2eTzKwdfdLBM8Sme0W0ecOjOOFa43TPXJrW8k5NsfMNhNTLjKG7OctAoduZbi3uR6GvwFG1lugWNYyLIh2G8pa-2b5vMKECVx58o5wbVe7mPZO9oCsYbJhRMCN4K_hEXlJ57lDZQzfXfZ6oPsQjfQEoiKx_OPxNLTek6uqZk7J6My9PVO4T1s_9ZlBeJeSUu1Zj1HvT2bHxg3I9fvPWtpzMlxZ0jcjrxY09uB8l4AxsO4L8DBzzHreioyQ"/>
+<div class="absolute top-4 right-4 glass-panel px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tighter text-primary">Limited Edition</div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline text-2xl font-bold tracking-tight group-hover:text-primary transition-colors">Lucid Sapphire II</h3>
+<p class="text-on-surface-variant font-label text-sm">Ultra-Luxury Electric Sedan</p>
+</div>
+<div class="text-right">
+<p class="font-mono text-lg font-bold text-primary">$249,000</p>
+<p class="text-[10px] text-neutral-500 uppercase tracking-widest">Base MSRP</p>
+</div>
+</div>
+<button class="w-full py-4 bg-primary text-on-primary font-headline font-bold text-sm tracking-widest flex items-center justify-center space-x-2 rounded-md hover:translate-y-[-2px] transition-all">
+<span>VIEW DETAILS</span>
+<span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<!-- Car Card 2 -->
+<div class="group relative flex flex-col space-y-4">
+<div class="aspect-[16/10] overflow-hidden rounded-xl bg-surface-container-low relative">
+<img class="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" data-alt="sleek modern electric performance vehicle parked in a minimalist concrete architectural space with morning shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXl67RZBo8n5pgCDGJapW5wPJ5-hrpxvLO11hsJd_Ten2D8JTUfkolLCPVPOSTNW5BC5LcY7lwc4Kt2MXyGjYN9w0wBDYqxqcGHFxnqm8Ps8hf4dxvNgV6u6HHkZusJMP-jJdEe6u9kNX1D3fimvFM8I8I-Sojm2FttqdP3t7JCEIJ7JVkKIbqvBLmdv0R0iroLiweTTVl7L1BLL0cBFxy7Y79-NrZlwatMakm3VveX6tEDtoVVoe6_5sv4V7FvP_mavutQrYi9Jlj"/>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline text-2xl font-bold tracking-tight group-hover:text-primary transition-colors">Taycan Turbo GT</h3>
+<p class="text-on-surface-variant font-label text-sm">Precision Engineering Sport</p>
+</div>
+<div class="text-right">
+<p class="font-mono text-lg font-bold text-primary">$186,000</p>
+<p class="text-[10px] text-neutral-500 uppercase tracking-widest">Base MSRP</p>
+</div>
+</div>
+<button class="w-full py-4 border border-primary/20 text-on-surface font-headline font-bold text-sm tracking-widest flex items-center justify-center space-x-2 rounded-md hover:bg-surface-container-highest transition-all">
+<span>VIEW DETAILS</span>
+<span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<!-- Car Card 3 -->
+<div class="group relative flex flex-col space-y-4">
+<div class="aspect-[16/10] overflow-hidden rounded-xl bg-surface-container-low relative">
+<img class="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" data-alt="concept electric hypercar with glowing led headlights in a futuristic midnight city setting with golden street lights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjxYHzmowIpn5jNmowEAfgLBSTk6PS-kt5qUdLx1j8f0gA0Fqv1Rkb_gJlDpA6kA7F8yLsY_p6mP8ymWfv-qfBFv5T7v_WO_PeHXPCaKvCAEN6NTRI18cemsjJB_Y1wElKpEXrAYNcp7374Hgcc4Q-Ns77Sf6b_PkOVvkX73fXl4hSDnh9nuhqlvMD9MECESPlDtl0hNw5VQn48PWVXtLL1si5jkGnxvt9OWfa-2wdygwwaMgF2hSnzMVf49aV72pGeFKfNRB-fqGi"/>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline text-2xl font-bold tracking-tight group-hover:text-primary transition-colors">Rimac Nevera X</h3>
+<p class="text-on-surface-variant font-label text-sm">Hyper-Performance Electric</p>
+</div>
+<div class="text-right">
+<p class="font-mono text-lg font-bold text-primary">$2,200,000</p>
+<p class="text-[10px] text-neutral-500 uppercase tracking-widest">Base MSRP</p>
+</div>
+</div>
+<button class="w-full py-4 border border-primary/20 text-on-surface font-headline font-bold text-sm tracking-widest flex items-center justify-center space-x-2 rounded-md hover:bg-surface-container-highest transition-all">
+<span>VIEW DETAILS</span>
+<span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<!-- Car Card 4 -->
+<div class="group relative flex flex-col space-y-4">
+<div class="aspect-[16/10] overflow-hidden rounded-xl bg-surface-container-low relative">
+<img class="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" data-alt="luxury electric suv profile shot against a dark obsidian background with soft golden atmospheric lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRES57IbOultcW_UjZVax9-2SHc8soFmiKtkAs3pDTIXrdGmAkqBUF2LKlXRi-Q4lgnYYjiBuqKC4LdSjS8zbL8wvFXOKfFyXETUPHqCzz42fSYIw3WSoJZ8HewfKmZlGfK_ka6y0cN0f9hnmTptF-7QAnCIqOTC4SCgmEWEtHnamNuul0JDzi4N_IdWvQvNbRor2d9CrKGhyirf6AvHXB7aFhzS07g_C4zeoY6c5pKm6mu2M5KD6FF1nIOoNFG8eQ9_2lSXPulG0O"/>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline text-2xl font-bold tracking-tight group-hover:text-primary transition-colors">Aether Luminar</h3>
+<p class="text-on-surface-variant font-label text-sm">Flagship Luxury SUV</p>
+</div>
+<div class="text-right">
+<p class="font-mono text-lg font-bold text-primary">$158,000</p>
+<p class="text-[10px] text-neutral-500 uppercase tracking-widest">Base MSRP</p>
+</div>
+</div>
+<button class="w-full py-4 border border-primary/20 text-on-surface font-headline font-bold text-sm tracking-widest flex items-center justify-center space-x-2 rounded-md hover:bg-surface-container-highest transition-all">
+<span>VIEW DETAILS</span>
+<span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Load More / Pagination -->
+<div class="mt-20 flex justify-center">
+<button class="px-12 py-5 border border-primary/10 bg-surface-container-low text-on-surface-variant font-headline font-bold text-xs uppercase tracking-[0.3em] hover:text-primary hover:border-primary/40 transition-all">
+                        Discover More Vehicles
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Implementation -->
+<footer class="w-full border-t border-[#4d4635]/15 bg-[#0e0e0e]">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 px-12 py-16 max-w-7xl mx-auto">
+<div class="space-y-6">
+<div class="text-lg font-bold text-[#d4af37]">Legend Automotive</div>
+<p class="font-inter text-xs text-neutral-500 leading-relaxed max-w-xs">
+                    Defining the future of automotive luxury through electric innovation and timeless design. Join the legacy of sustainable excellence.
+                </p>
+</div>
+<div class="space-y-6">
+<h4 class="font-headline text-xs font-bold uppercase tracking-widest text-[#f2ca50]">Quick Links</h4>
+<ul class="space-y-4">
+<li><a class="font-inter text-xs text-neutral-500 hover:text-[#d4af37] hover:translate-x-1 transition-transform duration-200 inline-block" href="#">Browse Brands</a></li>
+<li><a class="font-inter text-xs text-neutral-500 hover:text-[#d4af37] hover:translate-x-1 transition-transform duration-200 inline-block" href="#">Compare Vehicles</a></li>
+<li><a class="font-inter text-xs text-neutral-500 hover:text-[#d4af37] hover:translate-x-1 transition-transform duration-200 inline-block" href="#">About Us</a></li>
+<li><a class="font-inter text-xs text-neutral-500 hover:text-[#d4af37] hover:translate-x-1 transition-transform duration-200 inline-block" href="#">Contact Details</a></li>
+</ul>
+</div>
+<div class="space-y-6">
+<h4 class="font-headline text-xs font-bold uppercase tracking-widest text-[#f2ca50]">Newsletter</h4>
+<p class="font-inter text-xs text-neutral-500">Subscribe to receive exclusive offers and first-looks at new arrivals.</p>
+<div class="flex border-b border-[#4d4635]/30 pb-2">
+<input class="bg-transparent border-none text-xs text-on-surface focus:ring-0 placeholder:text-neutral-700 w-full" placeholder="Your Email" type="email"/>
+<button class="text-[#f2ca50] opacity-80 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">north_east</span>
+</button>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-12 py-8 border-t border-[#4d4635]/10 flex flex-col md:flex-row justify-between items-center gap-4">
+<span class="font-inter text-xs text-neutral-500">© 2024 Legend Automotive. All Rights Reserved.</span>
+<div class="flex space-x-8">
+<a class="font-inter text-xs text-neutral-500 hover:text-[#d4af37]" href="#">Privacy Policy</a>
+<a class="font-inter text-xs text-neutral-500 hover:text-[#d4af37]" href="#">Terms of Service</a>
+</div>
+</div>
+</footer>
+</body></html>

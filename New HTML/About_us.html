@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface": "#131313",
+                    "tertiary-container": "#ceb05a",
+                    "surface-variant": "#353535",
+                    "surface-container": "#20201f",
+                    "on-tertiary-fixed": "#241a00",
+                    "tertiary-fixed": "#ffe089",
+                    "on-secondary-fixed-variant": "#584400",
+                    "on-tertiary-fixed-variant": "#574400",
+                    "on-error-container": "#ffdad6",
+                    "primary": "#f2ca50",
+                    "error-container": "#93000a",
+                    "surface-container-lowest": "#0e0e0e",
+                    "secondary-container": "#b08c10",
+                    "surface-dim": "#131313",
+                    "primary-container": "#d4af37",
+                    "secondary": "#eac249",
+                    "tertiary": "#ebcc72",
+                    "primary-fixed": "#ffe088",
+                    "tertiary-fixed-dim": "#e3c46b",
+                    "secondary-fixed": "#ffe08b",
+                    "on-primary-fixed": "#241a00",
+                    "on-primary-container": "#554300",
+                    "on-secondary-fixed": "#241a00",
+                    "on-secondary-container": "#352800",
+                    "outline": "#99907c",
+                    "inverse-surface": "#e5e2e1",
+                    "on-primary-fixed-variant": "#574500",
+                    "surface-container-high": "#2a2a2a",
+                    "primary-fixed-dim": "#e9c349",
+                    "on-surface": "#e5e2e1",
+                    "inverse-primary": "#735c00",
+                    "outline-variant": "#4d4635",
+                    "surface-container-highest": "#353535",
+                    "error": "#ffb4ab",
+                    "surface-container-low": "#1c1b1b",
+                    "on-tertiary-container": "#554300",
+                    "on-error": "#690005",
+                    "on-primary": "#3c2f00",
+                    "secondary-fixed-dim": "#eac249",
+                    "surface-bright": "#393939",
+                    "inverse-on-surface": "#313030",
+                    "background": "#131313",
+                    "on-background": "#e5e2e1",
+                    "on-secondary": "#3d2f00",
+                    "on-surface-variant": "#d0c5af",
+                    "surface-tint": "#e9c349",
+                    "on-tertiary": "#3d2f00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(42, 42, 42, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .gold-gradient {
+            background: linear-gradient(135deg, #f2ca50 0%, #d4af37 100%);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary selection:text-on-primary">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#131313]/80 backdrop-blur-xl bg-gradient-to-b from-[#131313] to-transparent">
+<div class="flex justify-between items-center max-w-7xl mx-auto px-8 h-20">
+<div class="text-2xl font-bold tracking-tighter text-[#f2ca50] italic">
+                Legend Automotive
+            </div>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-manrope tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-[#f2ca50] transition-colors duration-300" href="#">Home</a>
+<a class="font-manrope tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-[#f2ca50] transition-colors duration-300" href="#">Explore</a>
+<a class="font-manrope tracking-wider uppercase text-sm font-semibold text-[#f2ca50] border-b-2 border-[#d4af37] pb-1" href="#">About</a>
+<a class="font-manrope tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-[#f2ca50] transition-colors duration-300" href="#">Contact Us</a>
+<a class="font-manrope tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-[#f2ca50] transition-colors duration-300" href="#">Admin</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-[#f2ca50] scale-95 active:scale-90 transition-transform">person</button>
+</div>
+</div>
+</nav>
+<main>
+<!-- Hero Section -->
+<section class="relative h-screen flex items-center justify-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover opacity-50 grayscale hover:grayscale-0 transition-all duration-1000" data-alt="close-up of a high-end electric luxury car silhouette in a dark studio with dramatic gold rim lighting reflecting off carbon fiber bodywork" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwyJwQV4yg8HVc3YUY3dgi5z4RCKwsjSjlEyX02TvB9w195Ey-i_bL1iSWTW_DjBJBmBNeXKUUGttIyNhoL_dmYcm8E0MeUppylps-EnOkMufAB9sDcat4HXU3Jc-1Iht5qFrV9nhamecJsOx1qH3zaC8vPG8T4LxJYE7bEBjsRpvLk2dzsfiQdWT5OOWb-YZpj9pxJCsM2lBUnE_JmQFxXiFXw8uThIeY06lRZs-Wb-rKuUwGwmOpv65RtsZbHQTiqFeGjr2HF8eJ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/60"></div>
+</div>
+<div class="relative z-10 text-center px-6 max-w-4xl">
+<span class="font-headline text-primary tracking-[0.4em] uppercase text-xs mb-6 block">The Sovereign Gallery</span>
+<h1 class="font-headline text-6xl md:text-8xl font-extrabold tracking-tighter mb-8 leading-none">
+                    ENGINEERED <br/> <span class="text-primary italic">FOR ETERNITY</span>
+</h1>
+<p class="text-on-surface-variant text-lg md:text-xl max-w-2xl mx-auto font-light leading-relaxed">
+                    We don't just build cars; we curate the pinnacle of electric performance. Legend Automotive is the intersection of legacy craftsmanship and future-bound sustainability.
+                </p>
+</div>
+<div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+<span class="text-[10px] uppercase tracking-widest text-primary/60">Explore Our Legacy</span>
+<div class="w-px h-16 bg-gradient-to-b from-primary to-transparent"></div>
+</div>
+</section>
+<!-- Mission: Bento Grid Layout -->
+<section class="py-32 px-8 max-w-7xl mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Large Vision Card -->
+<div class="md:col-span-8 bg-surface-container-low p-12 flex flex-col justify-between min-h-[500px]">
+<div>
+<h2 class="font-headline text-4xl font-bold mb-6 text-on-surface">Redefining the <span class="text-primary">Electric Vanguard</span></h2>
+<p class="text-on-surface-variant text-lg max-w-xl">
+                            Our mission is to eliminate the compromise between sustainability and raw, high-end power. We believe that the future of luxury is silent, efficient, and undeniably bold.
+                        </p>
+</div>
+<div class="flex items-center gap-4 mt-8">
+<div class="h-px flex-1 bg-outline-variant opacity-30"></div>
+<span class="font-headline font-bold text-primary italic">Est. 2014</span>
+</div>
+</div>
+<!-- Performance Stats -->
+<div class="md:col-span-4 bg-primary p-8 flex flex-col justify-center items-center text-on-primary">
+<span class="material-symbols-outlined text-5xl mb-4" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<h3 class="text-5xl font-extrabold mb-2">1.9s</h3>
+<p class="font-label uppercase tracking-widest text-sm opacity-80">0-100 KM/H Performance</p>
+</div>
+<!-- Sustainable Image -->
+<div class="md:col-span-4 bg-surface-container-high overflow-hidden group">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700" data-alt="abstract detail of electric vehicle charging port with glowing gold led indicator ring in a dark minimalist garage" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCej970meKZueEzHI_QYn8B_-RvI1yTFd_4EhbHo6NIuUYIf-nBJFNrsb6LXWWE20rJLAW7FxR4NjODi96Vub95g09pNYeSgkPm_1weUGCIG4VkOpvOvJ80cX_-RfuGgnclh6GxXNNtHf6xhgHTcxeT-jhbTaO7coVUWkH-mZI7pPnyCg8S2WciMOXrGAp2VN-ZraEdFqvRcX1qTtUtNJRA8mFBV4AZ968RYyrwQQ3uy0eJOn60CL3A9OA91EoNpN1JOOoLw8pG3Pws"/>
+</div>
+<!-- Trust / Philosophy -->
+<div class="md:col-span-8 bg-surface-container-lowest p-12 border border-outline-variant/10">
+<div class="flex flex-col md:flex-row gap-12">
+<div class="flex-1">
+<h4 class="font-headline text-2xl font-bold mb-4">Precision over Production</h4>
+<p class="text-on-surface-variant text-sm leading-relaxed">
+                                Unlike mass-market manufacturers, Legend Automotive limits production to 500 units per series. Every vehicle is a numbered artifact, hand-finished by master technicians who view engineering as a fine art.
+                            </p>
+</div>
+<div class="flex-1">
+<h4 class="font-headline text-2xl font-bold mb-4">Zero-Impact Luxury</h4>
+<p class="text-on-surface-variant text-sm leading-relaxed">
+                                From 100% recycled carbon-composite bodies to ethically sourced interior silks, our commitment to the planet is as unwavering as our commitment to speed.
+                            </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- History: Editorial Timeline -->
+<section class="bg-surface-container-lowest py-32 overflow-hidden">
+<div class="max-w-7xl mx-auto px-8">
+<div class="mb-20">
+<h2 class="font-headline text-5xl font-extrabold tracking-tighter mb-4">THE CHRONICLE</h2>
+<div class="w-24 h-1 bg-primary"></div>
+</div>
+<div class="relative space-y-32">
+<!-- 2014 -->
+<div class="flex flex-col md:flex-row items-center gap-16">
+<div class="md:w-1/2 order-2 md:order-1">
+<span class="font-headline text-8xl font-black text-outline-variant/10 absolute -top-16 left-0 select-none">2014</span>
+<h3 class="font-headline text-3xl font-bold text-primary mb-4">The Spark</h3>
+<p class="text-on-surface-variant leading-relaxed">
+                                Founded in a small workshop in Stuttgart, Legend Automotive began as a boutique engineering firm specializing in high-voltage racing batteries. Our founders saw the untapped potential of electric torque in the luxury segment.
+                            </p>
+</div>
+<div class="md:w-1/2 order-1 md:order-2">
+<img class="w-full aspect-video object-cover filter brightness-75" data-alt="vintage blueprints of car engines on a dark wooden table with a classic drafting compass and soft warm ambient light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBY7lhYMvnvAFyqYVhc8bQg_q9jGCVOXYYd9NWpJ_qo1bOlls3cHC6bjWh62wPDxOrW5Q2UxCuQ-L6qtIFZhy-Jaj_z1VkEzu9BsGFy6iwx76W0DeU-FcffFoczTT4PVM2a-FusNT_Jxw8ppQc6_MYqKxMueghKOLxWKrHTpPnxtQM3HH8r-yYqT4Ejji5tNQ9lay9vREkyYU6PzNRIVih5Hu5iNJPiVFOofnO4kDNywTqHZdRvpCWA8jtImxHsBOVEUEGniOBfl-J7"/>
+</div>
+</div>
+<!-- 2019 -->
+<div class="flex flex-col md:flex-row items-center gap-16">
+<div class="md:w-1/2">
+<img class="w-full aspect-video object-cover filter brightness-75" data-alt="modern luxury electric hypercar driving through a sleek tunnel with fast light trails and high contrast shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_OFH8HG0cE-keJKMuf1E96tOJqq3yWO63mTQgKgtD4SMOE0W5QfLfJY1F-iaxLMXI2lNnqwVYUMQxSN_UiSFHOex_LTyW-Kp0Crac7oyTW8OJ2XzV9f86jRUP9lF7YRZRfVTEsHY1IDvKAbgJt8GpbKtjClL9BxFjpq36t4o7gH2rJ36W18WRZvgnlNC9-KOW0xPftKOAZeu7_EmeUlKZW6zgTABug1z3wmUypiyWTejqLERQ73mfKYab_riS6RnLWDvhg0dTFaq8"/>
+</div>
+<div class="md:w-1/2 relative">
+<span class="font-headline text-8xl font-black text-outline-variant/10 absolute -top-16 right-0 select-none">2019</span>
+<h3 class="font-headline text-3xl font-bold text-primary mb-4">Breaking the Barrier</h3>
+<p class="text-on-surface-variant leading-relaxed">
+                                The launch of the 'Sovereign One' shattered world records for production electric vehicles. It was the first time luxury and electric range crossed the 500-mile threshold without sacrificing weight or aesthetics.
+                            </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Team: The Gallery Scroller -->
+<section class="py-32 bg-surface">
+<div class="max-w-7xl mx-auto px-8 mb-16 flex justify-between items-end">
+<div>
+<span class="font-label text-primary tracking-widest uppercase text-xs mb-2 block">The Minds Behind</span>
+<h2 class="font-headline text-5xl font-extrabold tracking-tighter">LEADERSHIP</h2>
+</div>
+<div class="hidden md:flex gap-4">
+<button class="w-12 h-12 flex items-center justify-center border border-outline-variant/30 text-on-surface-variant hover:border-primary hover:text-primary transition-all">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-12 h-12 flex items-center justify-center border border-outline-variant/30 text-on-surface-variant hover:border-primary hover:text-primary transition-all">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="flex gap-8 overflow-x-auto pb-12 px-8 snap-x no-scrollbar">
+<!-- Member 1 -->
+<div class="min-w-[320px] md:min-w-[400px] snap-center group">
+<div class="relative overflow-hidden mb-6">
+<img class="w-full aspect-[4/5] object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="portrait of a professional man in a tailored dark suit, serious expression, dramatic studio lighting with dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxx9wvCyeWe1VxiOZoGMr3uhyl56gSWH1JsUK1L-JJLKzsPPyVQAmTjlof6XcpQYy4topnnW_XT9uqDkRMsrtHsGPp5DFUERb-6pQb3pTFwQv-RsWCSX5WH4YRigE6jIRHByAKgTnxqyK9vOUwJRs6MYJPC7gMMMM2E0qWj8ZHfKmZa2msOQQXhVQmVfgntlKVVVyeqMTA7P5jUSNNvYgWd-N-Uq7fjjykJbT9JLiO4jl2esvo6WrTj8eMczlnJXe6bXbhb1fBaxw-"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-60"></div>
+</div>
+<h4 class="font-headline text-xl font-bold text-on-surface uppercase tracking-tight">Alexander Voss</h4>
+<p class="text-primary text-sm font-label tracking-widest mb-4">CHIEF EXECUTIVE OFFICER</p>
+<p class="text-on-surface-variant text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        A visionary strategist with two decades in premium automotive innovation.
+                    </p>
+</div>
+<!-- Member 2 -->
+<div class="min-w-[320px] md:min-w-[400px] snap-center group">
+<div class="relative overflow-hidden mb-6">
+<img class="w-full aspect-[4/5] object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="portrait of a confident woman in elegant professional attire, sleek hairstyle, modern aesthetic, dark studio backdrop" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaQmlQD9gMEhaBtkSeIkTyJ-Elqq4JP_SO4JSqfo7hbJ7bQpDHZycRUigWEfg3uUuBqavbv3hNDWVsgDUFX4qi28txSeYMfj1cITTVtHbOm6Yp8bnsWUA9F18ooVD03toer6YhW1zq8b-nZ-l1ivwMZTtd94JQS2x0_UXeYDJvNmnwaJBLMpZxSMQTfnz9iR2H4Hn6kexNkM-wiUdWfc-SRRhdjmribtn7fQSD6FV9O_JK_JMkyGIKNjfFkOmdDvMB-GUbUxWF6HGc"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-60"></div>
+</div>
+<h4 class="font-headline text-xl font-bold text-on-surface uppercase tracking-tight">Elena Moretti</h4>
+<p class="text-primary text-sm font-label tracking-widest mb-4">HEAD OF DESIGN</p>
+<p class="text-on-surface-variant text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        Pioneer of the 'Sovereign' design language, merging fluid dynamics with architectural strength.
+                    </p>
+</div>
+<!-- Member 3 -->
+<div class="min-w-[320px] md:min-w-[400px] snap-center group">
+<div class="relative overflow-hidden mb-6">
+<img class="w-full aspect-[4/5] object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="portrait of an engineer with subtle glasses in a dark tech-focused setting, soft overhead lighting, looking thoughtfully off-camera" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCC1yaT9QV9ck28LsvU8x3uxS_UOxhC67srTtyKUq2NiFS4P-eT_1uMRT703YBc6Rm-05vgk-27nQmsdbIzZvpkXt_ysCGeQ_y8YoVtAyZdmtBb7JB98uW3EjxEaUXCDOzJqdr-bc1QIf_Lt_y1lTp_xQreggBbNqaavUkDnRT8XE09JzoqHUiwM4mRNO_Rla2pvVUrpE4zBnsiEavBi1xabzmRc6q1BFyPlhLg2x53yRbErBivZE-0tgwyd_pLLe4TcYnTkD7vXAqG"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-60"></div>
+</div>
+<h4 class="font-headline text-xl font-bold text-on-surface uppercase tracking-tight">Marcus Thorne</h4>
+<p class="text-primary text-sm font-label tracking-widest mb-4">CHIEF TECHNOLOGY OFFICER</p>
+<p class="text-on-surface-variant text-sm leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        The architect of our proprietary solid-state battery technology and propulsion systems.
+                    </p>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-24 px-8">
+<div class="max-w-7xl mx-auto glass-card p-16 relative overflow-hidden border border-outline-variant/10 text-center">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/10 blur-[100px] -mr-32 -mt-32"></div>
+<h2 class="font-headline text-4xl md:text-5xl font-extrabold mb-8">Ready to join the <span class="italic text-primary">Inner Circle?</span></h2>
+<p class="text-on-surface-variant max-w-2xl mx-auto mb-10 text-lg">
+                    Experience the legendary performance for yourself. Schedule a private viewing at one of our global galleries.
+                </p>
+<div class="flex flex-col sm:flex-row justify-center gap-4">
+<button class="gold-gradient text-on-primary font-bold px-10 py-4 rounded-md hover:brightness-110 transition-all uppercase tracking-widest text-sm">
+                        Request Private Viewing
+                    </button>
+<button class="bg-surface-container-highest text-primary border border-primary/20 px-10 py-4 rounded-md hover:bg-surface-bright transition-all uppercase tracking-widest text-sm">
+                        Explore Collection
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full border-t border-[#4d4635]/15 bg-[#0e0e0e]">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 px-12 py-16 max-w-7xl mx-auto">
+<div>
+<div class="text-lg font-bold text-[#d4af37] mb-6">Legend Automotive</div>
+<p class="font-inter text-xs text-neutral-500 max-w-xs leading-relaxed">
+                    The pinnacle of electric luxury and sovereign performance. Engineering masterpieces for those who demand the legendary.
+                </p>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-manrope text-[#f2ca50] text-sm font-semibold uppercase tracking-widest mb-2">Navigation</h4>
+<a class="font-inter text-xs text-neutral-500 hover:text-[#d4af37] hover:translate-x-1 transition-transform duration-200" href="#">Browse Brands</a>
+<a class="font-inter text-xs text-neutral-500 hover:text-[#d4af37] hover:translate-x-1 transition-transform duration-200" href="#">Compare Vehicles</a>
+<a class="font-inter text-xs text-neutral-500 hover:text-[#d4af37] hover:translate-x-1 transition-transform duration-200" href="#">About Us</a>
+<a class="font-inter text-xs text-neutral-500 hover:text-[#d4af37] hover:translate-x-1 transition-transform duration-200" href="#">Contact Details</a>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-manrope text-[#f2ca50] text-sm font-semibold uppercase tracking-widest mb-2">Legal</h4>
+<p class="font-inter text-xs text-neutral-500">© 2024 Legend Automotive. All Rights Reserved.</p>
+<div class="flex gap-4 mt-4 opacity-80 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-neutral-500 cursor-pointer">public</span>
+<span class="material-symbols-outlined text-neutral-500 cursor-pointer">shield</span>
+<span class="material-symbols-outlined text-neutral-500 cursor-pointer">mail</span>
+</div>
+</div>
+</div>
+</footer>
+</body></html>
