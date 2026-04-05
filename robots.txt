@@ -1,5 +1,5 @@
 User-agent: *
-Disallow: /Aganceonline/admin.html
-Allow: /Aganceonline/
+Disallow: /LegendAutomotive/admin.html
+Allow: /LegendAutomotive/
 
-Sitemap: https://aganceonline.github.io/Aganceonline/sitemap.xml
+Sitemap: https://legendautomotive.github.io/LegendAutomotive/sitemap.xml

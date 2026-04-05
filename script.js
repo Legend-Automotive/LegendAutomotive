@@ -1,5 +1,5 @@
 /**
- * AganceOnline - Main Application Logic
+ * Legend Automotive - Main Application Logic
  *
  * This script handles:
  * 1. Global State Management (Theme, Language, Currency, Favorites).
@@ -1132,18 +1132,18 @@ async function loadDetails() {
     // Render Main Details
     // Dynamic SEO Updates
     if (product) {
-        document.title = `${product.name} - AganceOnline`;
+        document.title = `${product.name} - Legend Automotive`;
 
         // Update meta description
         const metaDesc = document.querySelector('meta[name="description"]');
-        if (metaDesc) metaDesc.setAttribute('content', (product.description || product.description_ar || 'Explore this premium vehicle at AganceOnline.'));
+        if (metaDesc) metaDesc.setAttribute('content', (product.description || product.description_ar || 'Explore this premium vehicle at Legend Automotive.'));
 
         // Update Open Graph Tags
         const ogTitle = document.querySelector('meta[property="og:title"]');
-        if (ogTitle) ogTitle.setAttribute('content', `${product.name} - AganceOnline`);
+        if (ogTitle) ogTitle.setAttribute('content', `${product.name} - Legend Automotive`);
 
         const ogDesc = document.querySelector('meta[property="og:description"]');
-        if (ogDesc) ogDesc.setAttribute('content', (product.description || product.description_ar || 'Explore this premium vehicle at AganceOnline.'));
+        if (ogDesc) ogDesc.setAttribute('content', (product.description || product.description_ar || 'Explore this premium vehicle at Legend Automotive.'));
 
         const ogImage = document.querySelector('meta[property="og:image"]');
         if (ogImage && product.image_url) ogImage.setAttribute('content', product.image_url);
@@ -1153,10 +1153,10 @@ async function loadDetails() {
 
         // Update Twitter Tags
         const twTitle = document.querySelector('meta[property="twitter:title"]');
-        if (twTitle) twTitle.setAttribute('content', `${product.name} - AganceOnline`);
+        if (twTitle) twTitle.setAttribute('content', `${product.name} - Legend Automotive`);
 
         const twDesc = document.querySelector('meta[property="twitter:description"]');
-        if (twDesc) twDesc.setAttribute('content', (product.description || product.description_ar || 'Explore this premium vehicle at AganceOnline.'));
+        if (twDesc) twDesc.setAttribute('content', (product.description || product.description_ar || 'Explore this premium vehicle at Legend Automotive.'));
 
         const twImage = document.querySelector('meta[property="twitter:image"]');
         if (twImage && product.image_url) twImage.setAttribute('content', product.image_url);
@@ -1672,15 +1672,15 @@ function createProductCard(product) {
 
     // Use custom translation rendering for category if present in DB
     const categoryBadge = (isAr && product.category_ar)
-        ? `<span class="bg-primary/90 backdrop-blur-sm text-white text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded">${escapeHtml(product.category_ar)}</span>`
-        : (product.category ? `<span class="bg-primary/90 backdrop-blur-sm text-white text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded" data-i18n="${escapeHtml(product.category.toLowerCase().replace(' ', '_'))}">${escapeHtml(product.category)}</span>` : '');
+        ? `<span class="glass-card text-on-surface text-[10px] font-headline font-bold uppercase tracking-widest px-3 py-1.5 rounded-full border border-outline-variant/20">${escapeHtml(product.category_ar)}</span>`
+        : (product.category ? `<span class="glass-card text-on-surface text-[10px] font-headline font-bold uppercase tracking-widest px-3 py-1.5 rounded-full border border-outline-variant/20" data-i18n="${escapeHtml(product.category.toLowerCase().replace(' ', '_'))}">${escapeHtml(product.category)}</span>` : '');
 
     const uponRequestBadge = (product.details && product.details.upon_request)
-        ? `<span class="bg-black/90 backdrop-blur-sm text-white text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded mt-1" data-i18n="upon_request">Upon Request</span>`
+        ? `<span class="bg-surface-container-highest/80 backdrop-blur-md text-on-surface text-[10px] font-headline font-bold uppercase tracking-widest px-3 py-1.5 rounded-full border border-outline-variant/20 mt-1" data-i18n="upon_request">Upon Request</span>`
         : '';
 
     const originBadge = product.origin
-        ? `<span class="bg-gray-800/90 backdrop-blur-sm text-white text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded mt-1">
+        ? `<span class="bg-surface-container-highest/80 backdrop-blur-md text-on-surface text-[10px] font-headline font-bold uppercase tracking-widest px-3 py-1.5 rounded-full border border-outline-variant/20 mt-1">
             ${escapeHtml(translations[currentLang]?.[product.origin === 'Imported' ? 'imported' : 'egyptian_agency'] || product.origin)}
            </span>`
         : '';
@@ -1689,42 +1689,40 @@ function createProductCard(product) {
     const grayscaleClass = isSoldOut ? 'grayscale' : '';
 
     return `
-    <div class="group relative flex flex-col rounded-xl overflow-hidden bg-white dark:bg-surface-card border border-gray-200 dark:border-white/5 transition-all duration-300 hover:border-primary/50 hover:shadow-lg hover:-translate-y-1">
-        <div class="relative aspect-[16/10] overflow-hidden">
+    <div class="group relative flex flex-col rounded-xl overflow-hidden bg-surface-container-low transition-all duration-500 hover:-translate-y-2 border border-outline-variant/10 hover:border-primary/20">
+        <div class="relative aspect-[16/10] overflow-hidden rounded-t-xl">
             <a href="details.html?id=${product.id}">
-                <img alt="${escapeHtml(displayName)}" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ${grayscaleClass}" src="${escapeHtml(product.image_url)}"/>
+                <img alt="${escapeHtml(displayName)}" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ${grayscaleClass}" src="${escapeHtml(product.image_url)}"/>
                 ${soldOutOverlay}
             </a>
-            <div class="absolute top-3 right-3 z-20">
-                <button class="w-8 h-8 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center ${heartClass} hover:text-primary transition-colors" onclick="toggleFavorite(${product.id}, this)">
-                    <span class="material-symbols-outlined" style="font-size: 18px; ${heartStyle}">${heartIcon}</span>
+            <div class="absolute top-4 right-4 z-20">
+                <button class="w-10 h-10 rounded-full glass-card flex items-center justify-center ${heartClass} hover:text-primary transition-colors border border-outline-variant/15" onclick="toggleFavorite(${product.id}, this)">
+                    <span class="material-symbols-outlined" style="font-size: 20px; ${heartStyle}">${heartIcon}</span>
                 </button>
             </div>
-             <div class="absolute bottom-3 left-3 z-20 flex flex-col items-start gap-1">
+             <div class="absolute bottom-4 left-4 z-20 flex flex-col items-start gap-2">
                 ${categoryBadge}
                 ${uponRequestBadge}
                 ${originBadge}
             </div>
         </div>
-        <div class="p-5 flex flex-col flex-grow">
-            <div class="flex justify-between items-start mb-2">
-                <a href="details.html?id=${product.id}" class="text-lg font-bold text-slate-900 dark:text-white leading-tight group-hover:text-primary transition-colors">${escapeHtml(displayName)}</a>
+        <div class="p-6 flex flex-col flex-grow relative">
+            <div class="flex justify-between items-start mb-3">
+                <a href="details.html?id=${product.id}" class="text-xl font-headline font-bold text-on-surface leading-tight group-hover:text-primary transition-colors">${escapeHtml(displayName)}</a>
             </div>
-            <div class="flex flex-wrap items-center gap-3 text-xs text-gray-500 dark:text-gray-400 mb-4 font-medium">
-                <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">speed</span> ${escapeHtml(displayMileage)}</span>
-                <span class="w-1 h-1 rounded-full bg-gray-300 dark:bg-white/20"></span>
-                <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">settings</span> ${escapeHtml(displayTrans)}</span>
-                <span class="w-1 h-1 rounded-full bg-gray-300 dark:bg-white/20"></span>
-                <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">local_gas_station</span> ${escapeHtml(displayFuel)}</span>
-                ${displayVersion ? `
-                <span class="w-1 h-1 rounded-full bg-gray-300 dark:bg-white/20"></span>
-                <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">new_releases</span> ${escapeHtml(displayVersion)}</span>
-                ` : ''}
+
+            <div class="flex flex-wrap items-center gap-3 text-xs text-on-surface-variant mb-6 font-label font-medium">
+                <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">speed</span> ${escapeHtml(displayMileage)}</span>
+                <span class="w-1 h-1 rounded-full bg-outline-variant/50"></span>
+                <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">settings</span> ${escapeHtml(displayTrans)}</span>
+                <span class="w-1 h-1 rounded-full bg-outline-variant/50"></span>
+                <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">local_gas_station</span> ${escapeHtml(displayFuel)}</span>
             </div>
-            <div class="mt-auto flex items-center justify-between pt-4 border-t border-gray-200 dark:border-white/10">
-                <p class="text-xl font-black text-primary tracking-tight" data-price-egp="${product.price_egp || ''}">${product.price_egp ? product.price_egp.toLocaleString() + ' L.E' : ''}</p>
-                <a href="details.html?id=${product.id}" class="text-xs font-bold text-primary border border-primary px-3 py-1.5 rounded hover:bg-primary hover:text-white transition-all uppercase tracking-wide" data-i18n="view_details">
-                    View Details
+
+            <div class="mt-auto flex items-center justify-between pt-4 border-t border-outline-variant/15">
+                <p class="text-2xl font-headline font-bold text-primary tracking-tight" data-price-egp="${product.price_egp || ''}">${product.price_egp ? product.price_egp.toLocaleString() + ' L.E' : ''}</p>
+                <a href="details.html?id=${product.id}" class="text-xs font-headline font-bold text-primary flex items-center gap-1 group/btn hover:text-primary-container transition-colors uppercase tracking-widest" data-i18n="view_details">
+                    Explore <span class="material-symbols-outlined text-[16px] transition-transform group-hover/btn:translate-x-1">arrow_forward</span>
                 </a>
             </div>
         </div>

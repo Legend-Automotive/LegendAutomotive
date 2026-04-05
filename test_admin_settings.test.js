@@ -76,7 +76,7 @@ describe('Admin Settings Logic', () => {
 
         jest.spyOn(console, 'error').mockImplementation(() => {});
 
-        admin = require('../js/admin.js');
+        admin = require('./admin.js');
     });
 
     test('loadSettings fetches and sets value', async () => {

@@ -55,7 +55,7 @@ afterAll(() => {
     global.Math.random = originalMathRandom;
 });
 
-const admin = require('../js/admin.js');
+const admin = require('./admin.js');
 
 describe('handleSaveProduct', () => {
     let mockInputs;

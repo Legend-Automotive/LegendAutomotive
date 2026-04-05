@@ -23,8 +23,8 @@ global.supabase = {
     from: jest.fn()
 };
 
-const script = require('../js/script.js');
-const admin = require('../js/admin.js');
+const script = require('./script.js');
+const admin = require('./admin.js');
 
 describe('Security Fixes - XSS Protection', () => {
 

@@ -35,7 +35,7 @@ describe('Exchange Rate Logic', () => {
         jest.spyOn(console, 'error').mockImplementation(() => {});
 
         // Require script after setting up globals
-        script = require('../js/script.js');
+        script = require('./script.js');
     });
 
     test('Initial rate is 50.0 (fallback)', () => {

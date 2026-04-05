@@ -21,7 +21,7 @@ if (typeof window.supabase !== "undefined") {
       {
         auth: {
           persistSession: true,
-          storageKey: "agance-admin-auth",
+          storageKey: "legend-admin-auth",
           storage: window.sessionStorage,
         },
       },

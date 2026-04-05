@@ -2,9 +2,9 @@
   "exportFormatVersion": 2,
   "exportTime": "2024-05-20 14:00:00",
   "containerVersion": {
-    "name": "AganceOnline Tracking Setup",
+    "name": "Legend Automotive Tracking Setup",
     "container": {
-      "name": "AganceOnline",
+      "name": "Legend Automotive",
       "publicId": "GTM-TRHFFRVS",
       "usageContext": ["WEB"]
     },

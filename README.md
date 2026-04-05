@@ -1,10 +1,10 @@
-# AganceOnline
+# Legend Automotive
 
 A premium automotive dealership website featuring a modern, responsive design with dark/light mode, multi-language support (English/Arabic), and currency conversion (USD/EGP).
 
 ## Features
 
-*   **Branding:** AganceOnline
+*   **Branding:** Legend Automotive
 *   **Theme:** Dark and Light mode toggle.
 *   **Language:** English and Arabic (RTL support).
 *   **Currency:** Toggle between USD ($) and EGP (L.E).

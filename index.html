@@ -1,5 +1,5 @@
 <!--
-    AganceOnline - Home Page
+    Legend Automotive - Home Page
     This page serves as the landing page for the dealership.
 
     Structure:
@@ -11,10 +11,10 @@
             - Stats Section: Key metrics (Vehicles, Reviews, Support, Satisfaction).
             - Trending Section: Dynamically loaded featured vehicles.
         - Footer: Links, Social Media, Copyright.
-        - Scripts: Main application logic (js/script.js).
+        - Scripts: Main application logic (script.js).
 -->
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" class="dark bg-background text-on-surface">
 <head>
     <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -26,24 +26,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <meta name="google-site-verification" content="4h24Mx68CTwDs8eoLcT8rrquBxLV6ixNHKJfMgK29h4" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AganceOnline - Premium Cars</title>
-    <meta name="description" content="AganceOnline offers the best selection of premium and luxury vehicles. Browse our inventory and find your dream car today.">
-    <meta name="keywords" content="AganceOnline, luxury cars, premium vehicles, car dealership, buy cars online">
+    <title>Legend Automotive - Premium Cars</title>
+    <meta name="description" content="Legend Automotive offers the best selection of premium and luxury vehicles. Browse our inventory and find your dream car today.">
+    <meta name="keywords" content="Legend Automotive, luxury cars, premium vehicles, car dealership, buy cars online">
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://el4aby7.github.io/Aganceonline/index.html">
-    <meta property="og:title" content="AganceOnline - Premium Cars">
-    <meta property="og:description" content="AganceOnline offers the best selection of premium and luxury vehicles. Browse our inventory and find your dream car today.">
-    <meta property="og:image" content="https://el4aby7.github.io/Aganceonline/assets/images/logo.jpeg">
+    <meta property="og:url" content="https://el4aby7.github.io/LegendAutomotive/index.html">
+    <meta property="og:title" content="Legend Automotive - Premium Cars">
+    <meta property="og:description" content="Legend Automotive offers the best selection of premium and luxury vehicles. Browse our inventory and find your dream car today.">
+    <meta property="og:image" content="https://el4aby7.github.io/LegendAutomotive/assets/images/logo.jpeg">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://el4aby7.github.io/Aganceonline/index.html">
-    <meta property="twitter:title" content="AganceOnline - Premium Cars">
-    <meta property="twitter:description" content="AganceOnline offers the best selection of premium and luxury vehicles. Browse our inventory and find your dream car today.">
-    <meta property="twitter:image" content="https://el4aby7.github.io/Aganceonline/assets/images/logo.jpeg">
+    <meta property="twitter:url" content="https://el4aby7.github.io/LegendAutomotive/index.html">
+    <meta property="twitter:title" content="Legend Automotive - Premium Cars">
+    <meta property="twitter:description" content="Legend Automotive offers the best selection of premium and luxury vehicles. Browse our inventory and find your dream car today.">
+    <meta property="twitter:image" content="https://el4aby7.github.io/LegendAutomotive/assets/images/logo.jpeg">
 
 
     <!-- Fonts -->
@@ -53,23 +53,73 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <!-- Tailwind CSS (CDN for development/static deployment) -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script>
-        tailwind.config = {
+                tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#ee2122",
-                        "primary-dark": "#c41213",
-                        "background-light": "#f6f7f8",
-                        "background-dark": "#150d17",
-                        "surface-dark": "#1a121d",
-                        "surface-card": "#201724",
+                        "surface": "#131313",
+                        "tertiary-container": "#ceb05a",
+                        "surface-variant": "#353535",
+                        "surface-container": "#20201f",
+                        "on-tertiary-fixed": "#241a00",
+                        "tertiary-fixed": "#ffe089",
+                        "on-secondary-fixed-variant": "#584400",
+                        "on-tertiary-fixed-variant": "#574400",
+                        "on-error-container": "#ffdad6",
+                        "primary": "#f2ca50",
+                        "error-container": "#93000a",
+                        "surface-container-lowest": "#0e0e0e",
+                        "secondary-container": "#b08c10",
+                        "surface-dim": "#131313",
+                        "primary-container": "#d4af37",
+                        "secondary": "#eac249",
+                        "tertiary": "#ebcc72",
+                        "primary-fixed": "#ffe088",
+                        "tertiary-fixed-dim": "#e3c46b",
+                        "secondary-fixed": "#ffe08b",
+                        "on-primary-fixed": "#241a00",
+                        "on-primary-container": "#554300",
+                        "on-secondary-fixed": "#241a00",
+                        "on-secondary-container": "#352800",
+                        "outline": "#99907c",
+                        "inverse-surface": "#e5e2e1",
+                        "on-primary-fixed-variant": "#574500",
+                        "surface-container-high": "#2a2a2a",
+                        "primary-fixed-dim": "#e9c349",
+                        "on-surface": "#e5e2e1",
+                        "inverse-primary": "#735c00",
+                        "outline-variant": "#4d4635",
+                        "surface-container-highest": "#353535",
+                        "error": "#ffb4ab",
+                        "surface-container-low": "#1c1b1b",
+                        "on-tertiary-container": "#554300",
+                        "on-error": "#690005",
+                        "on-primary": "#3c2f00",
+                        "secondary-fixed-dim": "#eac249",
+                        "surface-bright": "#393939",
+                        "inverse-on-surface": "#313030",
+                        "background": "#131313",
+                        "on-background": "#e5e2e1",
+                        "on-secondary": "#3d2f00",
+                        "on-surface-variant": "#d0c5af",
+                        "surface-tint": "#e9c349",
+                        "on-tertiary": "#3d2f00"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
                     },
                     fontFamily: {
-                        "display": ["Inter", "sans-serif"],
+                        "headline": ["Manrope", "sans-serif"],
                         "body": ["Inter", "sans-serif"],
+                        "label": ["Inter", "sans-serif"]
                     },
                 },
+            },
+        },
             },
         }
     </script>
@@ -77,172 +127,192 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white antialiased transition-colors duration-300">
+<body class="bg-background text-on-surface font-body selection:bg-primary selection:text-on-primary">
     <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TRHFFRVS"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
     <!-- Header Section -->
-    <header class="sticky top-0 z-50 w-full border-b border-gray-200 dark:border-white/10 bg-white/95 dark:bg-background-dark/95 backdrop-blur-md">
-        <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <nav class="sticky top-0 w-full z-50 bg-[#131313]/80 backdrop-blur-xl border-b border-[#4d4635]/15">
+    <div class="bg-gradient-to-b from-[#131313] to-transparent">
+        <div class="flex justify-between items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20">
             <!-- Logo -->
             <div class="flex items-center gap-2">
                 <a href="index.html" class="flex items-center gap-2">
-                    <img src="assets/images/logo.jpeg" alt="Logo" class="h-10 w-10 rounded-full object-cover border-2 border-primary">
-                    <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white" data-i18n="header_title">AganceOnline</span>
+                    <div class="text-2xl font-bold tracking-tighter text-[#f2ca50] italic font-headline" data-i18n="header_title">Legend Automotive</div>
                 </a>
             </div>
 
             <!-- Navigation Menu -->
-            <nav class="hidden md:flex items-center gap-8">
-                <a href="inventory.html" class="text-sm font-medium text-slate-600 dark:text-gray-300 hover:text-primary transition-colors" data-i18n="nav_inventory">Inventory</a>
-                <a href="financing.html" class="text-sm font-medium text-slate-600 dark:text-gray-300 hover:text-primary transition-colors" data-i18n="nav_financing">Financing</a>
-                <a href="contact.html" class="text-sm font-medium text-slate-600 dark:text-gray-300 hover:text-primary transition-colors" data-i18n="nav_contact">Contact</a>
-            </nav>
+            <div class="hidden md:flex items-center space-x-10">
+                <a href="index.html" class="font-headline tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-[#f2ca50] transition-colors duration-300">Home</a>
+                <a href="inventory.html" class="font-headline tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-[#f2ca50] transition-colors duration-300" data-i18n="nav_inventory">Inventory</a>
+                <a href="financing.html" class="font-headline tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-[#f2ca50] transition-colors duration-300" data-i18n="nav_financing">Financing</a>
+                <a href="contact.html" class="font-headline tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-[#f2ca50] transition-colors duration-300" data-i18n="nav_contact">Contact</a>
+            </div>
 
-            <!-- Action Buttons (Currency, Favorites, Language, Theme) -->
+            <!-- Action Buttons -->
             <div class="flex items-center gap-2 sm:gap-4">
-                <button onclick="toggleCurrency()" class="currency-toggle hidden md:flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold bg-gray-100 dark:bg-white/10 hover:bg-primary hover:text-white transition-colors">
+                <button onclick="toggleCurrency()" class="currency-toggle hidden md:flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold bg-surface-container-high hover:bg-primary hover:text-on-primary transition-colors text-on-surface">
                     <span class="currency-text">L.E</span>
                 </button>
-                <a href="favorites.html" class="flex items-center justify-center rounded-full p-2 text-slate-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 hover:text-primary transition-colors" title="Favorites">
+                <a href="favorites.html" class="flex items-center justify-center rounded-full p-2 text-on-surface-variant hover:text-primary transition-colors" title="Favorites">
                     <span class="material-symbols-outlined">favorite</span>
                 </a>
-                <button onclick="toggleLanguage()" class="lang-toggle hidden md:flex items-center justify-center rounded-full p-2 text-slate-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 hover:text-primary transition-colors">
+                <button onclick="toggleLanguage()" class="lang-toggle hidden md:flex items-center justify-center rounded-full p-2 text-on-surface-variant hover:text-primary transition-colors">
                     <span class="font-bold text-sm">Ar</span>
                 </button>
-                <button onclick="toggleTheme()" class="theme-toggle hidden md:flex items-center justify-center rounded-full p-2 text-slate-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 hover:text-primary transition-colors">
-                    <span class="theme-icon material-symbols-outlined">light_mode</span>
-                </button>
                 <!-- Mobile Menu Button -->
-                <button id="mobile-menu-btn" class="md:hidden flex items-center justify-center rounded-full p-2 text-slate-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 hover:text-primary transition-colors">
+                <button id="mobile-menu-btn" class="md:hidden flex items-center justify-center rounded-full p-2 text-on-surface-variant hover:text-primary transition-colors">
                     <span class="material-symbols-outlined">menu</span>
                 </button>
             </div>
         </div>
+    </div>
+</nav>
 
-        <!-- Mobile Menu Container -->
-        <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 dark:border-white/10 bg-white/95 dark:bg-background-dark/95 backdrop-blur-md">
-            <div class="px-4 pt-2 pb-4 space-y-1">
-                <a href="inventory.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-gray-300 hover:text-primary hover:bg-gray-50 dark:hover:bg-white/5 transition-colors" data-i18n="nav_inventory">Inventory</a>
-                <a href="financing.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-gray-300 hover:text-primary hover:bg-gray-50 dark:hover:bg-white/5 transition-colors" data-i18n="nav_financing">Financing</a>
-                <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-gray-300 hover:text-primary hover:bg-gray-50 dark:hover:bg-white/5 transition-colors" data-i18n="nav_contact">Contact</a>
-            </div>
+<!-- Mobile Menu Container -->
+<div id="mobile-menu" class="hidden md:hidden border-t border-[#4d4635]/15 bg-background">
+    <div class="px-4 pt-2 pb-4 space-y-1">
+        <a href="index.html" class="block px-3 py-2 rounded-md text-base font-headline font-semibold text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors">Home</a>
+        <a href="inventory.html" class="block px-3 py-2 rounded-md text-base font-headline font-semibold text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" data-i18n="nav_inventory">Inventory</a>
+        <a href="financing.html" class="block px-3 py-2 rounded-md text-base font-headline font-semibold text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" data-i18n="nav_financing">Financing</a>
+        <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-headline font-semibold text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" data-i18n="nav_contact">Contact</a>
+    </div>
 
-            <div class="px-4 py-4 border-t border-gray-200 dark:border-white/10 flex flex-col gap-2">
-                <button onclick="toggleCurrency()" class="currency-toggle flex items-center justify-between w-full px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-gray-300 hover:text-primary hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-                    <span>Currency</span>
-                    <span class="currency-text font-bold bg-gray-100 dark:bg-white/10 px-2 py-0.5 rounded text-xs">L.E</span>
-                </button>
-                <button onclick="toggleLanguage()" class="lang-toggle flex items-center justify-between w-full px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-gray-300 hover:text-primary hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-                    <span>Language</span>
-                    <span class="font-bold text-sm">Ar</span>
-                </button>
-                <button onclick="toggleTheme()" class="theme-toggle flex items-center justify-between w-full px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-gray-300 hover:text-primary hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-                    <span>Theme</span>
-                    <span class="theme-icon material-symbols-outlined text-lg">light_mode</span>
-                </button>
-            </div>
-        </div>
-    </header>
+    <div class="px-4 py-4 border-t border-[#4d4635]/15 flex flex-col gap-2">
+        <button onclick="toggleCurrency()" class="currency-toggle flex items-center justify-between w-full px-3 py-2 rounded-md text-base font-medium text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors">
+            <span>Currency</span>
+            <span class="currency-text font-bold bg-surface-container-high px-2 py-0.5 rounded text-xs">L.E</span>
+        </button>
+        <button onclick="toggleLanguage()" class="lang-toggle flex items-center justify-between w-full px-3 py-2 rounded-md text-base font-medium text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors">
+            <span>Language</span>
+            <span class="font-bold text-sm">Ar</span>
+        </button>
+    </div>
+</div>
 
     <main class="flex-grow">
-        <!-- Hero Section -->
-        <section class="relative flex h-[350px] sm:h-[450px] md:h-[600px] lg:h-[700px] flex-col justify-center overflow-hidden">
-            <div id="hero-carousel" class="absolute inset-0 z-0 bg-black">
-                <div class="absolute inset-0 bg-gradient-to-r from-background-dark/95 via-background-dark/70 to-transparent z-10"></div>
-                <img id="hero-bg-image" src="assets/images/hero-bg.jpg" alt="Luxury Car" class="hero-carousel-img active">
-                <img id="hero-bg-image-2" src="" alt="Luxury Car" class="hero-carousel-img">
-            </div>
+    <!-- Hero Section -->
+    <section class="relative h-screen w-full flex items-end overflow-hidden">
+        <div id="hero-carousel" class="absolute inset-0 z-0">
+            <img id="hero-bg-image" src="assets/images/hero-bg.jpg" alt="Luxury Car" class="w-full h-full object-cover object-center scale-105 hero-carousel-img active">
+            <img id="hero-bg-image-2" src="" alt="Luxury Car" class="w-full h-full object-cover object-center scale-105 hero-carousel-img hidden">
+            <div class="absolute inset-0 hero-gradient"></div>
+        </div>
 
-            <div class="relative z-20 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 w-full pt-12 md:pt-20">
-                <div class="max-w-2xl space-y-4 md:space-y-8">
-                    <div>
-                        <div class="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary backdrop-blur-sm mb-4 md:mb-6">
-                            <span class="mr-1 h-1.5 w-1.5 rounded-full bg-primary animate-pulse"></span>
-                            <span data-i18n="new_arrival">New Arrivals 2024</span>
-                        </div>
-                        <h1 class="text-4xl font-black tracking-tight text-white sm:text-6xl lg:text-7xl text-glow" data-i18n="hero_title">
-                            The Power of Trust
-                        </h1>
-                        <p class="mt-4 md:mt-6 text-base md:text-lg text-gray-300 leading-relaxed max-w-lg" data-i18n="hero_subtitle">
-                            Experience the pinnacle of automotive engineering. Discover our exclusive collection.
-                        </p>
-                    </div>
-                    <div class="flex flex-wrap gap-3 md:gap-4">
-                        <a href="inventory.html" class="group relative flex items-center justify-center gap-2 rounded bg-primary px-6 py-3 md:px-8 md:py-4 text-sm md:text-base font-bold text-white transition-all hover:bg-primary-dark shadow-lg shadow-primary/20">
-                            <span data-i18n="btn_browse">Browse Cars</span>
-                            <span class="material-symbols-outlined transition-transform group-hover:translate-x-1" style="font-size: 18px;">arrow_forward</span>
-                        </a>
-                        <a href="contact.html" class="flex items-center justify-center gap-2 rounded border-2 border-primary px-6 py-3 md:px-8 md:py-4 text-sm md:text-base font-bold text-white transition-all hover:bg-primary hover:text-white backdrop-blur-sm">
-                            <span data-i18n="btn_contact">Contact Us</span>
-                        </a>
-                    </div>
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 w-full pt-24">
+            <div class="max-w-2xl">
+                <span class="inline-block px-3 py-1 mb-6 glass-card rounded-full text-xs font-headline font-bold tracking-[0.2em] uppercase text-primary border border-outline-variant/15" data-i18n="new_arrival">
+                    Premier Collection
+                </span>
+                <h1 class="font-headline text-5xl sm:text-7xl md:text-8xl font-extrabold tracking-tighter leading-tight mb-8" data-i18n="hero_title">
+                    Defining <br/><span class="text-primary italic">Permanence.</span>
+                </h1>
+                <p class="text-on-surface-variant max-w-md mb-8 text-lg" data-i18n="hero_subtitle">
+                    Experience the pinnacle of automotive engineering. Discover our exclusive collection.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
+                    <a href="inventory.html" class="gold-shimmer text-on-primary font-headline font-bold px-10 py-4 sm:py-5 rounded-md transition-all hover:brightness-110 active:scale-95 shadow-2xl text-center w-full sm:w-auto" data-i18n="btn_browse">
+                        Explore Inventory
+                    </a>
+                    <a href="contact.html" class="bg-surface-container-highest/40 backdrop-blur-md border border-outline-variant/15 text-on-surface font-headline font-semibold px-10 py-4 sm:py-5 rounded-md hover:bg-surface-container-highest transition-colors text-center w-full sm:w-auto" data-i18n="btn_contact">
+                        Personal Consult
+                    </a>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Stats Section -->
-        <div class="border-y border-gray-200 dark:border-white/5 bg-gray-50 dark:bg-surface-card">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-2 gap-8 py-8 md:grid-cols-4 md:gap-12">
-                    <div class="flex flex-col border-l-2 border-primary pl-4">
-                        <span class="text-2xl font-bold text-slate-900 dark:text-white">50+</span>
-                        <span class="text-sm text-gray-500 dark:text-gray-400" data-i18n="vehicles_available">Vehicles Available</span>
+    <!-- Stats / Bento Standard -->
+    <section class="py-20 sm:py-32 bg-surface-container-low">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 sm:mb-20">
+                <h2 class="font-headline text-3xl sm:text-4xl md:text-5xl font-bold mb-4">The Legend Standard</h2>
+                <p class="text-on-surface-variant max-w-xl mx-auto">Beyond the sale, we provide an ecosystem of absolute confidence and radical transparency.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-min">
+                <!-- Bento Item 1 -->
+                <div class="md:col-span-8 bg-surface-container-highest/30 p-8 sm:p-12 rounded-2xl flex flex-col justify-between border border-outline-variant/10 hover:border-primary/20 transition-colors">
+                    <div>
+                        <span class="material-symbols-outlined text-primary text-4xl mb-6">payments</span>
+                        <h3 class="font-headline text-2xl sm:text-3xl font-bold mb-4">Radical Price Transparency</h3>
+                        <p class="text-on-surface-variant max-w-md leading-relaxed text-base sm:text-lg">No hidden fees, no negotiation friction. Our pricing engine uses global market data to ensure you pay the definitive value.</p>
                     </div>
-                    <div class="flex flex-col border-l-2 border-primary pl-4">
-                        <span class="text-2xl font-bold text-slate-900 dark:text-white">150+</span>
-                        <span class="text-sm text-gray-500 dark:text-gray-400">Expert Reviews</span>
+                    <div class="mt-8">
+                        <span class="text-xs uppercase tracking-widest font-bold text-primary">Market Verified</span>
                     </div>
-                    <div class="flex flex-col border-l-2 border-primary pl-4">
-                        <span class="text-2xl font-bold text-slate-900 dark:text-white">24/7</span>
-                        <span class="text-sm text-gray-500 dark:text-gray-400">Customer Support</span>
-                    </div>
-                    <div class="flex flex-col border-l-2 border-primary pl-4">
-                        <span class="text-2xl font-bold text-slate-900 dark:text-white">100%</span>
-                        <span class="text-sm text-gray-500 dark:text-gray-400">Client Satisfaction</span>
+                </div>
+
+                <!-- Bento Item 2 -->
+                <div class="md:col-span-4 bg-primary p-8 sm:p-12 rounded-2xl flex flex-col justify-between text-on-primary">
+                    <span class="material-symbols-outlined text-4xl mb-6">verified_user</span>
+                    <div>
+                        <h3 class="font-headline text-xl sm:text-2xl font-bold mb-4 leading-tight">Absolute Assurance</h3>
+                        <p class="text-on-primary/80 font-medium leading-relaxed">Your satisfaction is our sovereign duty. Expertly curated inventory.</p>
                     </div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- Trending Section (Dynamic Content) -->
-        <section class="py-20 bg-background-light dark:bg-surface-card">
-            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center justify-between mb-10">
-                    <h2 class="text-2xl font-bold text-slate-900 dark:text-white" data-i18n="new_arrival">Trending Now</h2>
-                    <a href="inventory.html" class="text-sm font-semibold text-primary hover:text-primary-dark transition-colors" data-i18n="btn_browse">View Inventory</a>
-                </div>
-
-                <!-- Dynamic Content Container: Populated by loadHome() in js/script.js -->
-                <div id="trending-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Cards will be injected here via JavaScript -->
-                </div>
+    <!-- Trending Section (Dynamic Content) -->
+    <section class="py-20 sm:py-32 overflow-hidden bg-background">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 sm:mb-16">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <h2 class="font-headline text-4xl sm:text-5xl font-extrabold tracking-tight">The Spotlight</h2>
+                <a href="inventory.html" class="text-primary font-headline font-bold text-sm tracking-widest uppercase flex items-center gap-2 hover:translate-x-2 transition-transform" data-i18n="btn_browse">
+                    View All <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                </a>
             </div>
-        </section>
-    </main>
+        </div>
+
+        <!-- Dynamic Content Container -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+             <div id="trending-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                 <!-- Cards will be injected here via JavaScript -->
+             </div>
+        </div>
+    </section>
+</main>
 
     <!-- Footer Section -->
-    <footer class="bg-white dark:bg-background-dark border-t border-gray-200 dark:border-white/10 pt-16 pb-8">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-                <div class="space-y-4">
-                    <div class="flex items-center gap-2">
-                        <img src="assets/images/logo.jpeg" alt="Logo" class="h-10 w-10 rounded-full object-cover border-2 border-primary">
-                        <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white" data-i18n="header_title">AganceOnline</span>
-                    </div>
-                </div>
-                <!-- Additional footer links can be added here -->
+    <footer class="w-full border-t border-[#4d4635]/15 bg-[#0e0e0e]">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 px-6 sm:px-8 py-16 max-w-7xl mx-auto">
+        <div>
+            <div class="text-lg font-bold text-[#d4af37] font-headline italic mb-6">Legend Automotive</div>
+            <p class="font-body text-xs text-neutral-500 max-w-xs leading-loose" data-i18n="footer_rights">
+                The destination for automotive excellence. We curate the world's most powerful machines for those who demand nothing less than the legendary.
+            </p>
+        </div>
+        <div class="grid grid-cols-2 gap-8">
+            <div class="flex flex-col space-y-4">
+                <span class="font-headline text-xs font-bold uppercase tracking-widest text-[#f2ca50] mb-2">Explore</span>
+                <a class="font-body text-xs text-neutral-500 hover:text-[#d4af37] hover:translate-x-1 transition-all duration-200 opacity-80 hover:opacity-100" href="inventory.html">Browse Vehicles</a>
+                <a class="font-body text-xs text-neutral-500 hover:text-[#d4af37] hover:translate-x-1 transition-all duration-200 opacity-80 hover:opacity-100" href="financing.html">Financing</a>
             </div>
-            <div class="border-t border-gray-200 dark:border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                <p class="text-sm text-gray-500" data-i18n="footer_rights">© 2024 AganceOnline. All rights reserved.</p>
+            <div class="flex flex-col space-y-4">
+                <span class="font-headline text-xs font-bold uppercase tracking-widest text-[#f2ca50] mb-2">Company</span>
+                <a class="font-body text-xs text-neutral-500 hover:text-[#d4af37] hover:translate-x-1 transition-all duration-200 opacity-80 hover:opacity-100" href="contact.html">Contact Us</a>
+                <div class="flex items-center gap-2 mt-2">
+                    <a id="social-facebook" href="#" class="text-neutral-500 hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">facebook</span></a>
+                    <a id="social-instagram" href="#" class="text-neutral-500 hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">photo_camera</span></a>
+                    <a id="social-whatsapp" href="#" class="text-neutral-500 hover:text-primary transition-colors"><span class="material-symbols-outlined text-[20px]">chat</span></a>
+                </div>
             </div>
         </div>
-    </footer>
+        <div class="flex flex-col justify-between">
+            <div class="mt-8 font-body text-xs text-neutral-500">
+                © 2024 Legend Automotive. All Rights Reserved.
+            </div>
+        </div>
+    </div>
+</footer>
 
     <!-- Main Script -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase-config.js"></script>
-    <script src="js/script.js"></script>
+    <script src="supabase-config.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

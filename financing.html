@@ -1,9 +1,9 @@
 <!--
-    AganceOnline - Financing Page
+    Legend Automotive - Financing Page
     This page features an installment calculator for vehicle purchases.
 -->
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" class="dark bg-background text-on-surface">
 <head>
     <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -14,7 +14,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Financing - AganceOnline</title>
+    <title>Financing - Legend Automotive</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap" rel="stylesheet"/>
@@ -23,104 +23,149 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script>
-        tailwind.config = {
+                tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#ee2122",
-                        "primary-dark": "#c41213",
-                        "background-light": "#f6f7f8",
-                        "background-dark": "#150d17",
-                        "surface-dark": "#1a121d",
-                        "surface-card": "#201724",
+                        "surface": "#131313",
+                        "tertiary-container": "#ceb05a",
+                        "surface-variant": "#353535",
+                        "surface-container": "#20201f",
+                        "on-tertiary-fixed": "#241a00",
+                        "tertiary-fixed": "#ffe089",
+                        "on-secondary-fixed-variant": "#584400",
+                        "on-tertiary-fixed-variant": "#574400",
+                        "on-error-container": "#ffdad6",
+                        "primary": "#f2ca50",
+                        "error-container": "#93000a",
+                        "surface-container-lowest": "#0e0e0e",
+                        "secondary-container": "#b08c10",
+                        "surface-dim": "#131313",
+                        "primary-container": "#d4af37",
+                        "secondary": "#eac249",
+                        "tertiary": "#ebcc72",
+                        "primary-fixed": "#ffe088",
+                        "tertiary-fixed-dim": "#e3c46b",
+                        "secondary-fixed": "#ffe08b",
+                        "on-primary-fixed": "#241a00",
+                        "on-primary-container": "#554300",
+                        "on-secondary-fixed": "#241a00",
+                        "on-secondary-container": "#352800",
+                        "outline": "#99907c",
+                        "inverse-surface": "#e5e2e1",
+                        "on-primary-fixed-variant": "#574500",
+                        "surface-container-high": "#2a2a2a",
+                        "primary-fixed-dim": "#e9c349",
+                        "on-surface": "#e5e2e1",
+                        "inverse-primary": "#735c00",
+                        "outline-variant": "#4d4635",
+                        "surface-container-highest": "#353535",
+                        "error": "#ffb4ab",
+                        "surface-container-low": "#1c1b1b",
+                        "on-tertiary-container": "#554300",
+                        "on-error": "#690005",
+                        "on-primary": "#3c2f00",
+                        "secondary-fixed-dim": "#eac249",
+                        "surface-bright": "#393939",
+                        "inverse-on-surface": "#313030",
+                        "background": "#131313",
+                        "on-background": "#e5e2e1",
+                        "on-secondary": "#3d2f00",
+                        "on-surface-variant": "#d0c5af",
+                        "surface-tint": "#e9c349",
+                        "on-tertiary": "#3d2f00"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
                     },
                     fontFamily: {
-                        "display": ["Inter", "sans-serif"],
+                        "headline": ["Manrope", "sans-serif"],
                         "body": ["Inter", "sans-serif"],
+                        "label": ["Inter", "sans-serif"]
                     },
                 },
+            },
+        },
             },
         }
     </script>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white antialiased transition-colors duration-300">
+<body class="bg-background text-on-surface font-body selection:bg-primary selection:text-on-primary">
     <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TRHFFRVS"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
     <!-- Header Section -->
-    <header class="sticky top-0 z-50 w-full border-b border-gray-200 dark:border-white/10 bg-white/95 dark:bg-background-dark/95 backdrop-blur-md">
-        <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <nav class="sticky top-0 w-full z-50 bg-[#131313]/80 backdrop-blur-xl border-b border-[#4d4635]/15">
+    <div class="bg-gradient-to-b from-[#131313] to-transparent">
+        <div class="flex justify-between items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20">
             <!-- Logo -->
             <div class="flex items-center gap-2">
                 <a href="index.html" class="flex items-center gap-2">
-                    <img src="assets/images/logo.jpeg" alt="Logo" class="h-10 w-10 rounded-full object-cover border-2 border-primary">
-                    <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white" data-i18n="header_title">AganceOnline</span>
+                    <div class="text-2xl font-bold tracking-tighter text-[#f2ca50] italic font-headline" data-i18n="header_title">Legend Automotive</div>
                 </a>
             </div>
 
             <!-- Navigation Menu -->
-            <nav class="hidden md:flex items-center gap-8">
-                <a href="index.html" class="text-sm font-medium text-slate-600 dark:text-gray-300 hover:text-primary transition-colors" data-i18n="nav_home">Home</a>
-                <a href="inventory.html" class="text-sm font-medium text-slate-600 dark:text-gray-300 hover:text-primary transition-colors" data-i18n="nav_inventory">Inventory</a>
-                <a href="financing.html" class="text-sm font-bold text-primary transition-colors" data-i18n="nav_financing">Financing</a>
-                <a href="contact.html" class="text-sm font-medium text-slate-600 dark:text-gray-300 hover:text-primary transition-colors" data-i18n="nav_contact">Contact</a>
-            </nav>
+            <div class="hidden md:flex items-center space-x-10">
+                <a href="index.html" class="font-headline tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-[#f2ca50] transition-colors duration-300">Home</a>
+                <a href="inventory.html" class="font-headline tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-[#f2ca50] transition-colors duration-300" data-i18n="nav_inventory">Inventory</a>
+                <a href="financing.html" class="font-headline tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-[#f2ca50] transition-colors duration-300" data-i18n="nav_financing">Financing</a>
+                <a href="contact.html" class="font-headline tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-[#f2ca50] transition-colors duration-300" data-i18n="nav_contact">Contact</a>
+            </div>
 
             <!-- Action Buttons -->
             <div class="flex items-center gap-2 sm:gap-4">
-                <button onclick="toggleCurrency()" class="currency-toggle hidden md:flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold bg-gray-100 dark:bg-white/10 hover:bg-primary hover:text-white transition-colors">
+                <button onclick="toggleCurrency()" class="currency-toggle hidden md:flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold bg-surface-container-high hover:bg-primary hover:text-on-primary transition-colors text-on-surface">
                     <span class="currency-text">L.E</span>
                 </button>
-                <a href="favorites.html" class="flex items-center justify-center rounded-full p-2 text-slate-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 hover:text-primary transition-colors" title="Favorites">
+                <a href="favorites.html" class="flex items-center justify-center rounded-full p-2 text-on-surface-variant hover:text-primary transition-colors" title="Favorites">
                     <span class="material-symbols-outlined">favorite</span>
                 </a>
-                <button onclick="toggleLanguage()" class="lang-toggle hidden md:flex items-center justify-center rounded-full p-2 text-slate-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 hover:text-primary transition-colors">
+                <button onclick="toggleLanguage()" class="lang-toggle hidden md:flex items-center justify-center rounded-full p-2 text-on-surface-variant hover:text-primary transition-colors">
                     <span class="font-bold text-sm">Ar</span>
                 </button>
-                <button onclick="toggleTheme()" class="theme-toggle hidden md:flex items-center justify-center rounded-full p-2 text-slate-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 hover:text-primary transition-colors">
-                    <span class="theme-icon material-symbols-outlined">light_mode</span>
-                </button>
-                <button id="mobile-menu-btn" class="md:hidden flex items-center justify-center rounded-full p-2 text-slate-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/10 hover:text-primary transition-colors">
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden flex items-center justify-center rounded-full p-2 text-on-surface-variant hover:text-primary transition-colors">
                     <span class="material-symbols-outlined">menu</span>
                 </button>
             </div>
         </div>
+    </div>
+</nav>
 
-        <!-- Mobile Menu Container -->
-        <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 dark:border-white/10 bg-white/95 dark:bg-background-dark/95 backdrop-blur-md">
-            <div class="px-4 pt-2 pb-4 space-y-1">
-                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-gray-300 hover:text-primary hover:bg-gray-50 dark:hover:bg-white/5 transition-colors" data-i18n="nav_home">Home</a>
-                <a href="inventory.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-gray-300 hover:text-primary hover:bg-gray-50 dark:hover:bg-white/5 transition-colors" data-i18n="nav_inventory">Inventory</a>
-                <a href="financing.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-900 dark:text-white hover:text-primary hover:bg-gray-50 dark:hover:bg-white/5 transition-colors" data-i18n="nav_financing">Financing</a>
-                <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-gray-300 hover:text-primary hover:bg-gray-50 dark:hover:bg-white/5 transition-colors" data-i18n="nav_contact">Contact</a>
-            </div>
+<!-- Mobile Menu Container -->
+<div id="mobile-menu" class="hidden md:hidden border-t border-[#4d4635]/15 bg-background">
+    <div class="px-4 pt-2 pb-4 space-y-1">
+        <a href="index.html" class="block px-3 py-2 rounded-md text-base font-headline font-semibold text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors">Home</a>
+        <a href="inventory.html" class="block px-3 py-2 rounded-md text-base font-headline font-semibold text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" data-i18n="nav_inventory">Inventory</a>
+        <a href="financing.html" class="block px-3 py-2 rounded-md text-base font-headline font-semibold text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" data-i18n="nav_financing">Financing</a>
+        <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-headline font-semibold text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" data-i18n="nav_contact">Contact</a>
+    </div>
 
-            <div class="px-4 py-4 border-t border-gray-200 dark:border-white/10 flex flex-col gap-2">
-                <button onclick="toggleCurrency()" class="currency-toggle flex items-center justify-between w-full px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-gray-300 hover:text-primary hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-                    <span>Currency</span>
-                    <span class="currency-text font-bold bg-gray-100 dark:bg-white/10 px-2 py-0.5 rounded text-xs">L.E</span>
-                </button>
-                <button onclick="toggleLanguage()" class="lang-toggle flex items-center justify-between w-full px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-gray-300 hover:text-primary hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-                    <span>Language</span>
-                    <span class="font-bold text-sm">Ar</span>
-                </button>
-                <button onclick="toggleTheme()" class="theme-toggle flex items-center justify-between w-full px-3 py-2 rounded-md text-base font-medium text-slate-600 dark:text-gray-300 hover:text-primary hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
-                    <span>Theme</span>
-                    <span class="theme-icon material-symbols-outlined text-lg">light_mode</span>
-                </button>
-            </div>
-        </div>
-    </header>
+    <div class="px-4 py-4 border-t border-[#4d4635]/15 flex flex-col gap-2">
+        <button onclick="toggleCurrency()" class="currency-toggle flex items-center justify-between w-full px-3 py-2 rounded-md text-base font-medium text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors">
+            <span>Currency</span>
+            <span class="currency-text font-bold bg-surface-container-high px-2 py-0.5 rounded text-xs">L.E</span>
+        </button>
+        <button onclick="toggleLanguage()" class="lang-toggle flex items-center justify-between w-full px-3 py-2 rounded-md text-base font-medium text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors">
+            <span>Language</span>
+            <span class="font-bold text-sm">Ar</span>
+        </button>
+    </div>
+</div>
 
     <main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12">
         <!-- Page Title -->
         <div class="text-center mb-16">
-            <h1 class="text-4xl md:text-5xl font-black tracking-tight text-slate-900 dark:text-white mb-4" data-i18n="nav_financing">Financing</h1>
+            <h1 class="text-4xl md:text-5xl font-black tracking-tight text-on-surface mb-4" data-i18n="nav_financing">Financing</h1>
             <p class="text-gray-500 dark:text-gray-400 text-lg max-w-2xl mx-auto">Calculate your monthly installments and find the best financing plan for your dream car.</p>
         </div>
 
@@ -132,7 +177,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
 
         <!-- Method Info Banner -->
-        <div id="method-info-banner" class="bg-white dark:bg-surface-card rounded-2xl p-8 mb-12 border border-gray-200 dark:border-white/10 flex flex-col md:flex-row items-center gap-8 shadow-xl">
+        <div id="method-info-banner" class="bg-surface-container-low rounded-2xl p-8 mb-12 border border-outline-variant/15 flex flex-col md:flex-row items-center gap-8 shadow-xl">
             <div id="method-logo-container" class="w-32 h-32 flex-shrink-0 flex items-center justify-center bg-gray-50 dark:bg-white/5 rounded-2xl p-4">
                 <img src="https://www.valu.com.eg/static/media/valu-logo.6a3d6a9a.png" alt="Valu" class="max-w-full max-h-full object-contain">
             </div>
@@ -153,8 +198,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
 
         <!-- Calculator Section -->
-        <div class="bg-white dark:bg-surface-card rounded-3xl overflow-hidden shadow-2xl border border-gray-200 dark:border-white/10">
-            <div class="flex border-b border-gray-200 dark:border-white/10">
+        <div class="bg-surface-container-low rounded-3xl overflow-hidden shadow-2xl border border-outline-variant/15">
+            <div class="flex border-b border-outline-variant/15">
                 <button id="tab-calc-installment" onclick="switchCalcTab('installment')" class="flex-1 py-6 text-center font-bold text-lg bg-primary text-white transition-all">Installment amount</button>
                 <button id="tab-calc-price" onclick="switchCalcTab('price')" class="flex-1 py-6 text-center font-bold text-lg text-gray-500 hover:text-primary transition-all">Car Price</button>
             </div>
@@ -190,11 +235,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         <div class="space-y-4">
                             <label class="block text-sm font-bold uppercase tracking-wider text-gray-400">Number of Payments (Months)</label>
                             <div class="grid grid-cols-3 md:grid-cols-6 gap-3">
-                                <button onclick="setCalcMonths(12)" data-months="12" class="month-btn py-3 rounded-xl border-2 border-gray-200 dark:border-white/10 font-bold hover:border-primary transition-all">12</button>
-                                <button onclick="setCalcMonths(24)" data-months="24" class="month-btn py-3 rounded-xl border-2 border-gray-200 dark:border-white/10 font-bold hover:border-primary transition-all">24</button>
+                                <button onclick="setCalcMonths(12)" data-months="12" class="month-btn py-3 rounded-xl border-2 border-outline-variant/15 font-bold hover:border-primary transition-all">12</button>
+                                <button onclick="setCalcMonths(24)" data-months="24" class="month-btn py-3 rounded-xl border-2 border-outline-variant/15 font-bold hover:border-primary transition-all">24</button>
                                 <button onclick="setCalcMonths(36)" data-months="36" class="month-btn py-3 rounded-xl border-2 border-primary bg-primary/5 text-primary font-bold transition-all">36</button>
-                                <button onclick="setCalcMonths(48)" data-months="48" class="month-btn py-3 rounded-xl border-2 border-gray-200 dark:border-white/10 font-bold hover:border-primary transition-all">48</button>
-                                <button onclick="setCalcMonths(60)" data-months="60" class="month-btn py-3 rounded-xl border-2 border-gray-200 dark:border-white/10 font-bold hover:border-primary transition-all">60</button>
+                                <button onclick="setCalcMonths(48)" data-months="48" class="month-btn py-3 rounded-xl border-2 border-outline-variant/15 font-bold hover:border-primary transition-all">48</button>
+                                <button onclick="setCalcMonths(60)" data-months="60" class="month-btn py-3 rounded-xl border-2 border-outline-variant/15 font-bold hover:border-primary transition-all">60</button>
                             </div>
                         </div>
                         <div id="validation-message" class="hidden p-4 rounded-xl bg-red-500/10 border border-red-500 text-red-500 text-sm font-bold">
@@ -401,7 +446,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 if (parseInt(btn.dataset.months) === m) {
                     btn.className = 'month-btn py-3 rounded-xl border-2 border-primary bg-primary/5 text-primary font-bold transition-all';
                 } else {
-                    btn.className = 'month-btn py-3 rounded-xl border-2 border-gray-200 dark:border-white/10 font-bold hover:border-primary transition-all';
+                    btn.className = 'month-btn py-3 rounded-xl border-2 border-outline-variant/15 font-bold hover:border-primary transition-all';
                 }
             });
             calculate();
@@ -512,7 +557,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 const isActive = m === selectedMonths;
 
                 return `
-                    <div class="flex items-center justify-between p-6 rounded-2xl border-2 transition-all ${isActive ? 'border-primary bg-primary/5' : 'border-gray-200 dark:border-white/10 bg-white dark:bg-surface-card'}">
+                    <div class="flex items-center justify-between p-6 rounded-2xl border-2 transition-all ${isActive ? 'border-primary bg-primary/5' : 'border-outline-variant/15 bg-surface-container-low'}">
                         <div>
                             <p class="text-sm text-gray-500 font-bold uppercase tracking-wider">Duration</p>
                             <p class="text-xl font-black">${m} Months</p>

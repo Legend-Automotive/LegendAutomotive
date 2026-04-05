@@ -32,7 +32,7 @@ global.console = {
     warn: jest.fn()
 };
 
-const script = require('../js/script.js');
+const script = require('./script.js');
 
 describe('loadDetails', () => {
     beforeEach(() => {
