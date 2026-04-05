@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Legend Automotive | The Sovereign Gallery</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface": "#131313",
+                    "tertiary-container": "#ceb05a",
+                    "surface-variant": "#353535",
+                    "surface-container": "#20201f",
+                    "on-tertiary-fixed": "#241a00",
+                    "tertiary-fixed": "#ffe089",
+                    "on-secondary-fixed-variant": "#584400",
+                    "on-tertiary-fixed-variant": "#574400",
+                    "on-error-container": "#ffdad6",
+                    "primary": "#f2ca50",
+                    "error-container": "#93000a",
+                    "surface-container-lowest": "#0e0e0e",
+                    "secondary-container": "#b08c10",
+                    "surface-dim": "#131313",
+                    "primary-container": "#d4af37",
+                    "secondary": "#eac249",
+                    "tertiary": "#ebcc72",
+                    "primary-fixed": "#ffe088",
+                    "tertiary-fixed-dim": "#e3c46b",
+                    "secondary-fixed": "#ffe08b",
+                    "on-primary-fixed": "#241a00",
+                    "on-primary-container": "#554300",
+                    "on-secondary-fixed": "#241a00",
+                    "on-secondary-container": "#352800",
+                    "outline": "#99907c",
+                    "inverse-surface": "#e5e2e1",
+                    "on-primary-fixed-variant": "#574500",
+                    "surface-container-high": "#2a2a2a",
+                    "primary-fixed-dim": "#e9c349",
+                    "on-surface": "#e5e2e1",
+                    "inverse-primary": "#735c00",
+                    "outline-variant": "#4d4635",
+                    "surface-container-highest": "#353535",
+                    "error": "#ffb4ab",
+                    "surface-container-low": "#1c1b1b",
+                    "on-tertiary-container": "#554300",
+                    "on-error": "#690005",
+                    "on-primary": "#3c2f00",
+                    "secondary-fixed-dim": "#eac249",
+                    "surface-bright": "#393939",
+                    "inverse-on-surface": "#313030",
+                    "background": "#131313",
+                    "on-background": "#e5e2e1",
+                    "on-secondary": "#3d2f00",
+                    "on-surface-variant": "#d0c5af",
+                    "surface-tint": "#e9c349",
+                    "on-tertiary": "#3d2f00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(42, 42, 42, 0.4);
+            backdrop-filter: blur(20px);
+        }
+        .hero-gradient {
+            background: linear-gradient(180deg, rgba(19, 19, 19, 0) 0%, rgba(19, 19, 19, 1) 100%);
+        }
+        .gold-shimmer {
+            background: linear-gradient(135deg, #f2ca50 0%, #d4af37 100%);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary selection:text-on-primary">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#131313]/80 backdrop-blur-xl">
+<div class="bg-gradient-to-b from-[#131313] to-transparent">
+<div class="flex justify-between items-center max-w-7xl mx-auto px-8 h-20">
+<div class="text-2xl font-bold tracking-tighter text-[#f2ca50] italic font-headline">Legend Automotive</div>
+<div class="hidden md:flex items-center space-x-10">
+<a class="font-manrope tracking-wider uppercase text-sm font-semibold text-[#f2ca50] border-b-2 border-[#d4af37] pb-1" href="#">Home</a>
+<a class="font-manrope tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-[#f2ca50] transition-colors duration-300" href="#">Explore</a>
+<a class="font-manrope tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-[#f2ca50] transition-colors duration-300" href="#">About</a>
+<a class="font-manrope tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-[#f2ca50] transition-colors duration-300" href="#">Contact Us</a>
+<a class="font-manrope tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-[#f2ca50] transition-colors duration-300" href="#">Admin</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="scale-95 active:scale-90 transition-transform text-[#f2ca50]">
+<span class="material-symbols-outlined">person</span>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<main>
+<!-- Hero Section -->
+<section class="relative h-screen w-full flex items-end overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover object-center scale-105" data-alt="luxury dark sleek electric sedan parked in a high-end minimalist architecture garage with dramatic gold rim lighting and deep shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQ0mG099vYpqNDbpLyTIVB-qWTjo0OdFfTRPUsHn2tpTWRGAEFevvT9lHQ-poel8v9BCCyXsGvKJw8iD5V_OFoJAgcfx3SM4mifTY-Bq-9SGUoEYyGq11kzsFQlIbvMJ0wRT1Feh67PrJf40PFTIhPDWLihdQV0um1l1KSWyusNuLgQckK1t3QrdGREKTDAGyLO3Pi7x7A3mhpMez9T6S8m3qjM9m5fh0l8mAW07RFKy_h2Q7ZhNpe4Skxi3mbUq49A8CDGT8Cs1or"/>
+<div class="absolute inset-0 hero-gradient"></div>
+</div>
+<div class="relative z-10 max-w-7xl mx-auto px-8 pb-24 w-full">
+<div class="max-w-2xl">
+<span class="inline-block px-3 py-1 mb-6 glass-card rounded-full text-xs font-headline font-bold tracking-[0.2em] uppercase text-primary border border-outline-variant/15">
+                        Premier Collection
+                    </span>
+<h1 class="font-headline text-7xl md:text-8xl font-extrabold tracking-tighter leading-tight mb-8">
+                        Defining <br/><span class="text-primary italic">Permanence.</span>
+</h1>
+<div class="flex flex-col md:flex-row gap-6 items-start md:items-center">
+<button class="gold-shimmer text-on-primary font-headline font-bold px-10 py-5 rounded-md transition-all hover:brightness-110 active:scale-95 shadow-2xl">
+                            Explore Inventory
+                        </button>
+<button class="bg-surface-container-highest/40 backdrop-blur-md border border-outline-variant/15 text-on-surface font-headline font-semibold px-10 py-5 rounded-md hover:bg-surface-container-highest transition-colors">
+                            Personal Consult
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Browse by Brand -->
+<section class="py-24 bg-surface-container-low">
+<div class="max-w-7xl mx-auto px-8">
+<div class="flex justify-between items-end mb-16">
+<div>
+<h2 class="font-headline text-3xl font-bold tracking-tight mb-2">Curated Lineage</h2>
+<p class="text-on-surface-variant max-w-md">Access the world's most prestigious automotive engineering in one destination.</p>
+</div>
+<a class="text-primary font-headline font-bold text-sm tracking-widest uppercase flex items-center gap-2 hover:translate-x-2 transition-transform" href="#">
+                        View All Brands <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
+<!-- Brand Chips -->
+<div class="bg-surface-container-high h-32 flex flex-col items-center justify-center rounded-xl group hover:bg-surface-bright transition-colors cursor-pointer border border-outline-variant/5">
+<span class="font-headline font-bold text-neutral-400 group-hover:text-primary transition-colors">AVATR</span>
+</div>
+<div class="bg-surface-container-high h-32 flex flex-col items-center justify-center rounded-xl group hover:bg-surface-bright transition-colors cursor-pointer border border-outline-variant/5">
+<span class="font-headline font-bold text-neutral-400 group-hover:text-primary transition-colors">BYD</span>
+</div>
+<div class="bg-surface-container-high h-32 flex flex-col items-center justify-center rounded-xl group hover:bg-surface-bright transition-colors cursor-pointer border border-outline-variant/5">
+<span class="font-headline font-bold text-neutral-400 group-hover:text-primary transition-colors">MERCEDES</span>
+</div>
+<div class="bg-surface-container-high h-32 flex flex-col items-center justify-center rounded-xl group hover:bg-surface-bright transition-colors cursor-pointer border border-outline-variant/5">
+<span class="font-headline font-bold text-neutral-400 group-hover:text-primary transition-colors">XIAOMI</span>
+</div>
+<div class="bg-surface-container-high h-32 flex flex-col items-center justify-center rounded-xl group hover:bg-surface-bright transition-colors cursor-pointer border border-outline-variant/5">
+<span class="font-headline font-bold text-neutral-400 group-hover:text-primary transition-colors">CADILLAC</span>
+</div>
+<div class="bg-surface-container-high h-32 flex flex-col items-center justify-center rounded-xl group hover:bg-surface-bright transition-colors cursor-pointer border border-outline-variant/5">
+<span class="font-headline font-bold text-neutral-400 group-hover:text-primary transition-colors">HYUNDAI</span>
+</div>
+<div class="bg-surface-container-high h-32 flex flex-col items-center justify-center rounded-xl group hover:bg-surface-bright transition-colors cursor-pointer border border-outline-variant/5">
+<span class="font-headline font-bold text-neutral-400 group-hover:text-primary transition-colors">KGM</span>
+</div>
+<div class="bg-surface-container-high h-32 flex flex-col items-center justify-center rounded-xl group hover:bg-surface-bright transition-colors cursor-pointer border border-outline-variant/5">
+<span class="font-headline font-bold text-neutral-400 group-hover:text-primary transition-colors">VW</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Gallery (Asymmetric Scroller) -->
+<section class="py-32 overflow-hidden bg-background">
+<div class="max-w-7xl mx-auto px-8 mb-16">
+<h2 class="font-headline text-5xl font-extrabold tracking-tight">The Spotlight</h2>
+</div>
+<div class="flex gap-8 px-8 overflow-x-auto no-scrollbar pb-12">
+<!-- Vehicle 1 (Spotlight - Active) -->
+<div class="min-w-[70vw] md:min-w-[50vw] relative group cursor-pointer transition-transform duration-700 hover:scale-[1.01]">
+<div class="aspect-[16/9] overflow-hidden rounded-xl">
+<img class="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 transition-all duration-700" data-alt="ultra modern electric supercar with aggressive gold trim on metallic black body panels reflecting sharp architectural lights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCa9m-BDK8oQFfwKgd1HmBL0wCrt7Lf1X5qLcmAo1sVNTtjlqwBER8xilZMuXINeFzntjffnB0bF0Ye7EtDMig1oOTlPGHT-r5LC5N-8nWZXaG4qCeMc7n1mcCEBo7vJX-0YFQxhqoKFG7affU-VBV3hl6rrlXf4zKG0jCOBAlac0ifLlppJxtLdXOOGFWxBh3h4kFpRCfSFfML0T2fDMU0n0sOkELpECOvIkrwvZcdNqneI7SkP9w59t3-wSpLOLsUFpPam3AeMPiq"/>
+</div>
+<div class="mt-8">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline text-3xl font-bold mb-1">Avatr 12 Platinum Edition</h3>
+<p class="text-on-surface-variant font-label uppercase tracking-widest text-xs">Performance EV / Limited Run</p>
+</div>
+<div class="text-right">
+<span class="text-primary font-headline text-2xl font-bold">$142,000</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Vehicle 2 -->
+<div class="min-w-[70vw] md:min-w-[40vw] opacity-50 group cursor-pointer transition-all duration-700 hover:opacity-100">
+<div class="aspect-[16/9] overflow-hidden rounded-xl">
+<img class="w-full h-full object-cover grayscale" data-alt="luxury european SUV in matte charcoal finish with glowing headlights in a high-contrast dark industrial setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwKtLLGxO8N_ScafOPIK7dWLPJyr2OU00YDJNFUma-eAQdsDUmCveDgGXQJJ74fIJzu3YiDX42zDlLs_hkcM_nfz6Oo3h9aldCqS8ZvcEqago23efMqXze5UVN7P6IYMltFlpDt0t9f8moFgZbx8tkYfThedqJPW_7OHd3LSPF26SPZm8jdPBYFvBktAxb26IgxMLcNz7655Cv-Dcp4KEYw6GYVq74UEdhWK07NRamTRtKwDN2g_vBOF1iHGY5vVL1KwcGoNsx8SUn"/>
+</div>
+<div class="mt-8">
+<h3 class="font-headline text-2xl font-bold mb-1">Mercedes-Benz G-Class</h3>
+<p class="text-on-surface-variant font-label uppercase tracking-widest text-xs">Heritage Off-Road</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Why Choose Legend Automotive? (Bento Grid) -->
+<section class="py-32 bg-surface-container-low">
+<div class="max-w-7xl mx-auto px-8">
+<div class="text-center mb-20">
+<h2 class="font-headline text-4xl md:text-5xl font-bold mb-4">The Legend Standard</h2>
+<p class="text-on-surface-variant max-w-xl mx-auto">Beyond the sale, we provide an ecosystem of absolute confidence and radical transparency.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 grid-rows-2 gap-6 h-auto md:h-[600px]">
+<!-- Bento Item 1: Price Transparency -->
+<div class="md:col-span-8 bg-surface-container-highest/30 p-12 rounded-2xl flex flex-col justify-between border border-outline-variant/10 hover:border-primary/20 transition-colors">
+<div>
+<span class="material-symbols-outlined text-primary text-4xl mb-6">payments</span>
+<h3 class="font-headline text-3xl font-bold mb-4">Radical Price Transparency</h3>
+<p class="text-on-surface-variant max-w-md leading-relaxed text-lg">No hidden fees, no negotiation friction. Our pricing engine uses global market data to ensure you pay the definitive value, never a cent more.</p>
+</div>
+<div class="mt-8">
+<span class="text-xs uppercase tracking-widest font-bold text-primary">Market Verified</span>
+</div>
+</div>
+<!-- Bento Item 2: 7-Day Guarantee -->
+<div class="md:col-span-4 bg-primary p-12 rounded-2xl flex flex-col justify-between text-on-primary">
+<span class="material-symbols-outlined text-4xl">verified_user</span>
+<div>
+<h3 class="font-headline text-2xl font-bold mb-4 leading-tight">7-Day Absolute Assurance</h3>
+<p class="text-on-primary/80 font-medium leading-relaxed">Not the perfect fit? Return your vehicle within 7 days for a full, no-questions-asked refund. Your satisfaction is our sovereign duty.</p>
+</div>
+</div>
+<!-- Bento Item 3: Verified Details -->
+<div class="md:col-span-4 bg-surface-container-highest p-12 rounded-2xl border border-outline-variant/10">
+<span class="material-symbols-outlined text-primary text-4xl mb-6">description</span>
+<h3 class="font-headline text-2xl font-bold mb-4">Verified Lineage</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed">Every bolt, every service record, every mile. 150-point inspection protocols performed by master technicians.</p>
+</div>
+<!-- Bento Item 4: Personal Concierge -->
+<div class="md:col-span-8 bg-surface-container p-12 rounded-2xl flex items-center border border-outline-variant/10">
+<div class="flex-1">
+<h3 class="font-headline text-2xl font-bold mb-2">Legend Concierge</h3>
+<p class="text-on-surface-variant text-sm">24/7 priority support for all maintenance and logistics.</p>
+</div>
+<div class="flex -space-x-4">
+<div class="w-12 h-12 rounded-full border-2 border-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="professional male automotive concierge portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfVZeZO4LubeRWyxENRozVUqRTcu6y6G4wfotEz9c5o17QJYiEVAXEhr7mkllL6rQYRdqNhfJLotgck1zrB1wXtouXXCTJ2QsLziZc5L2i317ICoCYw-7vWGInt6aXl2UL3G7QylLJks-wyyCyBTaLbPUa45fD4d3rDOA_Hfv351_kw46OYS0TzhmhZwSm3URsqtfv-zdiCsWJtyJvfrBYwbsfE4bHgjlFYXoZSt83NOzAEBWUZI1jvu9Nf406JxVcK3hhLYOE1aaG"/>
+</div>
+<div class="w-12 h-12 rounded-full border-2 border-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="professional female luxury consultant portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFIAjEW8CkjLEz1l0di3tVzbB3BWn56vxFZIeLX3tfrOfD2G_RyjARG5Ebs4j2hzn_YgZu_-EP3CjOiLWv5Z-6tIvURb0S8VjARL8oM8n778DvDw8qh6hrqgH9_Mi0tBZ-iAPFc9rwoZbR07U0tjsvqlAfUevH0QP5znGCb3iWKcSM2OsiDe9kb_fNZuQ-WnaZMsnoGmzDX7kv41MH6xCl_Y-nXMro_4e1-Tyz8FE3L7osCMJiHyrn2wCoZL-GIa4TiH9tOyL_2Nvk"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full border-t border-[#4d4635]/15 bg-[#0e0e0e]">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 px-12 py-16 max-w-7xl mx-auto">
+<div>
+<div class="text-lg font-bold text-[#d4af37] font-headline italic mb-6">Legend Automotive</div>
+<p class="font-inter text-xs text-neutral-500 max-w-xs leading-loose">
+                    The destination for automotive excellence. We curate the world's most powerful machines for those who demand nothing less than the legendary.
+                </p>
+</div>
+<div class="grid grid-cols-2 gap-8">
+<div class="flex flex-col space-y-4">
+<span class="font-manrope text-xs font-bold uppercase tracking-widest text-[#f2ca50] mb-2">Explore</span>
+<a class="font-inter text-xs text-neutral-500 hover:text-[#d4af37] hover:translate-x-1 transition-all duration-200 opacity-80 hover:opacity-100" href="#">Browse Brands</a>
+<a class="font-inter text-xs text-neutral-500 hover:text-[#d4af37] hover:translate-x-1 transition-all duration-200 opacity-80 hover:opacity-100" href="#">Compare Vehicles</a>
+</div>
+<div class="flex flex-col space-y-4">
+<span class="font-manrope text-xs font-bold uppercase tracking-widest text-[#f2ca50] mb-2">Company</span>
+<a class="font-inter text-xs text-neutral-500 hover:text-[#d4af37] hover:translate-x-1 transition-all duration-200 opacity-80 hover:opacity-100" href="#">About Us</a>
+<a class="font-inter text-xs text-neutral-500 hover:text-[#d4af37] hover:translate-x-1 transition-all duration-200 opacity-80 hover:opacity-100" href="#">Contact Details</a>
+</div>
+</div>
+<div class="flex flex-col justify-between">
+<div class="flex flex-col space-y-4">
+<span class="font-manrope text-xs font-bold uppercase tracking-widest text-[#f2ca50] mb-2">Stay Updated</span>
+<div class="flex">
+<input class="bg-surface-container-lowest border border-[#4d4635]/15 text-xs px-4 py-3 focus:border-[#f2ca50] focus:ring-0 w-full outline-none" placeholder="Email Address" type="email"/>
+<button class="bg-[#d4af37] text-on-primary px-4">
+<span class="material-symbols-outlined text-sm">east</span>
+</button>
+</div>
+</div>
+<div class="mt-8 font-inter text-xs text-neutral-500">
+                    © 2024 Legend Automotive. All Rights Reserved.
+                </div>
+</div>
+</div>
+</footer>
+</body></html>
