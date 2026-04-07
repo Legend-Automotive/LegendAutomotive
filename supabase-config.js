@@ -4,9 +4,9 @@
 // Ensure the Supabase library is loaded before this script runs.
 // Add <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> to your HTML head.
 
-const SUPABASE_URL = "https://mmeuwvuvglvwxtforlcp.supabase.co";
-const SUPABASE_ANON_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1tZXV3dnV2Z2x2d3h0Zm9ybGNwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4MjEwNTcsImV4cCI6MjA4NzM5NzA1N30.jJ7WERr0JVUPRBZOblwTYdBwSqGWeHOH6rVmQFeI5AE";
+// TODO: Provide the new Supabase URL and Anon Key below
+const SUPABASE_URL = "";
+const SUPABASE_ANON_KEY = "";
 
 // Expose key globally for admin usage
 window.SUPABASE_ANON_KEY = SUPABASE_ANON_KEY;
