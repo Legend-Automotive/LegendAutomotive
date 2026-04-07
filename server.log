@@ -1,18 +1,39 @@
-127.0.0.1 - - [05/Apr/2026 18:08:38] "GET /inventory.html HTTP/1.1" 200 -
-127.0.0.1 - - [05/Apr/2026 18:08:38] "GET /supabase-config.js HTTP/1.1" 200 -
-127.0.0.1 - - [05/Apr/2026 18:08:38] "GET /script.js HTTP/1.1" 200 -
-127.0.0.1 - - [05/Apr/2026 18:08:40] code 404, message File not found
-127.0.0.1 - - [05/Apr/2026 18:08:40] "GET /data/translations.json HTTP/1.1" 404 -
-127.0.0.1 - - [05/Apr/2026 18:16:26] "GET /inventory.html HTTP/1.1" 200 -
-127.0.0.1 - - [05/Apr/2026 18:16:26] "GET /supabase-config.js HTTP/1.1" 200 -
-127.0.0.1 - - [05/Apr/2026 18:16:26] "GET /script.js HTTP/1.1" 200 -
-127.0.0.1 - - [05/Apr/2026 18:16:28] code 404, message File not found
-127.0.0.1 - - [05/Apr/2026 18:16:28] "GET /data/translations.json HTTP/1.1" 404 -
-127.0.0.1 - - [05/Apr/2026 19:39:32] "GET /inventory.html HTTP/1.1" 200 -
-127.0.0.1 - - [05/Apr/2026 19:39:32] "GET /supabase-config.js HTTP/1.1" 200 -
-127.0.0.1 - - [05/Apr/2026 19:39:32] "GET /script.js HTTP/1.1" 200 -
-127.0.0.1 - - [05/Apr/2026 19:55:50] "GET /inventory.html HTTP/1.1" 200 -
-127.0.0.1 - - [05/Apr/2026 19:55:50] "GET /supabase-config.js HTTP/1.1" 200 -
-127.0.0.1 - - [05/Apr/2026 19:55:50] "GET /script.js HTTP/1.1" 200 -
-127.0.0.1 - - [05/Apr/2026 19:55:53] code 404, message File not found
-127.0.0.1 - - [05/Apr/2026 19:55:53] "GET /data/translations.json HTTP/1.1" 404 -
+127.0.0.1 - - [07/Apr/2026 11:23:43] "GET /index.html HTTP/1.1" 200 -
+127.0.0.1 - - [07/Apr/2026 11:23:44] "GET /supabase-config.js HTTP/1.1" 200 -
+127.0.0.1 - - [07/Apr/2026 11:23:44] "GET /script.js HTTP/1.1" 200 -
+127.0.0.1 - - [07/Apr/2026 11:23:44] code 404, message File not found
+127.0.0.1 - - [07/Apr/2026 11:23:44] "GET /data/translations.json HTTP/1.1" 404 -
+127.0.0.1 - - [07/Apr/2026 11:23:46] "GET /inventory.html HTTP/1.1" 200 -
+127.0.0.1 - - [07/Apr/2026 11:23:47] code 404, message File not found
+127.0.0.1 - - [07/Apr/2026 11:23:47] "GET /data/translations.json HTTP/1.1" 404 -
+127.0.0.1 - - [07/Apr/2026 11:23:48] "GET /admin.html HTTP/1.1" 200 -
+127.0.0.1 - - [07/Apr/2026 11:23:48] code 404, message File not found
+127.0.0.1 - - [07/Apr/2026 11:23:48] "GET /assets/images/logo.jpeg HTTP/1.1" 404 -
+127.0.0.1 - - [07/Apr/2026 11:23:48] code 404, message File not found
+127.0.0.1 - - [07/Apr/2026 11:23:48] "GET /js/supabase-config.js HTTP/1.1" 404 -
+127.0.0.1 - - [07/Apr/2026 11:23:48] code 404, message File not found
+127.0.0.1 - - [07/Apr/2026 11:23:48] "GET /js/admin.js HTTP/1.1" 404 -
+127.0.0.1 - - [07/Apr/2026 11:26:42] "GET /index.html HTTP/1.1" 200 -
+127.0.0.1 - - [07/Apr/2026 11:26:43] "GET /supabase-config.js HTTP/1.1" 200 -
+127.0.0.1 - - [07/Apr/2026 11:26:43] "GET /script.js HTTP/1.1" 200 -
+127.0.0.1 - - [07/Apr/2026 11:26:43] code 404, message File not found
+127.0.0.1 - - [07/Apr/2026 11:26:43] "GET /data/translations.json HTTP/1.1" 404 -
+127.0.0.1 - - [07/Apr/2026 11:26:45] "GET /inventory.html HTTP/1.1" 200 -
+127.0.0.1 - - [07/Apr/2026 11:26:45] code 404, message File not found
+127.0.0.1 - - [07/Apr/2026 11:26:45] "GET /data/translations.json HTTP/1.1" 404 -
+127.0.0.1 - - [07/Apr/2026 11:26:47] "GET /admin.html HTTP/1.1" 200 -
+127.0.0.1 - - [07/Apr/2026 11:26:47] code 404, message File not found
+127.0.0.1 - - [07/Apr/2026 11:26:47] "GET /assets/images/logo.jpeg HTTP/1.1" 404 -
+127.0.0.1 - - [07/Apr/2026 11:26:47] "GET /admin.js HTTP/1.1" 200 -
+127.0.0.1 - - [07/Apr/2026 11:28:27] "GET /admin.html HTTP/1.1" 200 -
+127.0.0.1 - - [07/Apr/2026 11:28:27] code 404, message File not found
+127.0.0.1 - - [07/Apr/2026 11:28:27] "GET /assets/images/logo.jpeg HTTP/1.1" 404 -
+127.0.0.1 - - [07/Apr/2026 11:28:27] "GET /supabase-config.js HTTP/1.1" 200 -
+127.0.0.1 - - [07/Apr/2026 11:28:27] "GET /admin.js HTTP/1.1" 200 -
+127.0.0.1 - - [07/Apr/2026 11:28:27] "GET /script.js HTTP/1.1" 200 -
+127.0.0.1 - - [07/Apr/2026 11:30:42] "GET /admin.html HTTP/1.1" 200 -
+127.0.0.1 - - [07/Apr/2026 11:30:42] code 404, message File not found
+127.0.0.1 - - [07/Apr/2026 11:30:42] "GET /assets/images/logo.jpeg HTTP/1.1" 404 -
+127.0.0.1 - - [07/Apr/2026 11:30:42] "GET /supabase-config.js HTTP/1.1" 200 -
+127.0.0.1 - - [07/Apr/2026 11:30:42] "GET /admin.js HTTP/1.1" 200 -
+127.0.0.1 - - [07/Apr/2026 11:30:42] "GET /script.js HTTP/1.1" 200 -

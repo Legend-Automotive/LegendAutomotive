@@ -27,55 +27,56 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             darkMode: "class",
             theme: {
                 extend: {
-                    colors: {
-                        "surface": "#131313",
-                        "tertiary-container": "#ceb05a",
-                        "surface-variant": "#353535",
-                        "surface-container": "#20201f",
-                        "on-tertiary-fixed": "#241a00",
-                        "tertiary-fixed": "#ffe089",
-                        "on-secondary-fixed-variant": "#584400",
-                        "on-tertiary-fixed-variant": "#574400",
-                        "on-error-container": "#ffdad6",
-                        "primary": "#f2ca50",
-                        "error-container": "#93000a",
-                        "surface-container-lowest": "#0e0e0e",
-                        "secondary-container": "#b08c10",
-                        "surface-dim": "#131313",
-                        "primary-container": "#d4af37",
-                        "secondary": "#eac249",
-                        "tertiary": "#ebcc72",
-                        "primary-fixed": "#ffe088",
-                        "tertiary-fixed-dim": "#e3c46b",
-                        "secondary-fixed": "#ffe08b",
-                        "on-primary-fixed": "#241a00",
-                        "on-primary-container": "#554300",
-                        "on-secondary-fixed": "#241a00",
-                        "on-secondary-container": "#352800",
-                        "outline": "#99907c",
-                        "inverse-surface": "#e5e2e1",
-                        "on-primary-fixed-variant": "#574500",
-                        "surface-container-high": "#2a2a2a",
-                        "primary-fixed-dim": "#e9c349",
-                        "on-surface": "#e5e2e1",
-                        "inverse-primary": "#735c00",
-                        "outline-variant": "#4d4635",
-                        "surface-container-highest": "#353535",
-                        "error": "#ffb4ab",
-                        "surface-container-low": "#1c1b1b",
-                        "on-tertiary-container": "#554300",
-                        "on-error": "#690005",
-                        "on-primary": "#3c2f00",
-                        "secondary-fixed-dim": "#eac249",
-                        "surface-bright": "#393939",
-                        "inverse-on-surface": "#313030",
-                        "background": "#131313",
-                        "on-background": "#e5e2e1",
-                        "on-secondary": "#3d2f00",
-                        "on-surface-variant": "#d0c5af",
-                        "surface-tint": "#e9c349",
-                        "on-tertiary": "#3d2f00"
-                    },
+                    "colors": {
+                    "surface": "var(--color-surface)",
+                    "tertiary-container": "var(--color-tertiary-container)",
+                    "surface-variant": "var(--color-surface-variant)",
+                    "surface-container": "var(--color-surface-container)",
+                    "on-tertiary-fixed": "var(--color-on-tertiary-fixed)",
+                    "tertiary-fixed": "var(--color-tertiary-fixed)",
+                    "on-secondary-fixed-variant": "var(--color-on-secondary-fixed-variant)",
+                    "on-tertiary-fixed-variant": "var(--color-on-tertiary-fixed-variant)",
+                    "on-error-container": "var(--color-on-error-container)",
+                    "primary": "var(--color-primary)",
+                    "error-container": "var(--color-error-container)",
+                    "surface-container-lowest": "var(--color-surface-container-lowest)",
+                    "secondary-container": "var(--color-secondary-container)",
+                    "surface-dim": "var(--color-surface-dim)",
+                    "primary-container": "var(--color-primary-container)",
+                    "secondary": "var(--color-secondary)",
+                    "tertiary": "var(--color-tertiary)",
+                    "primary-fixed": "var(--color-primary-fixed)",
+                    "tertiary-fixed-dim": "var(--color-tertiary-fixed-dim)",
+                    "secondary-fixed": "var(--color-secondary-fixed)",
+                    "on-primary-fixed": "var(--color-on-primary-fixed)",
+                    "on-primary-container": "var(--color-on-primary-container)",
+                    "on-secondary-fixed": "var(--color-on-secondary-fixed)",
+                    "on-secondary-container": "var(--color-on-secondary-container)",
+                    "outline": "var(--color-outline)",
+                    "inverse-surface": "var(--color-inverse-surface)",
+                    "on-primary-fixed-variant": "var(--color-on-primary-fixed-variant)",
+                    "surface-container-high": "var(--color-surface-container-high)",
+                    "primary-fixed-dim": "var(--color-primary-fixed-dim)",
+                    "on-surface": "var(--color-on-surface)",
+                    "inverse-primary": "var(--color-inverse-primary)",
+                    "outline-variant": "var(--color-outline-variant)",
+                    "surface-container-highest": "var(--color-surface-container-highest)",
+                    "error": "var(--color-error)",
+                    "surface-container-low": "var(--color-surface-container-low)",
+                    "on-tertiary-container": "var(--color-on-tertiary-container)",
+                    "on-error": "var(--color-on-error)",
+                    "on-primary": "var(--color-on-primary)",
+                    "secondary-fixed-dim": "var(--color-secondary-fixed-dim)",
+                    "surface-bright": "var(--color-surface-bright)",
+                    "inverse-on-surface": "var(--color-inverse-on-surface)",
+                    "background": "var(--color-background)",
+                    "on-background": "var(--color-on-background)",
+                    "on-secondary": "var(--color-on-secondary)",
+                    "on-surface-variant": "var(--color-on-surface-variant)",
+                    "surface-tint": "var(--color-surface-tint)",
+                    "on-tertiary": "var(--color-on-tertiary)"
+            },
+
                     borderRadius: {
                         "DEFAULT": "0.125rem",
                         "lg": "0.25rem",
@@ -103,22 +104,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
     <!-- Header Section -->
-    <nav class="sticky top-0 w-full z-50 bg-[#131313]/80 backdrop-blur-xl border-b border-[#4d4635]/15">
-    <div class="bg-gradient-to-b from-[#131313] to-transparent">
+    <nav class="sticky top-0 w-full z-50 bg-background/80 backdrop-blur-xl border-b border-outline-variant/15">
+    <div class="bg-gradient-to-b from-background to-transparent">
         <div class="flex justify-between items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20">
             <!-- Logo -->
             <div class="flex items-center gap-2">
                 <a href="index.html" class="flex items-center gap-2">
-                    <div class="text-2xl font-bold tracking-tighter text-[#f2ca50] italic font-headline" data-i18n="header_title">Legend Automotive</div>
+                    <div class="text-2xl font-bold tracking-tighter text-primary italic font-headline" data-i18n="header_title">Legend Automotive</div>
                 </a>
             </div>
 
             <!-- Navigation Menu -->
             <div class="hidden md:flex items-center space-x-10">
-                <a href="index.html" class="font-headline tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-[#f2ca50] transition-colors duration-300">Home</a>
-                <a href="inventory.html" class="font-headline tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-[#f2ca50] transition-colors duration-300" data-i18n="nav_inventory">Inventory</a>
-                <a href="financing.html" class="font-headline tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-[#f2ca50] transition-colors duration-300" data-i18n="nav_financing">Financing</a>
-                <a href="contact.html" class="font-headline tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-[#f2ca50] transition-colors duration-300" data-i18n="nav_contact">Contact</a>
+                <a href="index.html" class="font-headline tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-primary transition-colors duration-300">Home</a>
+                <a href="inventory.html" class="font-headline tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-primary transition-colors duration-300" data-i18n="nav_inventory">Inventory</a>
+                <a href="financing.html" class="font-headline tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-primary transition-colors duration-300" data-i18n="nav_financing">Financing</a>
+                <a href="contact.html" class="font-headline tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-primary transition-colors duration-300" data-i18n="nav_contact">Contact</a>
             </div>
 
             <!-- Action Buttons -->
@@ -142,15 +143,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </nav>
 
 <!-- Mobile Menu Container -->
-<div id="mobile-menu" class="hidden md:hidden border-t border-[#4d4635]/15 bg-background">
-    <div class="px-4 pt-2 pb-4 space-y-1">
-        <a href="index.html" class="block px-3 py-2 rounded-md text-base font-headline font-semibold text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors">Home</a>
-        <a href="inventory.html" class="block px-3 py-2 rounded-md text-base font-headline font-semibold text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" data-i18n="nav_inventory">Inventory</a>
-        <a href="financing.html" class="block px-3 py-2 rounded-md text-base font-headline font-semibold text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" data-i18n="nav_financing">Financing</a>
-        <a href="contact.html" class="block px-3 py-2 rounded-md text-base font-headline font-semibold text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors" data-i18n="nav_contact">Contact</a>
-    </div>
 
-    <div class="px-4 py-4 border-t border-[#4d4635]/15 flex flex-col gap-2">
+<div id="mobile-menu" class="hidden absolute top-20 left-0 w-full bg-background p-4 flex flex-col space-y-4 shadow-lg border-b border-surface-variant z-50">
+    <a href="index.html" class="text-on-background hover:text-primary">Home</a>
+    <a href="inventory.html" class="text-on-background hover:text-primary">Explore</a>
+    <a href="about.html" class="text-on-background hover:text-primary">About</a>
+    <a href="contact.html" class="text-on-background hover:text-primary">Contact</a>
+    <button onclick="toggleTheme()" class="text-left text-on-background hover:text-primary flex items-center gap-2"><span class="material-symbols-outlined theme-icon text-sm">dark_mode</span> Theme</button>
+    <button onclick="toggleCurrency()" class="currency-toggle text-left text-on-background hover:text-primary">Currency: <span class="currency-text">L.E</span></button>
+    <button onclick="toggleLanguage()" class="lang-toggle text-left text-on-background hover:text-primary">Language: En</button>
+</div>
+
+
+    <div class="px-4 py-4 border-t border-outline-variant/15 flex flex-col gap-2">
         <button onclick="toggleCurrency()" class="currency-toggle flex items-center justify-between w-full px-3 py-2 rounded-md text-base font-medium text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors">
             <span>Currency</span>
             <span class="currency-text font-bold bg-surface-container-high px-2 py-0.5 rounded text-xs">L.E</span>
