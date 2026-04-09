@@ -109,11 +109,11 @@
 <button class="scale-95 active:scale-90 transition-transform">
 <span class="material-symbols-outlined" data-icon="search">search</span>
 </button>
-<button onclick="toggleTheme()" class="scale-95 active:scale-90 transition-transform text-primary" title="Toggle Theme">
+<button onclick="toggleTheme()" class="hidden md:block scale-95 active:scale-90 transition-transform text-primary" title="Toggle Theme">
     <span class="material-symbols-outlined theme-icon">dark_mode</span>
 </button>
 <button id="mobile-menu-btn" class="scale-95 active:scale-90 transition-transform">
-<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
 </button>
 </div>
 </nav>
@@ -180,6 +180,47 @@
 </div>
 </div>
 </div>
+
+<!-- Custom Car Request Section -->
+<section class="mt-32 mb-12 bg-surface-container-low rounded-3xl p-8 md:p-16 border border-outline-variant/10 relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10 translate-x-1/2 -translate-y-1/2"></div>
+    <div class="absolute bottom-0 left-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10 -translate-x-1/2 translate-y-1/2"></div>
+
+    <div class="max-w-2xl mx-auto text-center relative z-10">
+        <h2 class="font-headline text-4xl md:text-5xl font-extrabold tracking-tight mb-4">Can't Find the Car You Need?</h2>
+        <p class="text-on-surface-variant font-body text-lg leading-relaxed mb-10">
+            Send a request and our dedicated team will locate and import the perfect vehicle tailored to your exact specifications.
+        </p>
+
+        <form id="custom-car-request-form" class="space-y-6 text-left">
+            <div class="space-y-2">
+                <input type="text" id="request-name" required placeholder="Your Name" class="w-full bg-surface-container-highest border border-outline-variant/20 focus:border-primary focus:ring-1 focus:ring-primary rounded-xl py-4 px-6 text-on-surface placeholder:text-neutral-500 transition-all font-body">
+            </div>
+            <div class="space-y-2">
+                <input type="text" id="request-contact" required placeholder="Phone or Email" class="w-full bg-surface-container-highest border border-outline-variant/20 focus:border-primary focus:ring-1 focus:ring-primary rounded-xl py-4 px-6 text-on-surface placeholder:text-neutral-500 transition-all font-body">
+            </div>
+            <div class="space-y-2">
+                <input type="text" id="request-brand" placeholder="Brand (e.g., Mercedes)" class="w-full bg-surface-container-highest border border-outline-variant/20 focus:border-primary focus:ring-1 focus:ring-primary rounded-xl py-4 px-6 text-on-surface placeholder:text-neutral-500 transition-all font-body">
+            </div>
+            <div class="space-y-2">
+                <input type="text" id="request-model" placeholder="Model/Trim (e.g., S-Class Long Range)" class="w-full bg-surface-container-highest border border-outline-variant/20 focus:border-primary focus:ring-1 focus:ring-primary rounded-xl py-4 px-6 text-on-surface placeholder:text-neutral-500 transition-all font-body">
+            </div>
+            <div class="space-y-2">
+                <input type="text" id="request-budget" placeholder="Budget (EGP)" class="w-full bg-surface-container-highest border border-outline-variant/20 focus:border-primary focus:ring-1 focus:ring-primary rounded-xl py-4 px-6 text-on-surface placeholder:text-neutral-500 transition-all font-body">
+            </div>
+            <div class="space-y-2">
+                <input type="text" id="request-options" placeholder="Preferred Color / Options" class="w-full bg-surface-container-highest border border-outline-variant/20 focus:border-primary focus:ring-1 focus:ring-primary rounded-xl py-4 px-6 text-on-surface placeholder:text-neutral-500 transition-all font-body">
+            </div>
+
+            <button type="submit" class="w-full bg-primary text-on-primary font-headline font-bold text-lg py-5 rounded-xl hover:bg-primary/90 active:scale-[0.98] transition-all flex items-center justify-center gap-3 mt-8 shadow-lg shadow-primary/20">
+                <span class="material-symbols-outlined">event_note</span>
+                Submit Request
+            </button>
+            <p id="request-success-msg" class="hidden text-center text-[#25D366] font-body text-sm mt-4">Your request has been successfully submitted! We will contact you soon.</p>
+        </form>
+    </div>
+</section>
+
 </main>
 <!-- Footer Implementation -->
 <footer class="w-full border-t border-outline-variant/15 bg-surface-container-lowest">
@@ -232,4 +273,29 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase-config.js"></script>
 <script src="script.js"></script>
+
+<!-- Floating Contact Button -->
+<div class="fixed bottom-6 right-6 z-50 flex flex-col items-end space-y-4">
+    <!-- Popup Menu -->
+    <div id="contact-popup" class="hidden flex-col gap-3 bg-surface-container-highest/90 backdrop-blur-md p-4 rounded-2xl border border-outline-variant/20 shadow-2xl origin-bottom-right transition-all duration-300 transform scale-95 opacity-0">
+        <a href="https://wa.me/#" target="_blank" class="flex items-center gap-3 text-on-surface hover:text-primary transition-colors p-2 rounded-lg hover:bg-surface-bright group">
+            <div class="w-10 h-10 rounded-full bg-[#25D366]/20 flex items-center justify-center text-[#25D366] group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined">chat</span>
+            </div>
+            <span class="font-headline font-semibold text-sm">WhatsApp Us</span>
+        </a>
+        <a href="tel:#" class="flex items-center gap-3 text-on-surface hover:text-primary transition-colors p-2 rounded-lg hover:bg-surface-bright group">
+            <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined">call</span>
+            </div>
+            <span class="font-headline font-semibold text-sm">Call Us</span>
+        </a>
+    </div>
+
+    <!-- Main Floating Button -->
+    <button onclick="toggleContactPopup()" class="w-14 h-14 rounded-full bg-primary text-on-primary shadow-[0_0_20px_rgba(var(--color-primary),0.3)] hover:shadow-[0_0_30px_rgba(var(--color-primary),0.5)] hover:scale-105 active:scale-95 transition-all flex items-center justify-center border-2 border-primary-container z-50 group">
+        <span class="material-symbols-outlined text-2xl group-hover:rotate-12 transition-transform">headset_mic</span>
+    </button>
+</div>
+
 </body></html>

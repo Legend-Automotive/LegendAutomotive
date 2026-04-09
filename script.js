@@ -1863,3 +1863,72 @@ if (typeof module !== 'undefined' && module.exports) {
         renderDefaultGallery
     };
 }
+
+
+function toggleContactPopup() {
+    const popup = document.getElementById('contact-popup');
+    if (popup.classList.contains('hidden')) {
+        popup.classList.remove('hidden');
+        // Small delay to allow display:flex to apply before animating opacity
+        setTimeout(() => {
+            popup.classList.remove('scale-95', 'opacity-0');
+            popup.classList.add('scale-100', 'opacity-100');
+        }, 10);
+    } else {
+        popup.classList.remove('scale-100', 'opacity-100');
+        popup.classList.add('scale-95', 'opacity-0');
+        setTimeout(() => {
+            popup.classList.add('hidden');
+        }, 300);
+    }
+}
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const requestForm = document.getElementById('custom-car-request-form');
+    if (requestForm) {
+        requestForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = requestForm.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin">refresh</span> Submitting...';
+            btn.disabled = true;
+
+            // Collect data
+            const requestData = {
+                name: document.getElementById('request-name').value,
+                contact: document.getElementById('request-contact').value,
+                brand: document.getElementById('request-brand').value,
+                model: document.getElementById('request-model').value,
+                budget: document.getElementById('request-budget').value,
+                options: document.getElementById('request-options').value,
+                created_at: new Date().toISOString()
+            };
+
+            try {
+                // Future Supabase integration:
+                // const { data, error } = await supabase.from('custom_requests').insert([requestData]);
+                // if (error) throw error;
+
+                // Simulate network request
+                await new Promise(resolve => setTimeout(resolve, 1000));
+
+                // Show success
+                document.getElementById('request-success-msg').classList.remove('hidden');
+                requestForm.reset();
+
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    document.getElementById('request-success-msg').classList.add('hidden');
+                }, 5000);
+            } catch (error) {
+                console.error("Error submitting request:", error);
+                alert("There was an error submitting your request. Please try again or contact us directly.");
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        });
+    }
+});
