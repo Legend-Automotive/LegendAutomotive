@@ -1,0 +1,14 @@
+127.0.0.1 - - [10/Apr/2026 13:07:06] "GET /index.html HTTP/1.1" 200 -
+127.0.0.1 - - [10/Apr/2026 13:07:06] "GET /style.css HTTP/1.1" 200 -
+127.0.0.1 - - [10/Apr/2026 13:07:07] "GET /supabase-config.js HTTP/1.1" 200 -
+127.0.0.1 - - [10/Apr/2026 13:07:07] "GET /script.js HTTP/1.1" 200 -
+127.0.0.1 - - [10/Apr/2026 13:07:08] code 404, message File not found
+127.0.0.1 - - [10/Apr/2026 13:07:08] "GET /data/translations.json HTTP/1.1" 404 -
+127.0.0.1 - - [10/Apr/2026 13:07:11] code 404, message File not found
+127.0.0.1 - - [10/Apr/2026 13:07:11] "GET /data/translations.json HTTP/1.1" 404 -
+127.0.0.1 - - [10/Apr/2026 13:07:12] "GET /inventory.html HTTP/1.1" 200 -
+127.0.0.1 - - [10/Apr/2026 13:07:13] code 404, message File not found
+127.0.0.1 - - [10/Apr/2026 13:07:13] "GET /data/translations.json HTTP/1.1" 404 -
+127.0.0.1 - - [10/Apr/2026 13:07:15] "GET /contact.html HTTP/1.1" 200 -
+127.0.0.1 - - [10/Apr/2026 13:07:15] code 404, message File not found
+127.0.0.1 - - [10/Apr/2026 13:07:15] "GET /data/translations.json HTTP/1.1" 404 -

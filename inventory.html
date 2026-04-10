@@ -152,10 +152,9 @@
 <span id="price-range-display" class="text-xs text-on-surface-variant font-mono"><span id="price-min">$120k</span> - <span id="price-max">$2.5M</span></span>
 </div>
 <div class="relative h-1 bg-surface-container-high rounded-full">
-<input id="price-slider" type="range" class="absolute w-full h-full opacity-0 cursor-pointer" min="0" max="100" value="100">
-<div class="absolute h-full left-1/4 right-1/4 bg-primary rounded-full"></div>
-<div class="absolute top-1/2 -translate-y-1/2 left-1/4 w-4 h-4 bg-on-surface border-2 border-primary rounded-full shadow-lg"></div>
-<div class="absolute top-1/2 -translate-y-1/2 right-1/4 w-4 h-4 bg-on-surface border-2 border-primary rounded-full shadow-lg"></div>
+<input id="price-slider" type="range" class="absolute w-full h-full opacity-0 cursor-pointer z-20" min="0" max="100" value="100" oninput="updatePriceSliderFill(this)">
+<div id="price-slider-fill" class="absolute h-full left-0 bg-primary rounded-full pointer-events-none z-10" style="width: 100%;"></div>
+<div id="price-slider-thumb" class="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-on-surface border-2 border-primary rounded-full shadow-lg pointer-events-none z-10" style="left: 100%; transform: translate(-50%, -50%);"></div>
 </div>
 </div>
 <!-- Colors --><div class="space-y-4 mb-6"><label class="font-headline font-bold text-xs uppercase tracking-widest text-primary">Color</label><div id="color-filters-container" class="flex flex-wrap gap-2"></div></div>

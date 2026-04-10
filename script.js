@@ -613,10 +613,22 @@ async function loadBrands() {
             .order('name', { ascending: true });
 
         if (error) throw error;
-        brands = data;
+        brands = data || [];
     } catch (error) {
         console.error('Failed to load brands', error);
         brands = [];
+    }
+
+    if (brands.length === 0) {
+        // Fallback to mock values if database returns no data or fails
+        brands = [
+            { id: 1, name: 'BMW' },
+            { id: 2, name: 'Mercedes' },
+            { id: 3, name: 'Toyota' },
+            { id: 4, name: 'Hyundai' },
+            { id: 5, name: 'Kia' },
+            { id: 6, name: 'Nissan' }
+        ];
     }
 }
 
@@ -776,7 +788,12 @@ function loadInventory() {
     if (categorySelect) categorySelect.addEventListener('change', filterInventory);
     if (priceSlider) {
         priceSlider.addEventListener('input', (e) => {
-            priceRange.current = parseInt(e.target.value);
+            let val = parseInt(e.target.value);
+            // Convert back to EGP for internal state if currently in USD
+            if (currentCurrency === 'USD') {
+                val = val * usdToEgpRate;
+            }
+            priceRange.current = val;
             updatePriceRangeDisplay();
             filterInventory();
         });
@@ -891,6 +908,21 @@ function updatePriceSliderUI() {
     minLabel.textContent = formatCompactPrice(displayMin);
     maxLabel.textContent = formatCompactPrice(displayMax);
     updatePriceRangeDisplay();
+    updatePriceSliderFill(slider);
+}
+
+window.updatePriceSliderFill = function(slider) {
+    if (!slider) return;
+    const min = parseFloat(slider.min) || 0;
+    const max = parseFloat(slider.max) || 100;
+    const val = parseFloat(slider.value) || 0;
+    const percent = ((val - min) / (max - min)) * 100;
+
+    const fill = document.getElementById('price-slider-fill');
+    const thumb = document.getElementById('price-slider-thumb');
+
+    if (fill) fill.style.width = `${percent}%`;
+    if (thumb) thumb.style.left = `${percent}%`;
 }
 
 function updatePriceRangeDisplay() {
