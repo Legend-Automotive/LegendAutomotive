@@ -1,9 +1,9 @@
 /* CSS Variables */
 :root {
-  --color-surface: #fbfbfa;
+  --color-surface: #f8f7f4;
   --color-tertiary-container: #ceb05a;
   --color-surface-variant: #e6e5e3;
-  --color-surface-container: #f1f0ee;
+  --color-surface-container: #ebe8e2;
   --color-on-tertiary-fixed: #241a00;
   --color-tertiary-fixed: #ffe089;
   --color-on-secondary-fixed-variant: #584400;
@@ -27,14 +27,14 @@
   --color-outline: #797875;
   --color-inverse-surface: #313030;
   --color-on-primary-fixed-variant: #574500;
-  --color-surface-container-high: #e9e8e6;
+  --color-surface-container-high: #e3ded8;
   --color-primary-fixed-dim: #e9c349;
-  --color-on-surface: #1c1b1b;
+  --color-on-surface: #2d2a26;
   --color-inverse-primary: #735c00;
-  --color-outline-variant: #cac9c7;
+  --color-outline-variant: #e0dcd5;
   --color-surface-container-highest: #e2e1df;
   --color-error: #ffb4ab;
-  --color-surface-container-low: #f8f7f5;
+  --color-surface-container-low: #f3f1ec;
   --color-on-tertiary-container: #554300;
   --color-on-error: #690005;
   --color-on-primary: #ffffff;
@@ -47,7 +47,7 @@
   --color-on-surface-variant: #4d4c4b;
   --color-surface-tint: #b89a36;
   --color-on-tertiary: #3d2f00;
-  --rgb-background: 248, 249, 235;
+  --rgb-background: 248, 247, 244;
 }
 
 .dark {

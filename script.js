@@ -1799,10 +1799,10 @@ function createProductCard(product) {
     const grayscaleClass = isSoldOut ? 'grayscale' : '';
 
     return `
-    <div class="group relative flex flex-col rounded-xl overflow-hidden bg-surface-container-low transition-all duration-500 hover:-translate-y-2 border border-outline-variant/10 hover:border-primary/20">
-        <div class="relative aspect-[16/10] overflow-hidden rounded-t-xl">
+    <div class="group relative flex flex-col shrink-0 rounded-xl overflow-hidden bg-surface-container-low transition-all duration-500 hover:-translate-y-2 border border-outline-variant/10 hover:border-primary/20">
+        <div class="relative aspect-[16/9] w-full overflow-hidden rounded-t-xl shrink-0">
             <a href="details.html?id=${product.id}">
-                <img alt="${escapeHtml(displayName)}" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ${grayscaleClass}" src="${escapeHtml(product.image_url)}"/>
+                <img alt="${escapeHtml(displayName)}" class="absolute inset-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ${grayscaleClass}" src="${escapeHtml(product.image_url)}"/>
                 ${soldOutOverlay}
             </a>
             <div class="absolute top-4 right-4 z-20">
