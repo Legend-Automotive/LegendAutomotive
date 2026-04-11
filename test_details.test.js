@@ -22,7 +22,27 @@ global.document = {
 };
 global.alert = jest.fn();
 global.supabase = {
-    from: jest.fn()
+    from: jest.fn(),
+    channel: jest.fn().mockReturnValue({
+        on: jest.fn().mockReturnThis(),
+        subscribe: jest.fn().mockReturnThis()
+    })
+};
+
+global.window.productsDb = {
+    getAll: jest.fn().mockResolvedValue([])
+};
+global.window.settingsDb = {
+    getAll: jest.fn().mockResolvedValue({})
+};
+global.window.brandsDb = {
+    getAll: jest.fn().mockResolvedValue([])
+};
+global.window.categoriesDb = {
+    getAll: jest.fn().mockResolvedValue([])
+};
+global.window.messagesDb = {
+    create: jest.fn().mockResolvedValue({})
 };
 
 // Mock console
@@ -107,21 +127,27 @@ describe('loadDetails', () => {
             if (id === 'spec-fuel') return { textContent: '', style: {} };
             if (id === 'vehicle-desc-wrapper') return { ...el, nextElementSibling: { classList: { add: jest.fn(), remove: jest.fn() } } };
             if (id === 'vehicle-desc-fade') return el;
+            if (id === 'btn-favorite-details') return { ...el, querySelector: jest.fn().mockReturnValue(el) };
             return el;
         });
     });
 
     test('re-fetches products if empty and finds product', async () => {
+        global.window.productsDb.getAll.mockResolvedValueOnce([{
+            id: 1,
+            name: 'Test Car',
+            image_url: 'test.jpg'
+        }]);
+
         // Execute
         await script.loadDetails();
 
         // Verify re-fetch attempt
         expect(console.warn).toHaveBeenCalledWith(expect.stringContaining('Products list empty'));
-        expect(global.supabase.from).toHaveBeenCalledWith('products');
+        expect(global.window.productsDb.getAll).toHaveBeenCalled();
 
         // Verify product found and rendered
         expect(document.getElementById).toHaveBeenCalledWith('vehicle-title');
-        // Check if title was updated (indirect verification of success)
     });
 
     test('renders not found if product id does not exist', async () => {

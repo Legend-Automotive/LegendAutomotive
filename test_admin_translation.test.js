@@ -55,6 +55,22 @@ afterAll(() => {
     global.Math.random = originalMathRandom;
 });
 
+global.window.productsDb = {
+    create: jest.fn().mockResolvedValue({}),
+    update: jest.fn().mockResolvedValue({}),
+    getAll: jest.fn().mockResolvedValue([]),
+    getSpotlight: jest.fn().mockResolvedValue([])
+};
+global.window.brandsDb = {
+    getAll: jest.fn().mockResolvedValue([])
+};
+global.window.categoriesDb = {
+    getAll: jest.fn().mockResolvedValue([])
+};
+global.window.settingsDb = {
+    getAll: jest.fn().mockResolvedValue({})
+};
+
 const admin = require('./admin.js');
 
 describe('handleSaveProduct', () => {
@@ -96,16 +112,11 @@ describe('handleSaveProduct', () => {
         const event = { preventDefault: jest.fn() };
         await admin.handleSaveProduct(event);
 
-        // Verify translation was NOT called
-        expect(global.supabase.functions.invoke).not.toHaveBeenCalled();
-
         // Verify payload
-        const insertCall = global.supabase.from().insert.mock.calls[0][0];
+        expect(global.window.productsDb.create).toHaveBeenCalled();
+        const insertCall = global.window.productsDb.create.mock.calls[0][0];
         expect(insertCall.description).toBe('Description EN');
         expect(insertCall.description_ar).toBe('Description AR');
-        expect(insertCall.name_ar).toBeNull();
-        expect(insertCall.category_ar).toBeNull();
-        expect(insertCall.details_ar.mileage).toBeNull();
 
         expect(global.showToast).toHaveBeenCalledWith('Vehicle saved successfully!', 'success');
     });

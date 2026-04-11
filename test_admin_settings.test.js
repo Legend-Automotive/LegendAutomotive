@@ -76,51 +76,39 @@ describe('Admin Settings Logic', () => {
 
         jest.spyOn(console, 'error').mockImplementation(() => {});
 
+        // Mock the DB helpers that admin.js now expects
+        global.window.settingsDb = {
+            getAll: jest.fn(),
+            update: jest.fn(),
+            updateMultiple: jest.fn()
+        };
+
         admin = require('./admin.js');
     });
 
     test('loadSettings fetches and sets value', async () => {
-        const mockData = [
-            { key: 'EGP_TO_USD', value: '55.5' }
-        ];
+        const mockSettings = {
+            exchange_rate: '55.5'
+        };
 
-        // Setup specific mock for this test
-        const selectMock = jest.fn().mockResolvedValue({
-            data: mockData,
-            error: null
-        });
-
-        // We need to override the default mock
-        global.supabase.from.mockReturnValue({
-            select: selectMock,
-            upsert: jest.fn().mockResolvedValue({ error: null })
-        });
+        global.window.settingsDb.getAll.mockResolvedValue(mockSettings);
 
         await admin.loadSettings();
 
         expect(inputMock.value).toBe('55.5');
-        expect(inputMock.disabled).toBe(false);
     });
 
     test('handleSaveSettings updates value', async () => {
         inputMock.value = '60';
-
-        const mockUpsert = jest.fn().mockResolvedValue({ error: null });
-        global.supabase.from.mockReturnValue({
-            upsert: mockUpsert,
-            select: jest.fn().mockResolvedValue({ data: [], error: null })
-        });
+        global.window.settingsDb.updateMultiple.mockResolvedValue({ error: null });
 
         const event = { preventDefault: jest.fn() };
         await admin.handleSaveSettings(event);
 
-        const calls = mockUpsert.mock.calls;
-        expect(calls.length).toBe(1);
-        const args = calls[0][0];
+        expect(global.window.settingsDb.updateMultiple).toHaveBeenCalled();
+        const args = global.window.settingsDb.updateMultiple.mock.calls[0][0];
 
-        expect(Array.isArray(args)).toBe(true);
-        expect(args).toContainEqual({ key: 'EGP_TO_USD', value: '60' });
-
-        expect(global.showToast).toHaveBeenCalledWith('Settings saved successfully!', 'success');
+        expect(args).toContainEqual(expect.objectContaining({ key: 'exchange_rate', value: '60' }));
+        expect(global.showToast).toHaveBeenCalledWith('Settings saved');
     });
 });

@@ -32,6 +32,7 @@
       };
     </script>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="assets/images/logo.png">
     <style>
         body {
             background-color: #131313;
@@ -62,13 +63,10 @@
     <header class="bg-background/80 backdrop-blur-xl border-b border-outline-variant sticky top-0 z-50">
       <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         <div class="flex items-center gap-4">
-          <div class="text-2xl font-bold tracking-tighter text-primary italic font-headline">Legend Admin</div>
+          <div class="flex items-center gap-4"><img src="assets/images/logo.png" alt="Logo" class="h-12 w-auto"><div class="text-2xl font-bold tracking-tighter text-primary italic font-headline">Legend Admin</div></div>
         </div>
         <div id="user-info" class="hidden flex items-center gap-6">
           <span id="user-email" class="text-sm text-neutral-400 font-medium"></span>
-          <button onclick="toggleTheme()" class="text-primary hover:scale-110 transition-transform">
-              <span class="material-symbols-outlined theme-icon">light_mode</span>
-          </button>
           <button id="logout-btn" class="text-sm font-bold text-red-500 hover:text-red-400 uppercase tracking-widest">
             Logout
           </button>
@@ -77,11 +75,11 @@
     </header>
 
     <!-- Main Content -->
-    <main class="flex-grow p-8 max-w-7xl mx-auto w-full">
+    <main class="flex-grow p-4 md:p-8 max-w-7xl mx-auto w-full overflow-x-hidden">
       <!-- Login Section -->
       <div id="login-section" class="max-w-md mx-auto mt-20 hidden">
         <div class="admin-card p-10 rounded-2xl shadow-2xl">
-          <h2 class="font-headline text-3xl font-extrabold mb-8 text-center tracking-tight">Admin Login</h2>
+          <img src="assets/images/logo.png" alt="Logo" class="h-20 w-auto mx-auto mb-8"><h2 class="font-headline text-3xl font-extrabold mb-8 text-center tracking-tight">Admin Login</h2>
           <form id="login-form" class="space-y-6">
             <div>
               <label class="block text-xs font-bold uppercase tracking-widest text-primary mb-2">Email</label>
@@ -105,6 +103,7 @@
         <div class="flex gap-8 border-b border-outline-variant mb-10 overflow-x-auto no-scrollbar">
           <button id="tab-products" class="px-2 py-4 text-sm font-bold uppercase tracking-widest tab-active transition-colors whitespace-nowrap">Products</button>
           <button id="tab-brands" class="px-2 py-4 text-sm font-bold uppercase tracking-widest text-neutral-500 hover:text-primary transition-colors whitespace-nowrap">Brands</button>
+          <button id="tab-categories" class="px-2 py-4 text-sm font-bold uppercase tracking-widest text-neutral-500 hover:text-primary transition-colors whitespace-nowrap">Categories</button>
           <button id="tab-inquiries" class="px-2 py-4 text-sm font-bold uppercase tracking-widest text-neutral-500 hover:text-primary transition-colors whitespace-nowrap">Inquiries</button>
           <button id="tab-settings" class="px-2 py-4 text-sm font-bold uppercase tracking-widest text-neutral-500 hover:text-primary transition-colors whitespace-nowrap">Settings</button>
         </div>
@@ -127,17 +126,17 @@
             </div>
           </div>
 
-          <div class="admin-card rounded-2xl overflow-hidden shadow-xl">
-            <table class="w-full text-left text-sm">
+          <div class="admin-card rounded-2xl overflow-hidden shadow-xl overflow-x-auto">
+            <table class="w-full text-left text-sm min-w-[800px]">
               <thead class="bg-white/5 text-primary uppercase font-bold text-[10px] tracking-[0.2em]">
                 <tr>
-                  <th class="px-8 py-5 w-10"></th>
-                  <th class="px-8 py-5">Vehicle</th>
-                  <th class="px-8 py-5">Status</th>
-                  <th class="px-8 py-5">Price</th>
-                  <th class="px-8 py-5">Category</th>
-                  <th class="px-8 py-5">Brand</th>
-                  <th class="px-8 py-5 text-right">Actions</th>
+                  <th class="px-4 md:px-8 py-5 w-10"></th>
+                  <th class="px-4 md:px-8 py-5">Vehicle</th>
+                  <th class="px-4 md:px-8 py-5">Status</th>
+                  <th class="px-4 md:px-8 py-5">Price</th>
+                  <th class="px-4 md:px-8 py-5">Category</th>
+                  <th class="px-4 md:px-8 py-5">Brand</th>
+                  <th class="px-4 md:px-8 py-5 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody id="products-table-body" class="divide-y divide-white/5"></tbody>
@@ -153,8 +152,8 @@
               <span class="material-symbols-outlined text-[18px]">add</span> Add Brand
             </button>
           </div>
-          <div class="admin-card rounded-2xl overflow-hidden shadow-xl">
-            <table class="w-full text-left text-sm">
+          <div class="admin-card rounded-2xl overflow-hidden shadow-xl overflow-x-auto">
+            <table class="w-full text-left text-sm min-w-[500px]">
               <thead class="bg-white/5 text-primary uppercase font-bold text-[10px] tracking-[0.2em]">
                 <tr>
                   <th class="px-8 py-5">Logo</th>
@@ -177,8 +176,8 @@
               <option value="read">Read</option>
             </select>
           </div>
-          <div class="admin-card rounded-2xl overflow-hidden shadow-xl">
-            <table class="w-full text-left text-sm">
+          <div class="admin-card rounded-2xl overflow-hidden shadow-xl overflow-x-auto">
+            <table class="w-full text-left text-sm min-w-[900px]">
               <thead class="bg-white/5 text-primary uppercase font-bold text-[10px] tracking-[0.2em]">
                 <tr>
                   <th class="px-8 py-5">Status</th>
@@ -190,6 +189,27 @@
                 </tr>
               </thead>
               <tbody id="inquiries-table-body" class="divide-y divide-white/5"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Categories View -->
+        <div id="view-categories" class="hidden space-y-8">
+          <div class="flex justify-between items-center">
+            <h2 class="font-headline text-4xl font-extrabold tracking-tight">Categories</h2>
+            <button id="add-category-btn" class="gold-shimmer text-on-primary px-6 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 shadow-lg hover:brightness-110">
+              <span class="material-symbols-outlined text-[18px]">add</span> Add Category
+            </button>
+          </div>
+          <div class="admin-card rounded-2xl overflow-hidden shadow-xl">
+            <table class="w-full text-left text-sm">
+              <thead class="bg-white/5 text-primary uppercase font-bold text-[10px] tracking-[0.2em]">
+                <tr>
+                  <th class="px-8 py-5">Name</th>
+                  <th class="px-8 py-5 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="categories-table-body" class="divide-y divide-white/5"></tbody>
             </table>
           </div>
         </div>
@@ -208,9 +228,66 @@
               </section>
 
               <section>
+                <h3 class="text-primary font-bold uppercase tracking-[0.2em] text-xs mb-6 border-b border-outline-variant pb-4">Hero Section</h3>
+                <div>
+                  <label class="block text-xs font-medium text-neutral-400 mb-2">Hero Background Image</label>
+                  <input type="file" id="setting-hero-image" accept="image/*" class="w-full text-xs text-neutral-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-primary file:text-on-primary" />
+                  <p id="current-hero-image" class="mt-2 text-[10px] text-neutral-500"></p>
+                </div>
+              </section>
+
+              <section>
+                <h3 class="text-primary font-bold uppercase tracking-[0.2em] text-xs mb-6 border-b border-outline-variant pb-4">Location & Map</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-medium text-neutral-400 mb-2">Google Maps Embed URL (or Iframe code)</label>
+                        <textarea id="setting-map-embed" rows="3" class="w-full rounded-lg px-4 py-3 outline-none text-xs" placeholder="Paste embed code or URL here"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-neutral-400 mb-2">Location Pin Link (Google Maps Share Link)</label>
+                        <input type="text" id="setting-location-pin" class="w-full rounded-lg px-4 py-3 outline-none text-xs" placeholder="https://goo.gl/maps/..." />
+                    </div>
+                </div>
+              </section>
+
+              <section>
                 <h3 class="text-primary font-bold uppercase tracking-[0.2em] text-xs mb-6 border-b border-outline-variant pb-4">Social Presence</h3>
-                <div class="space-y-6" id="social-containers">
-                  <!-- Injected by JS -->
+                <div class="space-y-8" id="social-containers">
+                    <div id="container-social-instagram">
+                        <div class="flex justify-between items-center mb-4">
+                            <label class="text-[10px] font-bold uppercase text-neutral-400">Instagram</label>
+                            <button type="button" onclick="addSocialLink('instagram')" class="text-primary text-xs font-bold">+ Add</button>
+                        </div>
+                        <div class="social-links-list"></div>
+                    </div>
+                    <div id="container-social-facebook">
+                        <div class="flex justify-between items-center mb-4">
+                            <label class="text-[10px] font-bold uppercase text-neutral-400">Facebook</label>
+                            <button type="button" onclick="addSocialLink('facebook')" class="text-primary text-xs font-bold">+ Add</button>
+                        </div>
+                        <div class="social-links-list"></div>
+                    </div>
+                    <div id="container-social-tiktok">
+                        <div class="flex justify-between items-center mb-4">
+                            <label class="text-[10px] font-bold uppercase text-neutral-400">TikTok</label>
+                            <button type="button" onclick="addSocialLink('tiktok')" class="text-primary text-xs font-bold">+ Add</button>
+                        </div>
+                        <div class="social-links-list"></div>
+                    </div>
+                    <div id="container-social-whatsapp">
+                        <div class="flex justify-between items-center mb-4">
+                            <label class="text-[10px] font-bold uppercase text-neutral-400">WhatsApp (Numbers only)</label>
+                            <button type="button" onclick="addSocialLink('whatsapp')" class="text-primary text-xs font-bold">+ Add</button>
+                        </div>
+                        <div class="social-links-list"></div>
+                    </div>
+                    <div id="container-social-phone">
+                        <div class="flex justify-between items-center mb-4">
+                            <label class="text-[10px] font-bold uppercase text-neutral-400">Phone</label>
+                            <button type="button" onclick="addSocialLink('phone')" class="text-primary text-xs font-bold">+ Add</button>
+                        </div>
+                        <div class="social-links-list"></div>
+                    </div>
                 </div>
               </section>
 
@@ -234,7 +311,7 @@
             <span class="material-symbols-outlined">close</span>
           </button>
         </div>
-        <form id="product-form" class="p-8 space-y-8">
+        <form id="product-form" class="p-4 md:p-8 space-y-8">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div class="space-y-6">
               <h4 class="text-primary font-bold uppercase tracking-widest text-[10px]">Basic Information</h4>
@@ -340,10 +417,27 @@
             <div>
               <label class="block text-xs font-medium text-neutral-400 mb-2">Main Image</label>
               <input type="file" id="p-image" accept="image/*" class="w-full text-xs text-neutral-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-primary file:text-on-primary hover:file:brightness-110" />
+              <div id="p-main-preview" class="mt-4 hidden">
+                <img id="p-main-img" src="" class="h-20 w-auto rounded border border-outline-variant">
+              </div>
             </div>
             <div>
               <label class="block text-xs font-medium text-neutral-400 mb-2">Diagnostics (Optional)</label>
               <input type="file" id="p-diagnostics" accept="image/*,application/pdf" class="w-full text-xs text-neutral-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-surface-card file:text-on-surface hover:file:bg-surface-bright" />
+            </div>
+          </div>
+
+          <div class="space-y-6">
+            <h4 class="text-primary font-bold uppercase tracking-widest text-[10px]">Gallery Images</h4>
+            <div class="border-2 border-dashed border-outline-variant rounded-xl p-8 text-center transition-all hover:border-primary group">
+                <input type="file" id="p-gallery" accept="image/*" multiple class="hidden" />
+                <button type="button" onclick="document.getElementById('p-gallery').click()" class="flex flex-col items-center gap-4 mx-auto">
+                    <span class="material-symbols-outlined text-4xl text-neutral-500 group-hover:text-primary">add_a_photo</span>
+                    <span class="text-sm font-medium text-neutral-400">Click to upload multiple images</span>
+                </button>
+            </div>
+            <div id="gallery-preview-container" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                <!-- Gallery items with drag and drop -->
             </div>
           </div>
 
@@ -384,11 +478,38 @@
       </div>
     </div>
 
+    <!-- Category Modal -->
+    <div id="category-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+      <div class="admin-card w-full max-w-md rounded-2xl shadow-2xl p-8">
+        <div class="flex justify-between items-center mb-8">
+          <h3 id="category-modal-title" class="font-headline text-2xl font-bold">Add Category</h3>
+          <button id="category-modal-close" class="text-neutral-400 hover:text-white transition-colors">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+        <form id="category-form" class="space-y-6">
+          <div>
+            <label class="block text-xs font-medium text-neutral-400 mb-2">Category Name (EN)</label>
+            <input type="text" id="cat-name" class="w-full rounded-lg px-4 py-3 outline-none" required />
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-neutral-400 mb-2">Category Name (AR)</label>
+            <input type="text" id="cat-name-ar" class="w-full rounded-lg px-4 py-3 outline-none" dir="rtl" required />
+          </div>
+          <div class="pt-6 flex justify-end gap-4">
+            <button type="button" id="category-modal-cancel" class="text-xs font-bold uppercase tracking-widest text-neutral-400">Cancel</button>
+            <button type="submit" id="save-category-btn" class="gold-shimmer text-on-primary px-8 py-3 rounded-lg text-xs font-bold shadow-lg">Save Category</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="supabase-config.js"></script>
     <script src="db/products.js"></script>
     <script src="db/brands.js"></script>
+    <script src="db/categories.js"></script>
     <script src="db/messages.js"></script>
     <script src="db/settings.js"></script>
     <script src="admin.js"></script>

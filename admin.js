@@ -6,11 +6,19 @@ let currentUser = null;
 let currentProducts = [];
 let currentInquiries = [];
 let currentBrands = [];
+let currentCategories = [];
 let currentColors = [];
 let currentOrderMode = "inventory"; // 'inventory' or 'home'
 let isOrderChanged = false;
 let editingId = null;
 let editingBrandId = null;
+let currentGallery = [];
+
+const escapeHtml = (unsafe) => {
+  if (unsafe === null || unsafe === undefined) return "";
+  if (typeof unsafe !== "string") unsafe = String(unsafe);
+  return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+};
 
 // --- UI Utilities ---
 window.showToast = function (message, type = "success") {
@@ -87,12 +95,6 @@ window.showConfirm = function (message, onConfirm) {
   });
 };
 
-const escapeHtml = (unsafe) => {
-  if (unsafe === null || unsafe === undefined) return "";
-  if (typeof unsafe !== "string") unsafe = String(unsafe);
-  return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-};
-
 // DOM Elements
 const loginSection = document.getElementById("login-section");
 const dashboardSection = document.getElementById("dashboard-section");
@@ -101,11 +103,13 @@ const userEmailSpan = document.getElementById("user-email");
 
 const tabProducts = document.getElementById("tab-products");
 const tabBrands = document.getElementById("tab-brands");
+const tabCategories = document.getElementById("tab-categories");
 const tabInquiries = document.getElementById("tab-inquiries");
 const tabSettings = document.getElementById("tab-settings");
 
 const viewProducts = document.getElementById("view-products");
 const viewBrands = document.getElementById("view-brands");
+const viewCategories = document.getElementById("view-categories");
 const viewInquiries = document.getElementById("view-inquiries");
 const viewSettings = document.getElementById("view-settings");
 
@@ -113,6 +117,8 @@ const productModal = document.getElementById("product-modal");
 const productForm = document.getElementById("product-form");
 const brandModal = document.getElementById("brand-modal");
 const brandForm = document.getElementById("brand-form");
+const categoryModal = document.getElementById("category-modal");
+const categoryForm = document.getElementById("category-form");
 
 function updateTranslations() {
   const lang = localStorage.getItem("language") || "en";
@@ -159,6 +165,7 @@ async function initAdmin() {
 
   tabProducts.addEventListener("click", () => switchTab("products"));
   tabBrands.addEventListener("click", () => switchTab("brands"));
+  tabCategories.addEventListener("click", () => switchTab("categories"));
   tabInquiries.addEventListener("click", () => switchTab("inquiries"));
   tabSettings.addEventListener("click", () => switchTab("settings"));
 
@@ -174,23 +181,70 @@ async function initAdmin() {
   document.getElementById("brand-modal-cancel").addEventListener("click", closeBrandModal);
   brandForm.addEventListener("submit", handleSaveBrand);
 
+  document.getElementById("add-category-btn").addEventListener("click", () => openCategoryModal());
+  document.getElementById("category-modal-close").addEventListener("click", closeCategoryModal);
+  document.getElementById("category-modal-cancel").addEventListener("click", closeCategoryModal);
+  categoryForm.addEventListener("submit", handleSaveCategory);
+
   document.getElementById("order-mode-inventory").addEventListener("click", () => switchOrderMode("inventory"));
   document.getElementById("order-mode-home").addEventListener("click", () => switchOrderMode("home"));
   document.getElementById("save-order-btn").addEventListener("click", handleSaveOrder);
 
   document.getElementById("settings-form").addEventListener("submit", handleSaveSettings);
 
-  // Language toggle for admin
-  const langToggle = document.createElement("button");
-  langToggle.className = "px-3 py-1 rounded border border-gray-300 dark:border-white/10 text-xs font-bold";
-  langToggle.textContent = localStorage.getItem("language") === "ar" ? "En" : "عربي";
-  langToggle.onclick = () => {
-    const newLang = localStorage.getItem("language") === "ar" ? "en" : "ar";
-    localStorage.setItem("language", newLang);
-    location.reload();
-  };
-  document.querySelector("#user-info")?.prepend(langToggle);
+  document.getElementById("p-gallery").addEventListener("change", handleGalleryUpload);
 }
+
+async function handleGalleryUpload(e) {
+    const files = Array.from(e.target.files);
+    if (!files.length) return;
+
+    showToast(`Uploading ${files.length} images...`);
+
+    try {
+        const uploadPromises = files.map(async file => {
+            const path = `gallery/${Date.now()}-${file.name}`;
+            await window.supabase.storage.from("vehicle-images").upload(path, file);
+            return window.supabase.storage.from("vehicle-images").getPublicUrl(path).data.publicUrl;
+        });
+
+        const urls = await Promise.all(uploadPromises);
+        currentGallery = [...currentGallery, ...urls];
+        renderGalleryPreview();
+        showToast("Gallery updated");
+    } catch (err) {
+        showToast("Upload failed", "error");
+    }
+}
+
+function renderGalleryPreview() {
+    const container = document.getElementById("gallery-preview-container");
+    container.innerHTML = currentGallery.map((url, idx) => `
+        <div class="relative group aspect-video rounded-lg overflow-hidden border border-outline-variant cursor-move" draggable="true" ondragstart="handleGalleryDragStart(event, ${idx})" ondrop="handleGalleryDrop(event, ${idx})" ondragover="event.preventDefault()">
+            <img src="${url}" class="w-full h-full object-cover">
+            <button type="button" onclick="removeGalleryImage(${idx})" class="absolute top-1 right-1 bg-red-600 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                <span class="material-symbols-outlined text-sm">close</span>
+            </button>
+        </div>
+    `).join('');
+}
+
+window.removeGalleryImage = (idx) => {
+    currentGallery.splice(idx, 1);
+    renderGalleryPreview();
+};
+
+let galleryDragIdx = null;
+window.handleGalleryDragStart = (e, idx) => {
+    galleryDragIdx = idx;
+};
+
+window.handleGalleryDrop = (e, idx) => {
+    e.preventDefault();
+    const item = currentGallery.splice(galleryDragIdx, 1)[0];
+    currentGallery.splice(idx, 0, item);
+    renderGalleryPreview();
+};
 
 // --- Order Management ---
 function switchOrderMode(mode) {
@@ -257,11 +311,12 @@ async function handleLogout() { await window.supabase.auth.signOut(); }
 
 // --- Tabs ---
 function switchTab(tab) {
-  [viewProducts, viewBrands, viewInquiries, viewSettings].forEach(v => v.classList.add("hidden"));
-  [tabProducts, tabBrands, tabInquiries, tabSettings].forEach(t => t.classList.remove("border-primary", "text-primary"));
+  [viewProducts, viewBrands, viewCategories, viewInquiries, viewSettings].forEach(v => v.classList.add("hidden"));
+  [tabProducts, tabBrands, tabCategories, tabInquiries, tabSettings].forEach(t => t.classList.remove("border-primary", "text-primary"));
 
   if (tab === "products") { viewProducts.classList.remove("hidden"); tabProducts.classList.add("border-primary", "text-primary"); loadProducts(); }
   else if (tab === "brands") { viewBrands.classList.remove("hidden"); tabBrands.classList.add("border-primary", "text-primary"); loadBrands(); }
+  else if (tab === "categories") { viewCategories.classList.remove("hidden"); tabCategories.classList.add("border-primary", "text-primary"); loadCategories(); }
   else if (tab === "inquiries") { viewInquiries.classList.remove("hidden"); tabInquiries.classList.add("border-primary", "text-primary"); loadInquiries(); }
   else if (tab === "settings") { viewSettings.classList.remove("hidden"); tabSettings.classList.add("border-primary", "text-primary"); loadSettings(); }
 }
@@ -276,7 +331,10 @@ async function loadProducts() {
     renderProducts(data);
     isOrderChanged = false;
     updateSaveOrderBtnVisibility();
-    loadBrandsForModal();
+
+    // Refresh modal lists cache
+    currentBrands = await window.brandsDb.getAll();
+    currentCategories = await window.categoriesDb.getAll();
   } catch (e) { tbody.innerHTML = '<tr><td colspan="9" class="text-center text-red-500 py-4">Error loading products</td></tr>'; }
 }
 
@@ -286,10 +344,10 @@ function renderProducts(products) {
   tbody.innerHTML = products.map((p, idx) => `
     <tr draggable="true" ondragstart="window.handleProductDragStart(event)" data-index="${idx}" class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors cursor-move">
       <td class="px-6 py-4"><span class="material-symbols-outlined text-gray-400">drag_indicator</span></td>
-      <td class="px-6 py-4"><img src="${p.image_url}" class="h-10 w-16 object-cover rounded"></td>
+      <td class="px-6 py-4"><img src="${escapeHtml(p.image_url)}" class="h-10 w-16 object-cover rounded"></td>
       <td class="px-6 py-4 font-medium">${escapeHtml(p.name)}<br><span class="text-xs text-gray-500">${escapeHtml(p.name_ar || '')}</span></td>
       <td class="px-6 py-4"><input type="checkbox" ${p.is_sold_out ? 'checked' : ''} onchange="toggleSoldOut(${p.id}, this)" class="rounded text-primary"></td>
-      <td class="px-6 py-4">${p.price_egp?.toLocaleString()} L.E</td>
+      <td class="px-6 py-4">${escapeHtml(p.price_egp?.toLocaleString())} L.E</td>
       <td class="px-6 py-4"><span class="bg-gray-100 dark:bg-white/10 px-2 py-1 rounded text-xs">${escapeHtml(p.category)}</span></td>
       <td class="px-6 py-4">${escapeHtml(p.brands?.name || '-')}</td>
       <td class="px-6 py-4">${p.is_spotlight ? '<span class="text-green-500 font-bold">Spotlight</span>' : 'Standard'}</td>
@@ -367,10 +425,12 @@ async function handleSaveProduct(e) {
             payload.diagnostics_url = window.supabase.storage.from("vehicle-images").getPublicUrl(path).data.publicUrl;
         }
 
+        payload.gallery = currentGallery;
+
         if (editingId) await window.productsDb.update(editingId, payload);
         else await window.productsDb.create(payload);
 
-        showToast("Saved successfully");
+        showToast("Vehicle saved successfully!", "success");
         closeModal();
         loadProducts();
     } catch (err) { showToast("Save failed", "error"); }
@@ -380,7 +440,25 @@ async function handleSaveProduct(e) {
 function openModal(p = null) {
     editingId = p ? p.id : null;
     productForm.reset();
+    currentGallery = p?.gallery || [];
+    renderGalleryPreview();
+
+    // Populate dynamic categories
+    const catSelect = document.getElementById("p-category");
+    if (catSelect) {
+        catSelect.innerHTML = currentCategories.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
+    }
+
     document.getElementById("modal-title").textContent = p ? "Edit Vehicle" : "Add Vehicle";
+
+    const mainImgPreview = document.getElementById("p-main-preview");
+    if (p?.image_url) {
+        document.getElementById("p-main-img").src = p.image_url;
+        mainImgPreview.classList.remove("hidden");
+    } else {
+        mainImgPreview.classList.add("hidden");
+    }
+
     if (p) {
         document.getElementById("p-name").value = p.name || "";
         document.getElementById("p-name-ar").value = p.name_ar || "";
@@ -418,6 +496,58 @@ window.selectBrand = (id) => {
     document.querySelectorAll(".brand-btn").forEach(btn => btn.classList.remove("border-primary"));
     event.currentTarget.classList.add("border-primary");
 };
+
+// --- Categories ---
+let editingCategoryId = null;
+async function loadCategories() {
+    try { currentCategories = await window.categoriesDb.getAll(); renderCategories(currentCategories); }
+    catch (e) { showToast("Error loading categories", "error"); }
+}
+function renderCategories(categories) {
+    const tbody = document.getElementById("categories-table-body");
+    tbody.innerHTML = categories.map(c => `
+        <tr>
+            <td class="px-8 py-5 font-medium">${escapeHtml(c.name)}<br><span class="text-xs text-gray-500">${escapeHtml(c.name_ar || '')}</span></td>
+            <td class="px-8 py-5 text-right">
+                <button onclick="editCategory(${c.id})" class="text-blue-500 mr-3">Edit</button>
+                <button onclick="deleteCategory(${c.id})" class="text-red-500">Delete</button>
+            </td>
+        </tr>
+    `).join('');
+}
+window.editCategory = (id) => { const c = currentCategories.find(x => x.id === id); if (c) openCategoryModal(c); };
+window.deleteCategory = (id) => showConfirm("Delete category?", async () => {
+    try { await window.categoriesDb.delete(id); showToast("Deleted"); loadCategories(); }
+    catch (e) { showToast("Delete failed", "error"); }
+});
+async function handleSaveCategory(e) {
+    e.preventDefault();
+    const btn = document.getElementById("save-category-btn");
+    btn.disabled = true;
+    try {
+        const payload = {
+            name: document.getElementById("cat-name").value,
+            name_ar: document.getElementById("cat-name-ar").value
+        };
+        if (editingCategoryId) await window.categoriesDb.update(editingCategoryId, payload);
+        else await window.categoriesDb.create(payload);
+        showToast("Category saved");
+        closeCategoryModal();
+        loadCategories();
+    } catch (e) { showToast("Save failed", "error"); }
+    finally { btn.disabled = false; }
+}
+function openCategoryModal(c = null) {
+    editingCategoryId = c ? c.id : null;
+    categoryForm.reset();
+    document.getElementById("category-modal-title").textContent = c ? "Edit Category" : "Add Category";
+    if (c) {
+        document.getElementById("cat-name").value = c.name;
+        document.getElementById("cat-name-ar").value = c.name_ar;
+    }
+    categoryModal.classList.remove("hidden");
+}
+function closeCategoryModal() { categoryModal.classList.add("hidden"); }
 
 // --- Brands ---
 async function loadBrands() {
@@ -574,12 +704,6 @@ window.addSocialLink = function(type, val = "") {
     container.appendChild(div);
 };
 
-// Theme Toggle
-window.toggleTheme = function() {
-    const isDark = document.documentElement.classList.toggle('dark');
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    document.querySelectorAll('.theme-icon').forEach(icon => icon.textContent = isDark ? 'light_mode' : 'dark_mode');
-};
 
 // Exports for testing
 if (typeof module !== 'undefined' && module.exports) {

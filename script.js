@@ -61,7 +61,6 @@ async function init() {
     // Move language initialization to the very top to prevent flicker/delay
     await setLanguage(currentLang, false);
 
-    setTheme(currentTheme);
     updateCurrencyButtonText();
     setupMobileMenu();
 
@@ -143,23 +142,6 @@ function toggleContactPopup() {
 window.toggleContactPopup = toggleContactPopup;
 
 // --- State Management ---
-function setTheme(theme) {
-    currentTheme = theme;
-    localStorage.setItem('theme', theme);
-    const html = document.documentElement;
-    if (theme === 'dark') html.classList.add('dark');
-    else html.classList.remove('dark');
-
-    const icons = document.querySelectorAll('.theme-icon');
-    icons.forEach(icon => {
-        icon.textContent = theme === 'dark' ? 'light_mode' : 'dark_mode';
-    });
-}
-
-window.toggleTheme = function() {
-    setTheme(currentTheme === 'dark' ? 'light' : 'dark');
-}
-
 async function setLanguage(lang, shouldRender = true) {
     currentLang = lang;
     localStorage.setItem('lang', lang);
@@ -226,6 +208,7 @@ function setCurrency(currency) {
     updatePrices();
     updateCurrencyButtonText();
 }
+window.setCurrency = setCurrency;
 
 window.toggleCurrency = function() {
     setCurrency(currentCurrency === 'USD' ? 'EGP' : 'USD');
@@ -249,7 +232,8 @@ function formatPrice(egp) {
         return `${egp.toLocaleString()} ${translations[currentLang]?.price_egp || 'L.E'}`;
     } else {
         const usd = Math.round(egp / usdToEgpRate);
-        return currentLang === 'en' ? `$${usd.toLocaleString()}` : `${usd.toLocaleString()} ${translations[currentLang]?.price_usd || 'دولار'}`;
+        if (currentLang === 'en') return `$${usd.toLocaleString()}`;
+        return `${usd.toLocaleString()} ${translations[currentLang]?.price_usd || 'USD'}`;
     }
 }
 
@@ -290,6 +274,13 @@ async function loadGlobalSettings() {
         applyLink('social-tiktok', 'tiktok_link', 'link');
         applyLink('social-whatsapp', 'whatsapp_number', 'whatsapp');
         applyLink('social-phone', 'phone_number', 'phone');
+        applyLink('social-phone-details', 'phone_number', 'phone');
+        applyLink('social-whatsapp-details', 'whatsapp_number', 'whatsapp');
+        applyLink('social-instagram-contact', 'instagram_link', 'link');
+        applyLink('social-facebook-contact', 'facebook_link', 'link');
+        applyLink('social-tiktok-contact', 'tiktok_link', 'link');
+        applyLink('social-whatsapp-contact', 'whatsapp_number', 'whatsapp');
+        applyLink('social-phone-contact', 'phone_number', 'phone');
         applyLink('drawer-social-instagram', 'instagram_link', 'link');
         applyLink('drawer-social-facebook', 'facebook_link', 'link');
         applyLink('drawer-social-tiktok', 'tiktok_link', 'link');
@@ -331,17 +322,28 @@ async function loadProducts() {
     try { products = await window.productsDb.getAll(); } catch (e) { console.error(e); }
 }
 
+async function loadCategories() {
+    try { return await window.categoriesDb.getAll(); } catch (e) { console.error(e); return []; }
+}
+
 // --- Rendering ---
 function createProductCard(p) {
     const isAr = currentLang === 'ar';
     const name = isAr && p.name_ar ? p.name_ar : p.name;
     const fav = favorites.includes(p.id);
 
+    const formatShortPrice = (val) => {
+        if (!val) return translations[currentLang]?.upon_request || 'Upon Request';
+        if (currentCurrency === 'EGP') return `${val.toLocaleString()} ${translations[currentLang]?.price_egp || 'L.E'}`;
+        const usd = Math.round(val / usdToEgpRate);
+        return `${currentLang === 'en' ? '$' : ''}${usd.toLocaleString()}${currentLang === 'ar' ? ' ' + (translations[currentLang]?.price_usd || 'USD') : ''}`;
+    };
+
     return `
     <div class="group relative flex flex-col rounded-xl overflow-hidden bg-surface-container-low transition-all duration-500 hover:-translate-y-2 border border-outline-variant/10">
         <div class="relative aspect-[16/9] w-full overflow-hidden">
             <a href="details.html?id=${p.id}">
-                <img src="${p.image_url}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${p.is_sold_out ? 'grayscale' : ''}">
+                <img src="${escapeHtml(p.image_url)}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${p.is_sold_out ? 'grayscale' : ''}">
                 ${p.is_sold_out ? `<div class="sold-out-stamp" data-i18n="sold_out">SOLD OUT</div>` : ''}
             </a>
             <div class="absolute top-4 right-4 z-20">
@@ -379,32 +381,87 @@ function renderHome() {
     updateDOMTranslations();
 }
 
-function initInventory() {
+async function initInventory() {
     const container = document.getElementById('inventory-container');
     if (!container) return;
 
     // Fill category filter
-    const cats = [...new Set(products.map(p => p.category))].filter(Boolean);
+    const categories = await loadCategories();
     const catSelect = document.getElementById('filter-category');
-    cats.forEach(c => {
-        const opt = document.createElement('option');
-        opt.value = c;
-        opt.textContent = c;
-        catSelect.appendChild(opt);
-    });
+    if (catSelect) {
+        catSelect.innerHTML = `<option value="" data-i18n="filter_category">${translations[currentLang]?.filter_category || 'All Categories'}</option>`;
+        categories.forEach(c => {
+            const opt = document.createElement('option');
+            opt.value = c.name;
+            opt.textContent = currentLang === 'ar' && c.name_ar ? c.name_ar : c.name;
+            catSelect.appendChild(opt);
+        });
+    }
 
     renderBrandFilters();
+    initPriceSlider();
     filterInventory();
 
     document.getElementById('search-input')?.addEventListener('input', filterInventory);
     document.getElementById('filter-category')?.addEventListener('change', filterInventory);
 }
 
+function initPriceSlider() {
+    const minSlider = document.getElementById('price-min-slider');
+    const maxSlider = document.getElementById('price-max-slider');
+    if (!minSlider || !maxSlider) return;
+
+    const prices = products.map(p => p.price_egp).filter(p => p > 0);
+    const min = prices.length ? Math.min(...prices) : 0;
+    const max = prices.length ? Math.max(...prices) : 10000000;
+
+    minSlider.min = min;
+    minSlider.max = max;
+    minSlider.value = min;
+
+    maxSlider.min = min;
+    maxSlider.max = max;
+    maxSlider.value = max;
+
+    const updateSliderUI = () => {
+        const minVal = parseInt(minSlider.value);
+        const maxVal = parseInt(maxSlider.value);
+
+        if (minVal > maxVal) {
+            minSlider.value = maxVal;
+        }
+
+        const percent1 = ((minSlider.value - min) / (max - min)) * 100;
+        const percent2 = ((maxSlider.value - min) / (max - min)) * 100;
+
+        document.getElementById('price-slider-fill').style.left = percent1 + "%";
+        document.getElementById('price-slider-fill').style.width = (percent2 - percent1) + "%";
+        document.getElementById('price-min-thumb').style.left = percent1 + "%";
+        document.getElementById('price-max-thumb').style.left = percent2 + "%";
+
+        document.getElementById('price-min').textContent = formatPrice(parseInt(minSlider.value));
+        document.getElementById('price-max').textContent = formatPrice(parseInt(maxSlider.value));
+    };
+
+    minSlider.oninput = () => {
+        updateSliderUI();
+        filterInventory();
+    };
+    maxSlider.oninput = () => {
+        updateSliderUI();
+        filterInventory();
+    };
+
+    updateSliderUI();
+}
+
 function renderBrandFilters() {
     const container = document.getElementById('brand-filters-container');
     if (!container) return;
     container.innerHTML = brands.map(b => `
-        <button onclick="toggleBrandFilter(${b.id}, this)" class="px-4 py-2 rounded-full border-2 transition-all ${activeBrandFilters.includes(b.id) ? 'border-primary bg-primary text-white' : 'border-outline-variant/20 hover:border-primary'} text-xs font-bold uppercase tracking-widest">${b.name}</button>
+        <button onclick="toggleBrandFilter(${b.id}, this)" class="w-16 h-16 p-2 rounded-xl border-2 transition-all flex items-center justify-center bg-surface-container-lowest ${activeBrandFilters.includes(b.id) ? 'border-primary' : 'border-outline-variant/20 hover:border-primary'}">
+            <img src="${b.logo_url}" alt="${b.name}" class="w-full h-full object-contain pointer-events-none">
+        </button>
     `).join('');
 }
 
@@ -419,12 +476,16 @@ window.toggleBrandFilter = function(id, btn) {
 function filterInventory() {
     const term = document.getElementById('search-input')?.value.toLowerCase() || '';
     const cat = document.getElementById('filter-category')?.value || '';
+    const minPrice = parseInt(document.getElementById('price-min-slider')?.value || 0);
+    const maxPrice = parseInt(document.getElementById('price-max-slider')?.value || 999999999);
 
     const filtered = products.filter(p => {
         const matchesTerm = p.name.toLowerCase().includes(term) || (p.name_ar && p.name_ar.includes(term));
         const matchesCat = !cat || p.category === cat;
         const matchesBrand = activeBrandFilters.length === 0 || activeBrandFilters.includes(p.brand_id);
-        return matchesTerm && matchesCat && matchesBrand;
+        const price = p.price_egp || 0;
+        const matchesPrice = (price >= minPrice && price <= maxPrice) || (p.is_upon_request);
+        return matchesTerm && matchesCat && matchesBrand && matchesPrice;
     }).sort((a,b) => a.order_explore - b.order_explore);
 
     const container = document.getElementById('inventory-container');
@@ -438,13 +499,37 @@ function filterInventory() {
 async function renderDetails() {
     const params = new URLSearchParams(window.location.search);
     const id = parseInt(params.get('id'));
+
+    if (products.length === 0) {
+        console.warn('Products list empty, re-fetching...');
+        await loadProducts();
+    }
+
     const p = products.find(x => x.id === id);
-    if (!p) return;
+    if (!p) {
+        console.error(`Product ID ${id} not found`);
+        const container = document.getElementById('details-container');
+        if (container) container.innerHTML = '<div class="text-center py-20 text-2xl font-bold">Vehicle Not Found</div>';
+        return;
+    }
 
     document.getElementById('vehicle-title').textContent = currentLang === 'ar' && p.name_ar ? p.name_ar : p.name;
     document.getElementById('vehicle-title-crumb').textContent = document.getElementById('vehicle-title').textContent;
     document.getElementById('vehicle-price').setAttribute('data-price-egp', p.price_egp || 0);
     document.getElementById('vehicle-desc').textContent = currentLang === 'ar' && p.description_ar ? p.description_ar : p.description;
+
+    const favBtn = document.getElementById('btn-favorite-details');
+    if (favBtn) {
+        const isFav = favorites.includes(p.id);
+        const icon = favBtn.querySelector('.material-symbols-outlined');
+        if (isFav) {
+            icon.style.fontVariationSettings = "'FILL' 1";
+            favBtn.classList.add('bg-primary/10');
+        } else {
+            icon.style.fontVariationSettings = "";
+            favBtn.classList.remove('bg-primary/10');
+        }
+    }
 
     document.getElementById('spec-mileage').textContent = p.mileage || '-';
     document.getElementById('spec-trans').textContent = p.transmission || '-';
@@ -471,14 +556,76 @@ async function renderDetails() {
         }
     }
 
+    const inqForm = document.getElementById('inquiry-form');
+    if (inqForm) {
+        inqForm.onsubmit = async (e) => {
+            e.preventDefault();
+            const btn = inqForm.querySelector('button');
+            const originalText = btn.textContent;
+            btn.textContent = 'Sending...';
+            btn.disabled = true;
+
+            const payload = {
+                name: document.getElementById('inq-name').value,
+                email: document.getElementById('inq-email').value,
+                phone: document.getElementById('inq-phone').value,
+                subject: 'Inquiry for ' + p.name,
+                message: document.getElementById('inq-message').value
+            };
+
+            try {
+                await window.messagesDb.create(payload);
+                showToast('Thank you! Inquiry sent.');
+                inqForm.reset();
+                closeInquiryModal();
+            } catch (err) {
+                showToast('Failed to send inquiry.', 'error');
+            } finally {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        };
+    }
+
     updatePrices();
     updateDOMTranslations();
 }
 
+// --- Details Page Modals ---
+window.openInquiryModal = function() {
+    const modal = document.getElementById('inquiry-modal');
+    if (modal) modal.classList.remove('hidden');
+};
+
+window.closeInquiryModal = function() {
+    const modal = document.getElementById('inquiry-modal');
+    if (modal) modal.classList.add('hidden');
+};
+
+window.toggleDescription = function() {
+    const wrapper = document.getElementById('vehicle-desc-wrapper');
+    const fade = document.getElementById('vehicle-desc-fade');
+    const btnText = document.querySelector('#btn-read-more [data-i18n]');
+    const icon = document.querySelector('#btn-read-more .material-symbols-outlined');
+
+    if (wrapper.style.maxHeight === 'none') {
+        wrapper.style.maxHeight = '8rem';
+        if (fade) fade.classList.remove('hidden');
+        if (btnText) btnText.textContent = translations[currentLang]?.read_more || 'Read More';
+        if (icon) icon.textContent = 'expand_more';
+    } else {
+        wrapper.style.maxHeight = 'none';
+        if (fade) fade.classList.add('hidden');
+        if (btnText) btnText.textContent = translations[currentLang]?.read_less || 'Read Less';
+        if (icon) icon.textContent = 'expand_less';
+    }
+};
+window.closeDescriptionModal = () => {};
+
 function initContact() {
     const form = document.getElementById('contact-form');
     if (form) {
-        form.addEventListener('submit', async (e) => {
+        form.onsubmit = async (e) => {
             e.preventDefault();
             const btn = form.querySelector('button');
             const originalText = btn.textContent;
@@ -502,7 +649,7 @@ function initContact() {
                 btn.textContent = originalText;
                 btn.disabled = false;
             }
-        });
+        };
     }
     updateDOMTranslations();
 }
@@ -511,21 +658,42 @@ window.toggleFavorite = function(id, btn) {
     const idx = favorites.indexOf(id);
     if (idx === -1) {
         favorites.push(id);
-        btn.classList.add('text-primary');
-        btn.classList.remove('text-white');
-        btn.querySelector('span').style.fontVariationSettings = "'FILL' 1";
+        if (btn) {
+            btn.classList.add('text-primary');
+            btn.classList.remove('text-white');
+            btn.querySelector('span').style.fontVariationSettings = "'FILL' 1";
+        }
     } else {
         favorites.splice(idx, 1);
-        btn.classList.remove('text-primary');
-        btn.classList.add('text-white');
-        btn.querySelector('span').style.fontVariationSettings = "";
-
-        // If on favorites page, remove the card immediately
-        if (window.location.pathname.endsWith('favorites.html')) {
-            renderFavorites();
+        if (btn) {
+            btn.classList.remove('text-primary');
+            btn.classList.add('text-white');
+            btn.querySelector('span').style.fontVariationSettings = "";
         }
     }
     localStorage.setItem('favorites', JSON.stringify(favorites));
+
+    if (window.location.pathname.endsWith('favorites.html')) {
+        renderFavorites();
+    }
+};
+
+window.toggleFavoriteDetails = function() {
+    const params = new URLSearchParams(window.location.search);
+    const id = parseInt(params.get('id'));
+    if (!id) return;
+
+    toggleFavorite(id);
+    const favBtn = document.getElementById('btn-favorite-details');
+    const isFav = favorites.includes(id);
+    const icon = favBtn.querySelector('.material-symbols-outlined');
+    if (isFav) {
+        icon.style.fontVariationSettings = "'FILL' 1";
+        favBtn.classList.add('bg-primary/10');
+    } else {
+        icon.style.fontVariationSettings = "";
+        favBtn.classList.remove('bg-primary/10');
+    }
 };
 
 function renderFavorites() {
@@ -561,6 +729,7 @@ if (typeof module !== 'undefined' && module.exports) {
         initInventory,
         filterInventory,
         renderDetails,
+        loadDetails: renderDetails,
         initContact,
         toggleFavorite: window.toggleFavorite,
         renderFavorites,
