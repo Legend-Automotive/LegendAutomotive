@@ -331,11 +331,23 @@ async function loadProducts() {
     renderProducts(data);
     isOrderChanged = false;
     updateSaveOrderBtnVisibility();
+  } catch (e) {
+    console.error("Error loading products:", e);
+    tbody.innerHTML = '<tr><td colspan="9" class="text-center text-red-500 py-4">Error loading products</td></tr>';
+    return;
+  }
 
-    // Refresh modal lists cache
-    currentBrands = await window.brandsDb.getAll();
-    currentCategories = await window.categoriesDb.getAll();
-  } catch (e) { tbody.innerHTML = '<tr><td colspan="9" class="text-center text-red-500 py-4">Error loading products</td></tr>'; }
+  // Refresh modal lists cache - separate try/catch so it doesn't break product loading
+  try {
+    const [brands, categories] = await Promise.all([
+      window.brandsDb.getAll(),
+      window.categoriesDb.getAll()
+    ]);
+    currentBrands = brands;
+    currentCategories = categories;
+  } catch (e) {
+    console.error("Error refreshing brands/categories cache:", e);
+  }
 }
 
 function renderProducts(products) {
@@ -501,7 +513,10 @@ window.selectBrand = (id) => {
 let editingCategoryId = null;
 async function loadCategories() {
     try { currentCategories = await window.categoriesDb.getAll(); renderCategories(currentCategories); }
-    catch (e) { showToast("Error loading categories", "error"); }
+    catch (e) {
+        console.error("Error loading categories:", e);
+        showToast("Error loading categories", "error");
+    }
 }
 function renderCategories(categories) {
     const tbody = document.getElementById("categories-table-body");
@@ -552,7 +567,10 @@ function closeCategoryModal() { categoryModal.classList.add("hidden"); }
 // --- Brands ---
 async function loadBrands() {
     try { currentBrands = await window.brandsDb.getAll(); renderBrands(currentBrands); }
-    catch (e) { showToast("Error loading brands", "error"); }
+    catch (e) {
+        console.error("Error loading brands:", e);
+        showToast("Error loading brands", "error");
+    }
 }
 function renderBrands(brands) {
     const tbody = document.getElementById("brands-table-body");
@@ -610,7 +628,10 @@ function closeBrandModal() { brandModal.classList.add("hidden"); }
 // --- Inquiries ---
 async function loadInquiries() {
     try { currentInquiries = await window.messagesDb.getAll(); filterInquiries(); }
-    catch (e) { showToast("Error loading messages", "error"); }
+    catch (e) {
+        console.error("Error loading messages:", e);
+        showToast("Error loading messages", "error");
+    }
 }
 function filterInquiries() {
     const filter = document.getElementById("filter-inquiries").value;
@@ -659,7 +680,10 @@ async function loadSettings() {
                 if (Array.isArray(links)) links.forEach(l => addSocialLink(type, l));
             }
         });
-    } catch (e) { showToast("Error loading settings", "error"); }
+    } catch (e) {
+        console.error("Error loading settings:", e);
+        showToast("Error loading settings", "error");
+    }
 }
 async function handleSaveSettings(e) {
     e.preventDefault();
