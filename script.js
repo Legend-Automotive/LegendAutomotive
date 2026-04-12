@@ -497,6 +497,16 @@ function filterInventory() {
 }
 
 async function renderDetails() {
+    // Inquiry form character counter
+    const inqMessageInput = document.getElementById('inq-message');
+    const inqCounterDisplay = document.getElementById('inq-message-counter');
+    if (inqMessageInput && inqCounterDisplay) {
+        inqMessageInput.addEventListener('input', () => {
+            const length = inqMessageInput.value.length;
+            inqCounterDisplay.textContent = `${length} / 2000`;
+        });
+    }
+
     const params = new URLSearchParams(window.location.search);
     const id = parseInt(params.get('id'));
 
