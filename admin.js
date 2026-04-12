@@ -356,13 +356,13 @@ function renderProducts(products) {
   tbody.innerHTML = products.map((p, idx) => `
     <tr draggable="true" ondragstart="window.handleProductDragStart(event)" data-index="${idx}" class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors cursor-move">
       <td class="px-6 py-4"><span class="material-symbols-outlined text-gray-400">drag_indicator</span></td>
-      <td class="px-6 py-4"><img src="${escapeHtml(p.image_url)}" class="h-10 w-16 object-cover rounded"></td>
-      <td class="px-6 py-4 font-medium">${escapeHtml(p.name)}<br><span class="text-xs text-gray-500">${escapeHtml(p.name_ar || '')}</span></td>
-      <td class="px-6 py-4"><input type="checkbox" ${p.is_sold_out ? 'checked' : ''} onchange="toggleSoldOut(${p.id}, this)" class="rounded text-primary"></td>
-      <td class="px-6 py-4">${escapeHtml(p.price_egp?.toLocaleString())} L.E</td>
-      <td class="px-6 py-4"><span class="bg-gray-100 dark:bg-white/10 px-2 py-1 rounded text-xs">${escapeHtml(p.category)}</span></td>
-      <td class="px-6 py-4">${escapeHtml(p.brands?.name || '-')}</td>
-      <td class="px-6 py-4">${p.is_spotlight ? '<span class="text-green-500 font-bold">Spotlight</span>' : 'Standard'}</td>
+      <td class="px-6 py-4" data-label="Preview"><img src="${escapeHtml(p.image_url)}" class="h-10 w-16 object-cover rounded"></td>
+      <td class="px-6 py-4 font-medium" data-label="Vehicle">${escapeHtml(p.name)}<br><span class="text-xs text-gray-500">${escapeHtml(p.name_ar || '')}</span></td>
+      <td class="px-6 py-4" data-label="Sold"><input type="checkbox" ${p.is_sold_out ? 'checked' : ''} onchange="toggleSoldOut(${p.id}, this)" class="rounded text-primary"></td>
+      <td class="px-6 py-4" data-label="Price">${p.is_upon_request ? 'Upon Request' : (escapeHtml(p.price_egp?.toLocaleString()) + ' L.E')}</td>
+      <td class="px-6 py-4" data-label="Category"><span class="bg-gray-100 dark:bg-white/10 px-2 py-1 rounded text-xs">${escapeHtml(p.category)}</span></td>
+      <td class="px-6 py-4" data-label="Brand">${escapeHtml(p.brands?.name || '-')}</td>
+      <td class="px-6 py-4" data-label="Visibility">${p.is_spotlight ? '<span class="text-green-500 font-bold">Spotlight</span>' : 'Standard'}</td>
       <td class="px-6 py-4 text-right">
         <button onclick="editProduct(${p.id})" class="text-blue-500 mr-3">Edit</button>
         <button onclick="deleteProduct(${p.id})" class="text-red-500">Delete</button>
@@ -522,7 +522,7 @@ function renderCategories(categories) {
     const tbody = document.getElementById("categories-table-body");
     tbody.innerHTML = categories.map(c => `
         <tr>
-            <td class="px-8 py-5 font-medium">${escapeHtml(c.name)}<br><span class="text-xs text-gray-500">${escapeHtml(c.name_ar || '')}</span></td>
+            <td class="px-8 py-5 font-medium" data-label="Category">${escapeHtml(c.name)}<br><span class="text-xs text-gray-500">${escapeHtml(c.name_ar || '')}</span></td>
             <td class="px-8 py-5 text-right">
                 <button onclick="editCategory(${c.id})" class="text-blue-500 mr-3">Edit</button>
                 <button onclick="deleteCategory(${c.id})" class="text-red-500">Delete</button>
@@ -576,8 +576,8 @@ function renderBrands(brands) {
     const tbody = document.getElementById("brands-table-body");
     tbody.innerHTML = brands.map(b => `
         <tr>
-            <td class="px-6 py-4"><img src="${b.logo_url}" class="h-10 w-16 object-contain"></td>
-            <td class="px-6 py-4">${escapeHtml(b.name)}</td>
+            <td class="px-6 py-4" data-label="Logo"><img src="${b.logo_url}" class="h-10 w-16 object-contain"></td>
+            <td class="px-6 py-4" data-label="Name">${escapeHtml(b.name)}</td>
             <td class="px-6 py-4 text-right">
                 <button onclick="editBrand(${b.id})" class="text-blue-500 mr-3">Edit</button>
                 <button onclick="deleteBrand(${b.id})" class="text-red-500">Delete</button>
@@ -642,12 +642,12 @@ function renderInquiries(inqs) {
     const tbody = document.getElementById("inquiries-table-body");
     tbody.innerHTML = inqs.map(i => `
         <tr class="${i.is_read ? 'opacity-50' : ''}">
-            <td class="px-6 py-4"><input type="checkbox" ${i.is_read ? 'checked' : ''} onchange="toggleRead(${i.id}, this)" class="rounded text-primary"></td>
-            <td class="px-6 py-4 text-xs">${new Date(i.created_at).toLocaleDateString()}</td>
-            <td class="px-6 py-4 font-medium">${escapeHtml(i.name)}</td>
-            <td class="px-6 py-4 text-sm">${escapeHtml(i.email)}<br>${escapeHtml(i.phone || '')}</td>
-            <td class="px-6 py-4 text-sm">${escapeHtml(i.subject || '-')}</td>
-            <td class="px-6 py-4 text-sm truncate max-w-xs" onclick="alert(this.textContent)">${escapeHtml(i.message)}</td>
+            <td class="px-6 py-4" data-label="Read"><input type="checkbox" ${i.is_read ? 'checked' : ''} onchange="toggleRead(${i.id}, this)" class="rounded text-primary"></td>
+            <td class="px-6 py-4 text-xs" data-label="Date">${new Date(i.created_at).toLocaleDateString()}</td>
+            <td class="px-6 py-4 font-medium" data-label="Customer">${escapeHtml(i.name)}</td>
+            <td class="px-6 py-4 text-sm" data-label="Contact">${escapeHtml(i.email)}<br>${escapeHtml(i.phone || '')}</td>
+            <td class="px-6 py-4 text-sm" data-label="Subject">${escapeHtml(i.subject || '-')}</td>
+            <td class="px-6 py-4 text-sm truncate max-w-xs" data-label="Message" onclick="alert(this.textContent)">${escapeHtml(i.message)}</td>
             <td class="px-6 py-4 text-right"><button onclick="deleteInquiry(${i.id})" class="text-red-500">Delete</button></td>
         </tr>
     `).join('');

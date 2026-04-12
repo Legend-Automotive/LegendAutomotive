@@ -333,7 +333,7 @@ function createProductCard(p) {
     const fav = favorites.includes(p.id);
 
     const formatShortPrice = (val) => {
-        if (!val) return translations[currentLang]?.upon_request || 'Upon Request';
+        if (!val || p.is_upon_request) return translations[currentLang]?.upon_request || 'Upon Request';
         if (currentCurrency === 'EGP') return `${val.toLocaleString()} ${translations[currentLang]?.price_egp || 'L.E'}`;
         const usd = Math.round(val / usdToEgpRate);
         return `${currentLang === 'en' ? '$' : ''}${usd.toLocaleString()}${currentLang === 'ar' ? ' ' + (translations[currentLang]?.price_usd || 'USD') : ''}`;
@@ -364,7 +364,7 @@ function createProductCard(p) {
                 <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">settings</span> ${p.transmission || '-'}</span>
             </div>
             <div class="mt-auto flex items-center justify-between pt-4 border-t border-outline-variant/15 mt-6">
-                <p class="text-2xl font-bold text-primary" data-price-egp="${p.price_egp || 0}">${formatPrice(p.price_egp || 0)}</p>
+                <p class="text-2xl font-bold text-primary" data-price-egp="${p.price_egp || 0}">${p.is_upon_request ? (translations[currentLang]?.upon_request || "Upon Request") : formatPrice(p.price_egp || 0)}</p>
                 <a href="details.html?id=${p.id}" class="text-xs font-bold text-primary flex items-center gap-1 uppercase tracking-widest" data-i18n="view_details">Explore <span class="material-symbols-outlined text-[16px]">arrow_forward</span></a>
             </div>
         </div>
@@ -525,7 +525,7 @@ async function renderDetails() {
 
     document.getElementById('vehicle-title').textContent = currentLang === 'ar' && p.name_ar ? p.name_ar : p.name;
     document.getElementById('vehicle-title-crumb').textContent = document.getElementById('vehicle-title').textContent;
-    document.getElementById('vehicle-price').setAttribute('data-price-egp', p.price_egp || 0);
+    document.getElementById('vehicle-price').setAttribute('data-price-egp', p.is_upon_request ? 0 : (p.price_egp || 0));
     document.getElementById('vehicle-desc').textContent = currentLang === 'ar' && p.description_ar ? p.description_ar : p.description;
 
     const favBtn = document.getElementById('btn-favorite-details');

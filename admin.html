@@ -56,6 +56,99 @@
             border-color: #c7a230 !important;
             ring-color: #c7a230 !important;
         }
+
+        /* Mobile Responsiveness Improvements */
+        @media (max-width: 768px) {
+            main {
+                padding: 1rem !important;
+            }
+            .admin-card {
+                margin-bottom: 1.5rem;
+                border-radius: 1rem;
+            }
+            h2.text-4xl {
+                font-size: 1.875rem !important; /* text-3xl */
+            }
+            .overflow-x-auto {
+                border: none !important;
+            }
+            table {
+                display: block;
+            }
+            thead {
+                display: none;
+            }
+            tbody, tr, td {
+                display: block;
+                width: 100%;
+            }
+            tr {
+                margin-bottom: 1rem;
+                background: rgba(255, 255, 255, 0.03);
+                border: 1px solid rgba(224, 220, 213, 0.1);
+                border-radius: 0.75rem;
+                padding: 1rem;
+            }
+            td {
+                padding: 0.5rem 0 !important;
+                border: none !important;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                text-align: right;
+            }
+            td::before {
+                content: attr(data-label);
+                font-weight: 700;
+                text-transform: uppercase;
+                font-size: 0.65rem;
+                letter-spacing: 0.1em;
+                color: #c7a230;
+                text-align: left;
+            }
+            td:last-child {
+                border-top: 1px solid rgba(224, 220, 213, 0.1) !important;
+                margin-top: 0.5rem;
+                padding-top: 1rem !important;
+            }
+
+            /* Specific table adjustments */
+            #products-table-body td:first-child { display: none; } /* Hide drag handle on mobile */
+
+            .flex-wrap {
+                gap: 0.75rem !important;
+            }
+            button {
+                width: 100%;
+                justify-content: center;
+            }
+            .bg-surface-card.p-1.5 {
+                width: 100%;
+            }
+            #order-mode-inventory, #order-mode-home {
+                flex: 1;
+            }
+        }
+
+        /* Modal Responsiveness */
+        @media (max-width: 640px) {
+            #product-modal .admin-card,
+            #brand-modal .admin-card,
+            #category-modal .admin-card {
+                max-height: 95vh;
+                width: 100%;
+                margin: 0;
+                border-radius: 1.5rem 1.5rem 0 0;
+                position: fixed;
+                bottom: 0;
+            }
+            #product-form {
+                padding: 1.5rem !important;
+            }
+            .grid-cols-2 {
+                grid-template-columns: 1fr !important;
+            }
+        }
     </style>
 </head>
 <body class="font-body antialiased min-h-screen flex flex-col">
@@ -395,7 +488,7 @@
               </label>
               <label class="flex items-center gap-3 cursor-pointer">
                 <input type="checkbox" id="p-upon-request" class="rounded text-primary bg-transparent border-white/20" />
-                <span class="text-sm font-medium">Price Upon Request</span>
+                <span class="text-sm font-medium">Upon Request</span>
               </label>
               <label class="flex items-center gap-3 cursor-pointer">
                 <input type="checkbox" id="p-sold-out" class="rounded text-primary bg-transparent border-white/20" />
