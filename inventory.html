@@ -64,18 +64,15 @@
                         <label class="font-headline font-bold text-xs uppercase tracking-widest text-primary" data-i18n="price_range">Price Range</label>
                         <span id="price-range-display" class="text-xs text-on-surface-variant font-mono"><span id="price-min">0</span> - <span id="price-max">10M</span></span>
                     </div>
-                    <div class="relative h-1 bg-surface-container-high rounded-full mt-8">
-                        <input id="price-min-slider" type="range" class="absolute w-full h-full opacity-0 cursor-pointer z-20 pointer-events-none" min="0" max="100" value="0">
-                        <input id="price-max-slider" type="range" class="absolute w-full h-full opacity-0 cursor-pointer z-20 pointer-events-none" min="0" max="100" value="100">
-                        <div id="price-slider-track" class="absolute h-full w-full bg-surface-container-high rounded-full"></div>
+                    <div id="price-slider-wrapper" class="relative h-2 rounded-full mt-8">
+                        <!-- Hidden value stores read by filterInventory -->
+                        <input id="price-min-slider" type="range" class="sr-only" tabindex="-1">
+                        <input id="price-max-slider" type="range" class="sr-only" tabindex="-1">
+                        <div id="price-slider-track" class="absolute h-full w-full bg-neutral-700 rounded-full"></div>
                         <div id="price-slider-fill" class="absolute h-full bg-primary rounded-full pointer-events-none z-10"></div>
-                        <div id="price-min-thumb" class="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-on-surface border-2 border-primary rounded-full shadow-lg pointer-events-none z-30"></div>
-                        <div id="price-max-thumb" class="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-on-surface border-2 border-primary rounded-full shadow-lg pointer-events-none z-30"></div>
+                        <div id="price-min-thumb" class="absolute top-1/2 -translate-y-1/2 w-5 h-5 bg-white border-2 border-primary rounded-full shadow-lg cursor-grab active:cursor-grabbing z-30"></div>
+                        <div id="price-max-thumb" class="absolute top-1/2 -translate-y-1/2 w-5 h-5 bg-white border-2 border-primary rounded-full shadow-lg cursor-grab active:cursor-grabbing z-30"></div>
                     </div>
-                    <style>
-                        input[type="range"]::-webkit-slider-thumb { pointer-events: all; width: 20px; height: 20px; -webkit-appearance: none; }
-                        input[type="range"]::-moz-range-thumb { pointer-events: all; width: 20px; height: 20px; }
-                    </style>
                 </div>
                 <!-- Colors -->
                 <div class="space-y-4 mb-6 rtl:text-right">
@@ -176,6 +173,7 @@
     <script src="supabase-config.js"></script>
     <script src="db/products.js"></script>
     <script src="db/brands.js"></script>
+    <script src="db/categories.js"></script>
     <script src="db/messages.js"></script>
     <script src="db/settings.js"></script>
     <script src="script.js"></script>

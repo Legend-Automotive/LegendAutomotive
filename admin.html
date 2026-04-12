@@ -462,18 +462,23 @@
                   <input type="text" id="p-version" class="w-full rounded-lg px-4 py-3 outline-none" />
                 </div>
               </div>
-              <div class="grid grid-cols-2 gap-4">
-                <div>
-                  <label class="block text-xs font-medium text-neutral-400 mb-2">Color (EN)</label>
-                  <input type="text" id="p-color" class="w-full rounded-lg px-4 py-3 outline-none" />
-                </div>
-                <div>
-                  <label class="block text-xs font-medium text-neutral-400 mb-2">Color (AR)</label>
-                  <input type="text" id="p-color-ar" class="w-full rounded-lg px-4 py-3 outline-none" dir="rtl" />
-                </div>
-              </div>
             </div>
           </div>
+
+          <!-- Color Variants Section -->
+          <div class="space-y-4">
+            <div class="flex justify-between items-center">
+              <h4 class="text-primary font-bold uppercase tracking-widest text-[10px]">Color Variants</h4>
+              <button type="button" id="add-color-variant-btn" class="text-xs font-bold text-primary border border-primary/30 px-3 py-1.5 rounded-lg hover:bg-primary/10 transition-colors flex items-center gap-1">
+                <span class="material-symbols-outlined text-[14px]">add</span> Add Color
+              </button>
+            </div>
+            <div id="color-variants-container" class="space-y-4">
+              <!-- Variants injected by JS -->
+            </div>
+          </div>
+
+
 
           <div class="space-y-6">
             <h4 class="text-primary font-bold uppercase tracking-widest text-[10px]">Brand & Status</h4>

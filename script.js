@@ -401,6 +401,7 @@ async function initInventory() {
     }
 
     renderBrandFilters();
+    renderColorFilters();
     initPriceSlider();
     filterInventory();
 
@@ -409,52 +410,87 @@ async function initInventory() {
 }
 
 function initPriceSlider() {
-    const minSlider = document.getElementById('price-min-slider');
-    const maxSlider = document.getElementById('price-max-slider');
-    if (!minSlider || !maxSlider) return;
+    const minThumb = document.getElementById('price-min-thumb');
+    const maxThumb = document.getElementById('price-max-thumb');
+    const fill = document.getElementById('price-slider-fill');
+    const minInput = document.getElementById('price-min-slider');
+    const maxInput = document.getElementById('price-max-slider');
+
+    if (!minThumb || !maxThumb || !fill) return;
 
     const prices = products.map(p => p.price_egp).filter(p => p > 0);
-    const min = prices.length ? Math.min(...prices) : 0;
-    const max = prices.length ? Math.max(...prices) : 10000000;
+    const absMin = prices.length ? Math.min(...prices) : 0;
+    const absMax = prices.length ? Math.max(...prices) : 10000000;
 
-    minSlider.min = min;
-    minSlider.max = max;
-    minSlider.value = min;
+    // Sync hidden inputs so filterInventory() can still read them
+    [minInput, maxInput].forEach(el => { el.min = absMin; el.max = absMax; });
+    minInput.value = absMin;
+    maxInput.value = absMax;
 
-    maxSlider.min = min;
-    maxSlider.max = max;
-    maxSlider.value = max;
+    let curMin = absMin;
+    let curMax = absMax;
 
-    const updateSliderUI = () => {
-        const minVal = parseInt(minSlider.value);
-        const maxVal = parseInt(maxSlider.value);
+    function updateUI() {
+        const range = absMax - absMin || 1;
+        const pMin = ((curMin - absMin) / range) * 100;
+        const pMax = ((curMax - absMin) / range) * 100;
 
-        if (minVal > maxVal) {
-            minSlider.value = maxVal;
+        fill.style.left  = pMin + '%';
+        fill.style.width = (pMax - pMin) + '%';
+        minThumb.style.left = pMin + '%';
+        maxThumb.style.left = pMax + '%';
+
+        document.getElementById('price-min').textContent = formatPrice(curMin);
+        document.getElementById('price-max').textContent = formatPrice(curMax);
+
+        // Keep hidden inputs in sync for filterInventory
+        minInput.value = curMin;
+        maxInput.value = curMax;
+    }
+
+    function getWrapperRect() {
+        return document.getElementById('price-slider-wrapper').getBoundingClientRect();
+    }
+
+    function startDrag(e, isMin) {
+        e.preventDefault();
+
+        function onMove(ev) {
+            const clientX = ev.touches ? ev.touches[0].clientX : ev.clientX;
+            const rect = getWrapperRect();
+            const range = absMax - absMin || 1;
+            let pct = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+            let val = Math.round(absMin + pct * range);
+
+            if (isMin) {
+                curMin = Math.min(val, curMax);
+            } else {
+                curMax = Math.max(val, curMin);
+            }
+
+            updateUI();
+            filterInventory();
         }
 
-        const percent1 = ((minSlider.value - min) / (max - min)) * 100;
-        const percent2 = ((maxSlider.value - min) / (max - min)) * 100;
+        function onUp() {
+            document.removeEventListener('mousemove', onMove);
+            document.removeEventListener('mouseup', onUp);
+            document.removeEventListener('touchmove', onMove);
+            document.removeEventListener('touchend', onUp);
+        }
 
-        document.getElementById('price-slider-fill').style.left = percent1 + "%";
-        document.getElementById('price-slider-fill').style.width = (percent2 - percent1) + "%";
-        document.getElementById('price-min-thumb').style.left = percent1 + "%";
-        document.getElementById('price-max-thumb').style.left = percent2 + "%";
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onUp);
+        document.addEventListener('touchmove', onMove, { passive: false });
+        document.addEventListener('touchend', onUp);
+    }
 
-        document.getElementById('price-min').textContent = formatPrice(parseInt(minSlider.value));
-        document.getElementById('price-max').textContent = formatPrice(parseInt(maxSlider.value));
-    };
+    minThumb.addEventListener('mousedown',  e => startDrag(e, true));
+    maxThumb.addEventListener('mousedown',  e => startDrag(e, false));
+    minThumb.addEventListener('touchstart', e => startDrag(e, true),  { passive: false });
+    maxThumb.addEventListener('touchstart', e => startDrag(e, false), { passive: false });
 
-    minSlider.oninput = () => {
-        updateSliderUI();
-        filterInventory();
-    };
-    maxSlider.oninput = () => {
-        updateSliderUI();
-        filterInventory();
-    };
-
-    updateSliderUI();
+    updateUI();
 }
 
 function renderBrandFilters() {
@@ -466,6 +502,46 @@ function renderBrandFilters() {
         </button>
     `).join('');
 }
+
+function renderColorFilters() {
+    const container = document.getElementById('color-filters-container');
+    if (!container) return;
+
+    // Collect all unique hex colors across all products
+    const seen = new Map(); // hex -> name
+    products.forEach(p => {
+        let variants = p.color_variants || [];
+        if (typeof variants === 'string') { try { variants = JSON.parse(variants); } catch(e) { variants = []; } }
+        variants.forEach(v => {
+            if (v.hex && !seen.has(v.hex)) {
+                seen.set(v.hex, currentLang === 'ar' && v.name_ar ? v.name_ar : (v.name || v.hex));
+            }
+        });
+    });
+
+    if (seen.size === 0) {
+        container.innerHTML = '<p class="text-xs text-neutral-600">No colors yet</p>';
+        return;
+    }
+
+    container.innerHTML = Array.from(seen.entries()).map(([hex, name]) => `
+        <button
+            title="${escapeHtml(name)}"
+            onclick="toggleColorFilter('${escapeHtml(hex)}', this)"
+            class="color-filter-dot w-7 h-7 rounded-full border-2 transition-all hover:scale-110 ${activeColorFilters.includes(hex) ? 'border-primary scale-110 ring-2 ring-primary/40' : 'border-white/20'}"
+            style="background:${escapeHtml(hex)}"
+            data-hex="${escapeHtml(hex)}"
+        ></button>
+    `).join('');
+}
+
+window.toggleColorFilter = function(hex, btn) {
+    const idx = activeColorFilters.indexOf(hex);
+    if (idx === -1) activeColorFilters.push(hex);
+    else activeColorFilters.splice(idx, 1);
+    renderColorFilters();
+    filterInventory();
+};
 
 window.toggleBrandFilter = function(id, btn) {
     const idx = activeBrandFilters.indexOf(id);
@@ -487,7 +563,16 @@ function filterInventory() {
         const matchesBrand = activeBrandFilters.length === 0 || activeBrandFilters.includes(p.brand_id);
         const price = p.price_egp || 0;
         const matchesPrice = (price >= minPrice && price <= maxPrice) || (p.is_upon_request);
-        return matchesTerm && matchesCat && matchesBrand && matchesPrice;
+
+        let matchesColor = true;
+        if (activeColorFilters.length > 0) {
+            let variants = p.color_variants || [];
+            if (typeof variants === 'string') { try { variants = JSON.parse(variants); } catch(e) { variants = []; } }
+            const productHexes = variants.map(v => v.hex).filter(Boolean);
+            matchesColor = activeColorFilters.some(h => productHexes.includes(h));
+        }
+
+        return matchesTerm && matchesCat && matchesBrand && matchesPrice && matchesColor;
     }).sort((a,b) => a.order_explore - b.order_explore);
 
     const container = document.getElementById('inventory-container');
@@ -551,14 +636,82 @@ async function renderDetails() {
     const mainImg = document.getElementById('main-image');
     if (mainImg) mainImg.src = p.image_url;
 
-    const thumbnails = document.getElementById('gallery-thumbnails');
-    if (thumbnails && p.gallery) {
-        thumbnails.innerHTML = p.gallery.map(url => `
-            <button onclick="document.getElementById('main-image').src='${url}'" class="w-24 aspect-video rounded-lg overflow-hidden border border-outline-variant/20 hover:border-primary transition-all">
+    // Helper: render gallery thumbnails for a given array of image URLs
+    function renderGallery(images) {
+        const thumbnails = document.getElementById('gallery-thumbnails');
+        if (!thumbnails) return;
+        const imgs = images && images.length ? images : (p.gallery || []);
+        if (imgs.length === 0) { thumbnails.innerHTML = ''; return; }
+        thumbnails.innerHTML = imgs.map(url => `
+            <button onclick="document.getElementById('main-image').src='${url}'; document.querySelectorAll('#gallery-thumbnails button').forEach(b=>b.classList.remove('border-primary')); this.classList.add('border-primary')" class="w-24 flex-shrink-0 aspect-video rounded-lg overflow-hidden border border-outline-variant/20 hover:border-primary transition-all">
                 <img src="${url}" class="w-full h-full object-cover">
             </button>
         `).join('');
+        // Set first thumbnail as active
+        const first = thumbnails.querySelector('button');
+        if (first) first.classList.add('border-primary');
     }
+
+    // Render default gallery (product main gallery)
+    renderGallery(p.gallery || []);
+
+    // Color variants swatches
+    let colorVariants = p.color_variants || [];
+    if (typeof colorVariants === 'string') { try { colorVariants = JSON.parse(colorVariants); } catch(e) { colorVariants = []; } }
+
+    const colorContainer = document.getElementById('color-selection-container');
+    const colorOptions = document.getElementById('color-options');
+    const selectedColorName = document.getElementById('selected-color-name');
+
+    if (colorVariants.length > 0 && colorContainer && colorOptions) {
+        colorContainer.classList.remove('hidden');
+
+        colorOptions.innerHTML = colorVariants.map((v, idx) => `
+            <button
+                onclick="selectColorVariant(${idx})"
+                id="color-swatch-${idx}"
+                title="${escapeHtml(currentLang === 'ar' && v.name_ar ? v.name_ar : v.name)}"
+                class="color-swatch-btn w-8 h-8 rounded-full border-2 transition-all hover:scale-110 ${idx === 0 ? 'border-primary scale-110 ring-2 ring-primary/40' : 'border-white/20'}"
+                style="background:${escapeHtml(v.hex)}"
+            ></button>
+        `).join('');
+
+        // Set initial selected name
+        if (selectedColorName) {
+            const first = colorVariants[0];
+            selectedColorName.textContent = currentLang === 'ar' && first.name_ar ? first.name_ar : first.name;
+        }
+
+        // Load first variant gallery if it has one
+        if (colorVariants[0].gallery && colorVariants[0].gallery.length > 0) {
+            mainImg.src = colorVariants[0].gallery[0];
+            renderGallery(colorVariants[0].gallery);
+        }
+
+        window.selectColorVariant = function(idx) {
+            const v = colorVariants[idx];
+            if (!v) return;
+            // Update swatch selection
+            document.querySelectorAll('.color-swatch-btn').forEach((btn, i) => {
+                btn.classList.toggle('border-primary', i === idx);
+                btn.classList.toggle('scale-110', i === idx);
+                btn.classList.toggle('ring-2', i === idx);
+                btn.classList.toggle('ring-primary/40', i === idx);
+                btn.classList.toggle('border-white/20', i !== idx);
+            });
+            // Update color name
+            if (selectedColorName) {
+                selectedColorName.textContent = currentLang === 'ar' && v.name_ar ? v.name_ar : v.name;
+            }
+            // Switch gallery
+            const gallery = v.gallery && v.gallery.length > 0 ? v.gallery : (p.gallery || []);
+            if (gallery.length > 0) mainImg.src = gallery[0];
+            renderGallery(gallery);
+        };
+    } else if (colorContainer) {
+        colorContainer.classList.add('hidden');
+    }
+
 
     if (p.diagnostics_url) {
         const btn = document.getElementById('btn-diagnostics');

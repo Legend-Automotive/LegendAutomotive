@@ -13,6 +13,7 @@ let isOrderChanged = false;
 let editingId = null;
 let editingBrandId = null;
 let currentGallery = [];
+let currentColorVariants = []; // [{name, name_ar, hex, gallery:[]}]
 
 const escapeHtml = (unsafe) => {
   if (unsafe === null || unsafe === undefined) return "";
@@ -197,6 +198,7 @@ async function initAdmin() {
   document.getElementById("settings-form").addEventListener("submit", handleSaveSettings);
 
   document.getElementById("p-gallery").addEventListener("change", handleGalleryUpload);
+  document.getElementById("add-color-variant-btn").addEventListener("click", () => addColorVariant());
 }
 
 async function handleGalleryUpload(e) {
@@ -403,6 +405,119 @@ window.deleteProduct = (id) => showConfirm("Delete this vehicle?", async () => {
     catch (e) { showToast("Delete failed", "error"); }
 });
 
+// --- Color Variants ---
+function addColorVariant(variant = null) {
+    const idx = currentColorVariants.length;
+    const v = variant || { name: '', name_ar: '', hex: '#888888', gallery: [] };
+    currentColorVariants.push(v);
+    renderColorVariants();
+    // Scroll to the new variant
+    setTimeout(() => {
+        const cards = document.querySelectorAll('.color-variant-card');
+        if (cards.length) cards[cards.length - 1].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 50);
+}
+
+function renderColorVariants() {
+    const container = document.getElementById('color-variants-container');
+    if (!container) return;
+    container.innerHTML = currentColorVariants.map((v, idx) => `
+        <div class="color-variant-card admin-card rounded-xl p-5 space-y-4" data-idx="${idx}">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div class="w-7 h-7 rounded-full border-2 border-white/20 shadow-lg flex-shrink-0" style="background:${escapeHtml(v.hex)}"></div>
+                    <span class="text-sm font-bold text-on-surface">${escapeHtml(v.name) || 'New Color'}</span>
+                </div>
+                <button type="button" onclick="removeColorVariant(${idx})" class="text-red-500 hover:text-red-400 transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">delete</span>
+                </button>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 items-end">
+                <div>
+                    <label class="block text-[10px] font-bold uppercase text-neutral-400 mb-1">Color</label>
+                    <div class="flex gap-2 items-center">
+                        <input type="color" value="${escapeHtml(v.hex)}" onchange="updateColorVariant(${idx}, 'hex', this.value); this.nextElementSibling.value = this.value" class="h-10 w-10 rounded cursor-pointer border-none bg-transparent p-0 flex-shrink-0" style="background:none" />
+                        <input type="text" value="${escapeHtml(v.hex)}" placeholder="#000000" onchange="updateColorVariant(${idx}, 'hex', this.value); this.previousElementSibling.value = this.value; document.querySelector('[data-idx=\'${idx}\'] .color-preview').style.background = this.value" maxlength="7" class="flex-grow rounded px-2 py-2 text-xs font-mono" />
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold uppercase text-neutral-400 mb-1">Name (EN)</label>
+                    <input type="text" value="${escapeHtml(v.name)}" placeholder="e.g. Midnight Black" onchange="updateColorVariant(${idx}, 'name', this.value)" class="w-full rounded px-3 py-2 text-sm" />
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold uppercase text-neutral-400 mb-1">Name (AR)</label>
+                    <input type="text" value="${escapeHtml(v.name_ar)}" placeholder="اسم اللون" dir="rtl" onchange="updateColorVariant(${idx}, 'name_ar', this.value)" class="w-full rounded px-3 py-2 text-sm" />
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold uppercase text-neutral-400 mb-1">Gallery (${v.gallery.length} imgs)</label>
+                    <label class="block w-full cursor-pointer">
+                        <input type="file" accept="image/*" multiple class="hidden" onchange="handleVariantGalleryUpload(${idx}, this)" />
+                        <span class="flex items-center gap-1 text-xs font-bold text-primary border border-primary/30 px-3 py-2 rounded hover:bg-primary/10 transition-colors">
+                            <span class="material-symbols-outlined text-[14px]">add_a_photo</span> Upload
+                        </span>
+                    </label>
+                </div>
+            </div>
+            ${v.gallery.length ? `
+            <div class="grid grid-cols-4 md:grid-cols-6 gap-2">
+                ${v.gallery.map((url, gi) => `
+                    <div class="relative group aspect-video rounded overflow-hidden border border-outline-variant">
+                        <img src="${url}" class="w-full h-full object-cover">
+                        <button type="button" onclick="removeVariantGalleryImage(${idx}, ${gi})" class="absolute top-0.5 right-0.5 bg-red-600 text-white p-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                            <span class="material-symbols-outlined text-xs">close</span>
+                        </button>
+                    </div>
+                `).join('')}
+            </div>` : ''}
+        </div>
+    `).join('');
+}
+
+window.updateColorVariant = (idx, field, value) => {
+    if (currentColorVariants[idx]) {
+        currentColorVariants[idx][field] = value;
+        // Update the preview circle in the card header live
+        const card = document.querySelector(`.color-variant-card[data-idx="${idx}"]`);
+        if (card && field === 'hex') {
+            const circle = card.querySelector('.rounded-full');
+            if (circle) circle.style.background = value;
+        }
+        if (card && field === 'name') {
+            const nameEl = card.querySelector('span.text-sm.font-bold');
+            if (nameEl) nameEl.textContent = value || 'New Color';
+        }
+    }
+};
+
+window.removeColorVariant = (idx) => {
+    currentColorVariants.splice(idx, 1);
+    renderColorVariants();
+};
+
+window.removeVariantGalleryImage = (variantIdx, imgIdx) => {
+    currentColorVariants[variantIdx].gallery.splice(imgIdx, 1);
+    renderColorVariants();
+};
+
+window.handleVariantGalleryUpload = async (variantIdx, input) => {
+    const files = Array.from(input.files);
+    if (!files.length) return;
+    showToast(`Uploading ${files.length} image(s)...`);
+    try {
+        const urls = await Promise.all(files.map(async file => {
+            const path = `gallery/${Date.now()}-${sanitizeFilename(file.name)}`;
+            const { error } = await window.supabase.storage.from('vehicle-images').upload(path, file, { upsert: true });
+            if (error) throw error;
+            return window.supabase.storage.from('vehicle-images').getPublicUrl(path).data.publicUrl;
+        }));
+        currentColorVariants[variantIdx].gallery = [...currentColorVariants[variantIdx].gallery, ...urls];
+        renderColorVariants();
+        showToast('Gallery updated');
+    } catch (err) {
+        showToast('Upload failed', 'error');
+    }
+};
+
 async function handleSaveProduct(e) {
     e.preventDefault();
     const btn = document.getElementById("save-btn");
@@ -424,8 +539,7 @@ async function handleSaveProduct(e) {
             transmission: document.getElementById("p-trans").value,
             fuel_type: document.getElementById("p-fuel").value,
             version: document.getElementById("p-version").value,
-            color: document.getElementById("p-color").value,
-            color_ar: document.getElementById("p-color-ar").value
+            color_variants: currentColorVariants
         };
 
         const file = document.getElementById("p-image").files[0];
@@ -462,6 +576,19 @@ function openModal(p = null) {
     currentGallery = p?.gallery || [];
     renderGalleryPreview();
 
+    // Load color variants
+    let rawVariants = p?.color_variants || [];
+    if (typeof rawVariants === 'string') {
+        try { rawVariants = JSON.parse(rawVariants); } catch(e) { rawVariants = []; }
+    }
+    currentColorVariants = rawVariants.map(v => ({
+        name: v.name || '',
+        name_ar: v.name_ar || '',
+        hex: v.hex || '#888888',
+        gallery: Array.isArray(v.gallery) ? v.gallery : []
+    }));
+    renderColorVariants();
+
     // Populate dynamic categories
     const catSelect = document.getElementById("p-category");
     if (catSelect) {
@@ -494,8 +621,6 @@ function openModal(p = null) {
         document.getElementById("p-trans").value = p.transmission || "";
         document.getElementById("p-fuel").value = p.fuel_type || "";
         document.getElementById("p-version").value = p.version || "";
-        document.getElementById("p-color").value = p.color || "";
-        document.getElementById("p-color-ar").value = p.color_ar || "";
     }
     renderBrandSelector(p ? p.brand_id : null);
     productModal.classList.remove("hidden");
