@@ -3,8 +3,8 @@ INSERT INTO storage.buckets (id, name, public)
 VALUES ('vehicle-images', 'vehicle-images', true)
 ON CONFLICT (id) DO UPDATE SET public = true;
 
--- Enable RLS on storage.objects
-ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;
+-- Note: RLS on storage.objects is enabled by default in Supabase.
+-- If you encounter permission errors, ensure the bucket exists and policies are applied.
 
 -- Allow public access to images (SELECT)
 DO $$
