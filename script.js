@@ -304,6 +304,7 @@ async function loadGlobalSettings() {
 
         if (settings.hero_image && document.getElementById('hero-bg-image')) {
             document.getElementById('hero-bg-image').src = settings.hero_image;
+            document.getElementById('hero-bg-image').classList.remove('hidden');
         }
 
         // Live updates
