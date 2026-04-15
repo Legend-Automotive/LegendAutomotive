@@ -637,20 +637,101 @@ async function renderDetails() {
     const mainImg = document.getElementById('main-image');
     if (mainImg) mainImg.src = p.image_url;
 
+    // Image Slider Logic
+    let currentGalleryIndex = 0;
+    let currentGalleryImages = [];
+    let galleryInterval = null;
+
+    function startGalleryAutoplay() {
+        if (galleryInterval) clearInterval(galleryInterval);
+        if (currentGalleryImages.length > 1) {
+            galleryInterval = setInterval(() => {
+                window.nextImage();
+            }, 3000);
+        }
+    }
+
+    function stopGalleryAutoplay() {
+        if (galleryInterval) clearInterval(galleryInterval);
+    }
+    
+    window.nextImage = function() {
+        if (currentGalleryImages.length <= 1) return;
+        currentGalleryIndex = (currentGalleryIndex + 1) % currentGalleryImages.length;
+        updateMainImage();
+        startGalleryAutoplay(); // Reset interval
+    };
+    
+    window.prevImage = function() {
+        if (currentGalleryImages.length <= 1) return;
+        currentGalleryIndex = (currentGalleryIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
+        updateMainImage();
+        startGalleryAutoplay();
+    };
+
+    function updateMainImage() {
+        if (!currentGalleryImages[currentGalleryIndex]) return;
+        document.getElementById('main-image').src = currentGalleryImages[currentGalleryIndex];
+        
+        // Update thumbnails
+        document.querySelectorAll('#gallery-thumbnails button').forEach((b, idx) => {
+            if (idx === currentGalleryIndex) {
+                b.classList.add('border-primary');
+                b.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            } else {
+                b.classList.remove('border-primary');
+            }
+        });
+    }
+
+    window.selectImage = function(idx) {
+        currentGalleryIndex = idx;
+        updateMainImage();
+        startGalleryAutoplay();
+    };
+
+    const mediaContainer = document.getElementById('main-media-container');
+    if (mediaContainer) {
+        mediaContainer.addEventListener('mouseenter', stopGalleryAutoplay);
+        mediaContainer.addEventListener('mouseleave', startGalleryAutoplay);
+    }
+
     // Helper: render gallery thumbnails for a given array of image URLs
     function renderGallery(images) {
         const thumbnails = document.getElementById('gallery-thumbnails');
+        const prevBtn = document.getElementById('btn-prev-img');
+        const nextBtn = document.getElementById('btn-next-img');
+        
         if (!thumbnails) return;
-        const imgs = images && images.length ? images : (p.gallery || []);
-        if (imgs.length === 0) { thumbnails.innerHTML = ''; return; }
-        thumbnails.innerHTML = imgs.map(url => `
-            <button onclick="document.getElementById('main-image').src='${url}'; document.querySelectorAll('#gallery-thumbnails button').forEach(b=>b.classList.remove('border-primary')); this.classList.add('border-primary')" class="w-24 flex-shrink-0 aspect-video rounded-lg overflow-hidden border border-outline-variant/20 hover:border-primary transition-all">
-                <img src="${url}" class="w-full h-full object-cover">
+        currentGalleryImages = images && images.length ? images : (p.gallery || []);
+        currentGalleryIndex = 0;
+        
+        if (currentGalleryImages.length === 0) { 
+            thumbnails.innerHTML = ''; 
+            if (prevBtn) prevBtn.classList.add('hidden');
+            if (nextBtn) nextBtn.classList.add('hidden');
+            stopGalleryAutoplay();
+            return; 
+        }
+        
+        if (prevBtn && nextBtn) {
+            if (currentGalleryImages.length > 1) {
+                prevBtn.classList.remove('hidden');
+                nextBtn.classList.remove('hidden');
+            } else {
+                prevBtn.classList.add('hidden');
+                nextBtn.classList.add('hidden');
+            }
+        }
+
+        thumbnails.innerHTML = currentGalleryImages.map((url, idx) => `
+            <button onclick="window.selectImage(${idx})" class="w-24 flex-shrink-0 aspect-video rounded-lg overflow-hidden border border-outline-variant/20 hover:border-primary transition-all">
+                <img src="${escapeHtml(url)}" class="w-full h-full object-cover">
             </button>
         `).join('');
-        // Set first thumbnail as active
-        const first = thumbnails.querySelector('button');
-        if (first) first.classList.add('border-primary');
+        
+        updateMainImage();
+        startGalleryAutoplay();
     }
 
     // Render default gallery (product main gallery)
