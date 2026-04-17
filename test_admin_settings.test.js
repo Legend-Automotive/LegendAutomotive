@@ -54,7 +54,7 @@ describe('Admin Settings Logic', () => {
             querySelectorAll: jest.fn().mockReturnValue([])
         };
         global.window = {
-            location: { pathname: '/admin.html' },
+            location: { pathname: "/admin" },
             history: { replaceState: jest.fn() },
             confirm: jest.fn().mockReturnValue(true)
         };

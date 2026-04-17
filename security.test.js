@@ -6,7 +6,7 @@
 // Mock globals
 global.window = {
     localStorage: { getItem: jest.fn(), setItem: jest.fn() },
-    location: { pathname: '/index.html' }
+    location: { pathname: "/" }
 };
 global.localStorage = global.window.localStorage;
 global.document = {
