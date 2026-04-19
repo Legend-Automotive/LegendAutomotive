@@ -1,0 +1,36 @@
+{
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "$1"
+    },
+    {
+      "source": "/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/inventory",
+      "destination": "/inventory.html"
+    },
+    {
+      "source": "/about",
+      "destination": "/about.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/contact.html"
+    },
+    {
+      "source": "/details",
+      "destination": "/details.html"
+    },
+    {
+      "source": "/favorites",
+      "destination": "/favorites.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/admin.html"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
+
+[[redirects]]
+from = "/inventory"
+to = "/inventory.html"
+status = 200
+
+[[redirects]]
+from = "/about"
+to = "/about.html"
+status = 200
+
+[[redirects]]
+from = "/contact"
+to = "/contact.html"
+status = 200
+
+[[redirects]]
+from = "/details"
+to = "/details.html"
+status = 200
+
+[[redirects]]
+from = "/favorites"
+to = "/favorites.html"
+status = 200
+
+[[redirects]]
+from = "/admin"
+to = "/admin.html"
+status = 200

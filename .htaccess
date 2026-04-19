@@ -1,0 +1,19 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Don't rewrite files or directories if they exist
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+
+  # Rewrite clean URLs to corresponding HTML files
+  RewriteRule ^inventory/?$ inventory.html [L]
+  RewriteRule ^about/?$ about.html [L]
+  RewriteRule ^contact/?$ contact.html [L]
+  RewriteRule ^details/?$ details.html [L]
+  RewriteRule ^favorites/?$ favorites.html [L]
+  RewriteRule ^admin/?$ admin.html [L]
+
+  # Fallback to index for any other requests (SPA support)
+  RewriteRule ^(.*)$ index.html [L]
+</IfModule>

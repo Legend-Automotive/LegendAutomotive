@@ -78,6 +78,8 @@ async function init() {
         renderHome();
     } else if (path.endsWith("/inventory")) {
         initInventory();
+    } else if (path.endsWith("/about")) {
+        // About page - static content, no additional initialization needed
     } else if (path.endsWith("/details")) {
         renderDetails();
     } else if (path.endsWith("/contact")) {

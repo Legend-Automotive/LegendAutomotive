@@ -220,7 +220,8 @@ async function handleGalleryUpload(e) {
         renderGalleryPreview();
         showToast("Gallery updated");
     } catch (err) {
-        showToast("Upload failed", "error");
+        console.error('Gallery upload error:', err);
+        showToast("Upload failed: " + (err.message || err), "error");
     }
 }
 
