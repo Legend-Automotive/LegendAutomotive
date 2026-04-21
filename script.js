@@ -58,6 +58,16 @@ const escapeHtml = (unsafe) => {
     return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
 };
 
+// Optimizes remote images via wsrv.nl to fix huge memory footprint and slow loading on mobile
+const optimizeImage = (url, width) => {
+    if (!url) return '';
+    if (url.includes('wsrv.nl')) return url;
+    if (url.startsWith('https://')) {
+        return `https://wsrv.nl/?url=${encodeURIComponent(url)}&w=${width}&output=webp&q=80`;
+    }
+    return url;
+};
+
 // --- Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
     if ('serviceWorker' in navigator) {
@@ -329,7 +339,7 @@ async function loadGlobalSettings() {
         }
 
         if (settings.hero_image && document.getElementById('hero-bg-image')) {
-            document.getElementById('hero-bg-image').src = settings.hero_image;
+            document.getElementById('hero-bg-image').src = optimizeImage(settings.hero_image, 1920);
             document.getElementById('hero-bg-image').classList.remove('hidden');
         }
 
@@ -372,7 +382,7 @@ function createProductCard(p, index = 0) {
     <div class="group relative flex flex-col rounded-xl overflow-hidden bg-surface-container-low transition-all duration-500 hover:-translate-y-2 border border-outline-variant/10">
         <div class="relative aspect-[16/9] w-full overflow-hidden bg-surface-container-high animate-pulse" id="skel-${p.id}">
             <a href="/details?id=${p.id}">
-                <img src="${escapeHtml(p.image_url)}" ${index < 4 ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"'} class="absolute inset-0 w-full h-full object-cover transition-all duration-300 group-hover:scale-105 ${p.is_sold_out ? 'grayscale' : ''}" onload="document.getElementById('skel-${p.id}')?.classList.remove('animate-pulse');">
+                <img src="${escapeHtml(optimizeImage(p.image_url, 600))}" ${index < 4 ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"'} class="absolute inset-0 w-full h-full object-cover transition-all duration-300 group-hover:scale-105 ${p.is_sold_out ? 'grayscale' : ''}" onload="document.getElementById('skel-${p.id}')?.classList.remove('animate-pulse');">
                 ${p.is_sold_out ? `<div class="sold-out-stamp" data-i18n="sold_out">SOLD OUT</div>` : ''}
             </a>
             <div class="absolute top-4 right-4 z-20">
@@ -680,24 +690,40 @@ async function renderDetails() {
     document.getElementById('spec-version').textContent = p.version || '-';
 
     const mainImg = document.getElementById('main-image');
-    if (mainImg) mainImg.src = p.image_url;
+    if (mainImg) {
+        mainImg.src = optimizeImage(p.image_url, 1200);
+        mainImg.onload = null;
+    }
 
     // Image Slider Logic
     let currentGalleryIndex = 0;
     let currentGalleryImages = [];
-    let galleryInterval = null;
+    let autoplayTimeout = null;
 
-    function startGalleryAutoplay() {
-        if (galleryInterval) clearInterval(galleryInterval);
+    function scheduleNextImage() {
+        clearTimeout(autoplayTimeout);
         if (currentGalleryImages.length > 1) {
-            galleryInterval = setInterval(() => {
+            autoplayTimeout = setTimeout(() => {
                 window.nextImage();
             }, 3000);
         }
     }
 
+    function startGalleryAutoplay() {
+        clearTimeout(autoplayTimeout);
+        const mainImg = document.getElementById('main-image');
+        if (!mainImg) return;
+        if (mainImg.complete) {
+            scheduleNextImage();
+        } else {
+            mainImg.onload = scheduleNextImage;
+        }
+    }
+
     function stopGalleryAutoplay() {
-        if (galleryInterval) clearInterval(galleryInterval);
+        clearTimeout(autoplayTimeout);
+        const mainImg = document.getElementById('main-image');
+        if (mainImg) mainImg.onload = null;
     }
 
     window.nextImage = function () {
@@ -716,7 +742,9 @@ async function renderDetails() {
 
     function updateMainImage() {
         if (!currentGalleryImages[currentGalleryIndex]) return;
-        document.getElementById('main-image').src = currentGalleryImages[currentGalleryIndex];
+        const mainImg = document.getElementById('main-image');
+        stopGalleryAutoplay();
+        mainImg.src = optimizeImage(currentGalleryImages[currentGalleryIndex], 1200);
 
         // Update thumbnails
         const container = document.getElementById('gallery-thumbnails');
@@ -777,7 +805,7 @@ async function renderDetails() {
 
         thumbnails.innerHTML = currentGalleryImages.map((url, idx) => `
             <button onclick="window.selectImage(${idx})" class="w-24 flex-shrink-0 aspect-video rounded-lg overflow-hidden border border-outline-variant/20 hover:border-primary transition-all">
-                <img src="${escapeHtml(url)}" loading="lazy" decoding="async" class="w-full h-full object-cover">
+                <img src="${escapeHtml(optimizeImage(url, 400))}" loading="lazy" decoding="async" class="w-full h-full object-cover">
             </button>
         `).join('');
 
@@ -817,7 +845,7 @@ async function renderDetails() {
 
         // Load first variant gallery if it has one
         if (colorVariants[0].gallery && colorVariants[0].gallery.length > 0) {
-            mainImg.src = colorVariants[0].gallery[0];
+            mainImg.src = optimizeImage(colorVariants[0].gallery[0], 1200);
             renderGallery(colorVariants[0].gallery);
         }
 
@@ -838,7 +866,7 @@ async function renderDetails() {
             }
             // Switch gallery
             const gallery = v.gallery && v.gallery.length > 0 ? v.gallery : (p.gallery || []);
-            if (gallery.length > 0) mainImg.src = gallery[0];
+            if (gallery.length > 0) mainImg.src = optimizeImage(gallery[0], 1200);
             renderGallery(gallery);
         };
     } else if (colorContainer) {

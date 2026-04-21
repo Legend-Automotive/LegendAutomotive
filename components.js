@@ -15,8 +15,8 @@ const Components = {
                             </div>
                         </div>
 
-                        <div class="hidden md:flex items-center space-x-10 rtl:space-x-reverse">
-                            <a class="nav-link font-manrope tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-primary transition-colors duration-300" href="/" data-i18n="nav_home">Home</a>
+                        <div class="hidden md:flex items-center space-x-10 rtl:space-x-reverse" id="nav-desktop-links">
+                            <a class="nav-link font-manrope tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-primary transition-colors duration-300 ${window.location.pathname === '/' || window.location.pathname.endsWith('/index.html') ? 'hidden' : ''}" href="/" data-i18n="nav_home">Home</a>
                             <a class="nav-link font-manrope tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-primary transition-colors duration-300" href="/inventory" data-i18n="nav_inventory">Explore</a>
                             <a class="nav-link font-manrope tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-primary transition-colors duration-300" href="/about" data-i18n="nav_about">About</a>
                             <a class="nav-link font-manrope tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-primary transition-colors duration-300" href="/contact" data-i18n="nav_contact">Contact Us</a>
