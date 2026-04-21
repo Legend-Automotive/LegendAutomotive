@@ -39,8 +39,14 @@ window.showToast = function (message, type = 'success') {
     toast.innerHTML = `<span class="material-symbols-outlined">${icon}</span> <span>${escapeHtml(message)}</span>`;
     document.body.appendChild(toast);
 
-    setTimeout(() => { toast.classList.remove('translate-y-full', 'opacity-0'); }, 10);
+    // Entrance animation
+    requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-full', 'opacity-0');
+        toast.classList.add('translate-y-0', 'opacity-100');
+    });
+
     setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
         toast.classList.add('translate-y-full', 'opacity-0');
         setTimeout(() => toast.remove(), 300);
     }, 3000);
@@ -58,10 +64,22 @@ document.addEventListener('DOMContentLoaded', () => {
         navigator.serviceWorker.register('sw.js')
             .catch(err => console.error('Service Worker registration failed:', err));
     }
+    if (window.Components) {
+        window.Components.injectAll();
+    }
     init();
 });
 
 async function init() {
+    // Add simple fade-in transition
+    document.body.style.opacity = '0';
+    document.body.style.transition = 'opacity 0.6s ease-in-out';
+    requestAnimationFrame(() => {
+        document.body.style.opacity = '1';
+    });
+    
+    if (window.showLoader) window.showLoader();
+
     // Move language initialization to the very top to prevent flicker/delay
     await setLanguage(currentLang, false);
 
@@ -87,6 +105,8 @@ async function init() {
     } else if (path.endsWith("/favorites")) {
         renderFavorites();
     }
+
+    if (window.hideLoader) window.hideLoader();
 }
 
 // --- Mobile Menu Logic ---
@@ -352,7 +372,7 @@ function createProductCard(p) {
     <div class="group relative flex flex-col rounded-xl overflow-hidden bg-surface-container-low transition-all duration-500 hover:-translate-y-2 border border-outline-variant/10">
         <div class="relative aspect-[16/9] w-full overflow-hidden">
             <a href="/details?id=${p.id}">
-                <img src="${escapeHtml(p.image_url)}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${p.is_sold_out ? 'grayscale' : ''}">
+                <img src="${escapeHtml(p.image_url)}" loading="lazy" decoding="async" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${p.is_sold_out ? 'grayscale' : ''}">
                 ${p.is_sold_out ? `<div class="sold-out-stamp" data-i18n="sold_out">SOLD OUT</div>` : ''}
             </a>
             <div class="absolute top-4 right-4 z-20">
@@ -393,6 +413,14 @@ function renderHome() {
 async function initInventory() {
     const container = document.getElementById('inventory-container');
     if (!container) return;
+
+    // Read query parameter for search
+    const params = new URLSearchParams(window.location.search);
+    const query = params.get('q');
+    const searchInput = document.getElementById('search-input');
+    if (query && searchInput) {
+        searchInput.value = query;
+    }
 
     // Fill category filter
     const categories = await loadCategories();
@@ -504,8 +532,9 @@ function renderBrandFilters() {
     const container = document.getElementById('brand-filters-container');
     if (!container) return;
     container.innerHTML = brands.map(b => `
-        <button onclick="toggleBrandFilter(${b.id}, this)" class="w-16 h-16 p-2 rounded-xl border-2 transition-all flex items-center justify-center bg-surface-container-lowest ${activeBrandFilters.includes(b.id) ? 'border-primary' : 'border-outline-variant/20 hover:border-primary'}">
-            <img src="${b.logo_url}" alt="${b.name}" class="w-full h-full object-contain pointer-events-none">
+        <button onclick="toggleBrandFilter(${b.id}, this)" class="relative w-16 h-16 p-2 rounded-xl border-2 transition-all flex items-center justify-center bg-surface-container-lowest ${activeBrandFilters.includes(b.id) ? 'border-primary ring-2 ring-primary/30 scale-105' : 'border-outline-variant/20 hover:border-primary'}">
+            <img src="${b.logo_url}" alt="${b.name}" class="w-full h-full object-contain pointer-events-none ${activeBrandFilters.includes(b.id) ? 'opacity-100' : 'opacity-70 group-hover:opacity-100'}">
+            ${activeBrandFilters.includes(b.id) ? '<div class="absolute -top-2 -right-2 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center z-10 shadow-sm"><span class="material-symbols-outlined text-[14px] font-bold">check</span></div>' : ''}
         </button>
     `).join('');
 }
@@ -584,7 +613,17 @@ function filterInventory() {
 
     const container = document.getElementById('inventory-container');
     if (container) {
-        container.innerHTML = filtered.map(p => createProductCard(p)).join('');
+        if (filtered.length === 0) {
+            container.innerHTML = `
+                <div class="col-span-full flex flex-col items-center justify-center py-20 opacity-0 animate-[fadeIn_0.5s_ease-out_forwards]">
+                    <span class="material-symbols-outlined text-6xl text-outline-variant mb-6">search_off</span>
+                    <h3 class="text-2xl font-bold font-headline mb-2" data-i18n="no_results">No vehicles found</h3>
+                    <p class="text-neutral-500" data-i18n="adjust_filters">Try adjusting your filters or search query.</p>
+                </div>
+            `;
+        } else {
+            container.innerHTML = filtered.map(p => createProductCard(p)).join('');
+        }
         updatePrices();
         updateDOMTranslations();
     }
@@ -886,11 +925,26 @@ function initContact() {
             btn.disabled = true;
 
             const payload = {
-                name: document.getElementById('c-name').value,
-                email: document.getElementById('c-email').value,
-                subject: document.getElementById('c-interest').value,
-                message: document.getElementById('c-message').value
+                name: document.getElementById('c-name').value.trim(),
+                email: document.getElementById('c-email').value.trim(),
+                subject: document.getElementById('c-interest').value.trim(),
+                message: document.getElementById('c-message').value.trim()
             };
+
+            if (!payload.name || !payload.email || !payload.message) {
+                showToast(translations[currentLang]?.fill_required || 'Please fill in all required fields.', 'error');
+                btn.textContent = originalText;
+                btn.disabled = false;
+                return;
+            }
+
+            const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+            if (!emailRegex.test(payload.email)) {
+                showToast(translations[currentLang]?.invalid_email || 'Please enter a valid email address.', 'error');
+                btn.textContent = originalText;
+                btn.disabled = false;
+                return;
+            }
 
             try {
                 await window.messagesDb.create(payload);
@@ -957,9 +1011,10 @@ function renderFavorites() {
 
     if (favProducts.length === 0) {
         container.innerHTML = `
-            <div class="col-span-full text-center py-20">
-                <span class="material-symbols-outlined text-6xl text-gray-300 mb-4">favorite_border</span>
-                <p class="text-xl text-gray-500" data-i18n="no_favorites">You haven't added any favorites yet.</p>
+            <div class="col-span-full flex flex-col items-center justify-center py-20 opacity-0 animate-[fadeIn_0.5s_ease-out_forwards]">
+                <span class="material-symbols-outlined text-6xl text-outline-variant mb-6">favorite_border</span>
+                <p class="text-2xl font-bold font-headline text-on-surface mb-6" data-i18n="no_favorites">You haven't added any favorites yet.</p>
+                <a href="/inventory" class="gold-shimmer text-on-primary px-8 py-3 rounded-lg font-bold shadow-lg hover:brightness-110 transition-all">Explore Inventory</a>
             </div>`;
     } else {
         container.innerHTML = favProducts.map(p => createProductCard(p)).join('');
