@@ -76,15 +76,15 @@ async function init() {
     const path = window.location.pathname;
     if (path.endsWith("/") || path.endsWith('/')) {
         renderHome();
-    } else if (path.endsWith("/LegendAutomotive/inventory")) {
+    } else if (path.endsWith("/inventory")) {
         initInventory();
-    } else if (path.endsWith("/LegendAutomotive/about")) {
+    } else if (path.endsWith("/about")) {
         // About page - static content, no additional initialization needed
-    } else if (path.endsWith("/LegendAutomotive/details")) {
+    } else if (path.endsWith("/details")) {
         renderDetails();
-    } else if (path.endsWith("/LegendAutomotive/contact")) {
+    } else if (path.endsWith("/contact")) {
         initContact();
-    } else if (path.endsWith("/LegendAutomotive/favorites")) {
+    } else if (path.endsWith("/favorites")) {
         renderFavorites();
     }
 }
@@ -351,7 +351,7 @@ function createProductCard(p) {
     return `
     <div class="group relative flex flex-col rounded-xl overflow-hidden bg-surface-container-low transition-all duration-500 hover:-translate-y-2 border border-outline-variant/10">
         <div class="relative aspect-[16/9] w-full overflow-hidden">
-            <a href="details.html?id=${p.id}">
+            <a href="/details?id=${p.id}">
                 <img src="${escapeHtml(p.image_url)}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${p.is_sold_out ? 'grayscale' : ''}">
                 ${p.is_sold_out ? `<div class="sold-out-stamp" data-i18n="sold_out">SOLD OUT</div>` : ''}
             </a>
@@ -367,14 +367,14 @@ function createProductCard(p) {
             ${p.version ? `<div class="absolute bottom-4 right-4 z-20 glass-card text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full border border-outline-variant/20">${p.version}</div>` : ''}
         </div>
         <div class="p-6 flex flex-col flex-grow">
-            <a href="details.html?id=${p.id}" class="text-xl font-bold text-on-surface hover:text-primary transition-colors">${escapeHtml(name)}</a>
+            <a href="/details?id=${p.id}" class="text-xl font-bold text-on-surface hover:text-primary transition-colors">${escapeHtml(name)}</a>
             <div class="flex items-center gap-3 text-xs text-on-surface-variant mt-4 font-medium">
                 <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">speed</span> ${p.mileage || '-'}</span>
                 <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">settings</span> ${p.transmission || '-'}</span>
             </div>
             <div class="mt-auto flex items-center justify-between pt-4 border-t border-outline-variant/15 mt-6">
                 <p class="text-2xl font-bold text-primary" data-price-egp="${p.price_egp || 0}">${p.is_upon_request ? (translations[currentLang]?.upon_request || "Upon Request") : formatPrice(p.price_egp || 0)}</p>
-                <a href="details.html?id=${p.id}" class="text-xs font-bold text-primary flex items-center gap-1 uppercase tracking-widest" data-i18n="view_details">Explore <span class="material-symbols-outlined text-[16px]">arrow_forward</span></a>
+                <a href="/details?id=${p.id}" class="text-xs font-bold text-primary flex items-center gap-1 uppercase tracking-widest" data-i18n="view_details">Explore <span class="material-symbols-outlined text-[16px]">arrow_forward</span></a>
             </div>
         </div>
     </div>
