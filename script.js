@@ -71,9 +71,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function init() {
-    // Add simple fade-in transition
+    // Quick fade-in transition
     document.body.style.opacity = '0';
-    document.body.style.transition = 'opacity 0.6s ease-in-out';
+    document.body.style.transition = 'opacity 0.15s ease-in-out';
     requestAnimationFrame(() => {
         document.body.style.opacity = '1';
     });
@@ -372,7 +372,7 @@ function createProductCard(p, index = 0) {
     <div class="group relative flex flex-col rounded-xl overflow-hidden bg-surface-container-low transition-all duration-500 hover:-translate-y-2 border border-outline-variant/10">
         <div class="relative aspect-[16/9] w-full overflow-hidden bg-surface-container-high animate-pulse" id="skel-${p.id}">
             <a href="/details?id=${p.id}">
-                <img src="${escapeHtml(p.image_url)}" ${index < 6 ? '' : 'loading="lazy" decoding="async"'} class="absolute inset-0 w-full h-full object-cover transition-all duration-700 opacity-0 group-hover:scale-105 ${p.is_sold_out ? 'grayscale' : ''}" onload="this.classList.remove('opacity-0'); document.getElementById('skel-${p.id}')?.classList.remove('animate-pulse');">
+                <img src="${escapeHtml(p.image_url)}" ${index < 6 ? '' : 'loading="lazy" decoding="async"'} class="absolute inset-0 w-full h-full object-cover transition-all duration-300 opacity-0 group-hover:scale-105 ${p.is_sold_out ? 'grayscale' : ''}" onload="this.classList.remove('opacity-0'); document.getElementById('skel-${p.id}')?.classList.remove('animate-pulse');">
                 ${p.is_sold_out ? `<div class="sold-out-stamp" data-i18n="sold_out">SOLD OUT</div>` : ''}
             </a>
             <div class="absolute top-4 right-4 z-20">

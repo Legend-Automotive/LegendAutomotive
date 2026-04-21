@@ -140,7 +140,7 @@ const Components = {
 
     renderLoader: function() {
         return `
-            <div id="global-loader" class="fixed inset-0 z-[200] bg-background/80 backdrop-blur-md flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
+            <div id="global-loader" class="fixed inset-0 z-[200] bg-background/80 backdrop-blur-md flex flex-col items-center justify-center opacity-0 pointer-events-none transition-opacity duration-150">
                 <div class="relative w-24 h-24 mb-4">
                     <div class="absolute inset-0 rounded-full border-4 border-outline-variant/30"></div>
                     <div class="absolute inset-0 rounded-full border-4 border-primary border-t-transparent animate-spin"></div>
