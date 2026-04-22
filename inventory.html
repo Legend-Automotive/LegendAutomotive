@@ -1,36 +1,24 @@
 <!DOCTYPE html>
 <html class="dark" lang="en">
+
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta name="description" content="Legend Automotive - Premium and luxury vehicles for discerning individuals. Contact us for your dream car.">
     <title>Explore Collection | Legend Automotive</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/png" href="assets/images/logo.jpg">
 </head>
+
 <body class="bg-background text-on-surface font-body selection:bg-primary selection:text-on-primary">
-    <!-- TopNavBar -->
-    <header class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-xl">
-        <div class="bg-gradient-to-b from-background to-transparent">
-            <nav class="flex justify-between items-center w-full px-8 h-20">
-                <a class="flex items-center gap-3" href="/"><img src="assets/logo-full.png" alt="Legend Automotive" class="site-logo" style="height:300px;width:auto"></a>
-                <div class="hidden md:flex items-center space-x-10 rtl:space-x-reverse font-manrope tracking-wider uppercase text-sm font-semibold">
-                    <a class="text-neutral-400 hover:text-primary transition-colors duration-300" href="/" data-i18n="nav_home">Home</a>
-                    <a class="text-primary border-b-2 border-primary-container pb-1" href="/inventory" data-i18n="nav_inventory">Explore</a>
-                    <a class="text-neutral-400 hover:text-primary transition-colors duration-300" href="/about" data-i18n="nav_about">About</a>
-                    <a class="text-neutral-400 hover:text-primary transition-colors duration-300" href="/contact" data-i18n="nav_contact">Contact Us</a>
-                    <a class="text-neutral-400 hover:text-primary transition-colors duration-300" href="/favorites">
-                        <span class="material-symbols-outlined align-middle">favorite</span>
-                    </a>
-                </div>
-                <div class="flex items-center space-x-4 rtl:space-x-reverse text-primary">
-                    <button id="mobile-menu-btn" class="scale-95 active:scale-90 transition-transform">
-                        <span class="material-symbols-outlined">menu</span>
-                    </button>
-                </div>
-            </nav>
+    <div id="global-header-placeholder"></div>
         </div>
     </header>
 
@@ -41,7 +29,8 @@
                 THE <span class="italic text-on-surface">SOVEREIGN</span> COLLECTION
             </h1>
             <p class="text-on-surface-variant max-w-2xl font-body text-lg leading-relaxed">
-                Discover the pinnacle of sustainable performance. Every vehicle in our gallery is hand-selected for its legendary status and uncompromising luxury.
+                Discover the pinnacle of sustainable performance. Every vehicle in our gallery is hand-selected for its
+                legendary status and uncompromising luxury.
             </p>
         </div>
 
@@ -50,28 +39,40 @@
             <aside class="w-full lg:w-72 flex-shrink-0 space-y-12">
                 <!-- Search Filter -->
                 <div class="space-y-4 rtl:text-right">
-                    <label class="font-headline font-bold text-xs uppercase tracking-widest text-primary" data-i18n="search_cars">Search</label>
-                    <input class="w-full bg-surface-container-lowest border-none focus:ring-1 focus:ring-primary rounded-md py-3 px-4 text-on-surface placeholder:text-neutral-600 transition-all" id="search-input" placeholder="Model or Brand..." type="text" data-i18n-placeholder="search_cars"/>
+                    <label class="font-headline font-bold text-xs uppercase tracking-widest text-primary"
+                        data-i18n="search_cars">Search</label>
+                    <input
+                        class="w-full bg-surface-container-lowest border-none focus:ring-1 focus:ring-primary rounded-md py-3 px-4 text-on-surface placeholder:text-neutral-600 transition-all"
+                        id="search-input" placeholder="Model or Brand..." type="text"
+                        data-i18n-placeholder="search_cars" />
                 </div>
                 <!-- Brand Filter -->
                 <div class="space-y-4 rtl:text-right">
-                    <label class="font-headline font-bold text-xs uppercase tracking-widest text-primary" data-i18n="filter_brand">Manufacturer</label>
+                    <label class="font-headline font-bold text-xs uppercase tracking-widest text-primary"
+                        data-i18n="filter_brand">Manufacturer</label>
                     <div id="brand-filters-container" class="flex flex-wrap gap-2"></div>
                 </div>
                 <!-- Price Range -->
                 <div class="space-y-6 rtl:text-right">
                     <div class="flex justify-between items-center rtl:flex-row-reverse">
-                        <label class="font-headline font-bold text-xs uppercase tracking-widest text-primary" data-i18n="price_range">Price Range</label>
-                        <span id="price-range-display" class="text-xs text-on-surface-variant font-mono"><span id="price-min">0</span> - <span id="price-max">10M</span></span>
+                        <label class="font-headline font-bold text-xs uppercase tracking-widest text-primary"
+                            data-i18n="price_range">Price Range</label>
+                        <span id="price-range-display" class="text-xs text-on-surface-variant font-mono"><span
+                                id="price-min">0</span> - <span id="price-max">10M</span></span>
                     </div>
                     <div id="price-slider-wrapper" class="relative h-2 rounded-full mt-8">
                         <!-- Hidden value stores read by filterInventory -->
                         <input id="price-min-slider" type="range" class="sr-only" tabindex="-1">
                         <input id="price-max-slider" type="range" class="sr-only" tabindex="-1">
                         <div id="price-slider-track" class="absolute h-full w-full bg-neutral-700 rounded-full"></div>
-                        <div id="price-slider-fill" class="absolute h-full bg-primary rounded-full pointer-events-none z-10"></div>
-                        <div id="price-min-thumb" class="absolute top-1/2 -translate-y-1/2 w-5 h-5 bg-white border-2 border-primary rounded-full shadow-lg cursor-grab active:cursor-grabbing z-30"></div>
-                        <div id="price-max-thumb" class="absolute top-1/2 -translate-y-1/2 w-5 h-5 bg-white border-2 border-primary rounded-full shadow-lg cursor-grab active:cursor-grabbing z-30"></div>
+                        <div id="price-slider-fill"
+                            class="absolute h-full bg-primary rounded-full pointer-events-none z-10"></div>
+                        <div id="price-min-thumb"
+                            class="absolute top-1/2 -translate-y-1/2 w-5 h-5 bg-white border-2 border-primary rounded-full shadow-lg cursor-grab active:cursor-grabbing z-30">
+                        </div>
+                        <div id="price-max-thumb"
+                            class="absolute top-1/2 -translate-y-1/2 w-5 h-5 bg-white border-2 border-primary rounded-full shadow-lg cursor-grab active:cursor-grabbing z-30">
+                        </div>
                     </div>
                 </div>
                 <!-- Colors -->
@@ -81,8 +82,10 @@
                 </div>
                 <!-- Category Filter -->
                 <div class="space-y-4 rtl:text-right">
-                    <label class="font-headline font-bold text-xs uppercase tracking-widest text-primary" data-i18n="filter_category">Category</label>
-                    <select id="filter-category" class="w-full bg-surface-container-lowest border-none focus:ring-1 focus:ring-primary rounded-md py-3 px-4 text-on-surface">
+                    <label class="font-headline font-bold text-xs uppercase tracking-widest text-primary"
+                        data-i18n="filter_category">Category</label>
+                    <select id="filter-category"
+                        class="w-full bg-surface-container-lowest border-none focus:ring-1 focus:ring-primary rounded-md py-3 px-4 text-on-surface">
                         <option value="" data-i18n="filter_category">All Categories</option>
                     </select>
                 </div>
@@ -129,7 +132,7 @@
     <div id="mobile-menu-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] opacity-0 pointer-events-none transition-opacity duration-300"></div>
     <div id="mobile-menu-drawer" class="fixed top-0 right-0 h-full w-[80%] max-w-sm bg-background z-[101] translate-x-full transition-transform duration-400 shadow-2xl flex flex-col">
         <div class="flex justify-between items-center p-6 border-b border-outline-variant/10">
-            <div class="flex items-center gap-3"><a href="/"><img src="assets/images/logo.jpg" alt="Legend Automotive" class="site-logo" style="height:150px;width:auto"></a></div>
+            <div class="flex items-center gap-3"><a href="/"><img src="assets/images/logo.jpg" alt="Legend Automotive" class="site-logo" style="height:200px;width:auto"></a></div>
             <button id="mobile-menu-close" class="p-2 text-primary active:scale-90 transition-transform">
                 <span class="material-symbols-outlined">close</span>
             </button>
@@ -179,4 +182,5 @@
     <script src="db/settings.js"></script>
     <script src="script.js"></script>
 </body>
+
 </html>

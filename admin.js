@@ -21,6 +21,15 @@ const escapeHtml = (unsafe) => {
   return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
 };
 
+// Optimizes remote images via wsrv.nl to fix huge memory footprint and slow loading
+const optimizeImage = (url, width) => {
+    if (!url) return '';
+    if (url.includes('wsrv.nl')) return url;
+    if (url.startsWith('https://')) {
+        return `https://wsrv.nl/?url=${encodeURIComponent(url)}&w=${width}&output=webp&q=80`;
+    }
+    return url;
+};
 const sanitizeFilename = (name) => {
     return name.replace(/[^a-z0-9.]/gi, '-').replace(/-+/g, '-').toLowerCase();
 };
@@ -229,7 +238,7 @@ function renderGalleryPreview() {
     const container = document.getElementById("gallery-preview-container");
     container.innerHTML = currentGallery.map((url, idx) => `
         <div class="relative group aspect-video rounded-lg overflow-hidden border border-outline-variant cursor-move" draggable="true" ondragstart="handleGalleryDragStart(event, ${idx})" ondrop="handleGalleryDrop(event, ${idx})" ondragover="event.preventDefault()">
-            <img src="${url}" class="w-full h-full object-cover">
+            <img src="${escapeHtml(optimizeImage(url, 400))}" class="w-full h-full object-cover">
             <button type="button" onclick="removeGalleryImage(${idx})" class="absolute top-1 right-1 bg-red-600 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
                 <span class="material-symbols-outlined text-sm">close</span>
             </button>
@@ -364,7 +373,7 @@ function renderProducts(products) {
   tbody.innerHTML = products.map((p, idx) => `
     <tr draggable="true" ondragstart="window.handleProductDragStart(event)" data-index="${idx}" class="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors cursor-move">
       <td class="px-6 py-4"><span class="material-symbols-outlined text-gray-400">drag_indicator</span></td>
-      <td class="px-6 py-4" data-label="Preview"><img src="${escapeHtml(p.image_url)}" class="h-10 w-16 object-cover rounded"></td>
+      <td class="px-6 py-4" data-label="Preview"><img src="${escapeHtml(optimizeImage(p.image_url, 400))}" class="h-10 w-16 object-cover rounded"></td>
       <td class="px-6 py-4 font-medium" data-label="Vehicle">${escapeHtml(p.name)}<br><span class="text-xs text-gray-500">${escapeHtml(p.name_ar || '')}</span></td>
       <td class="px-6 py-4" data-label="Sold"><input type="checkbox" ${p.is_sold_out ? 'checked' : ''} onchange="toggleSoldOut(${p.id}, this)" class="rounded text-primary"></td>
       <td class="px-6 py-4" data-label="Price">${p.is_upon_request ? 'Upon Request' : (escapeHtml(p.price_egp?.toLocaleString()) + ' L.E')}</td>
@@ -463,7 +472,7 @@ function renderColorVariants() {
             <div class="grid grid-cols-4 md:grid-cols-6 gap-2">
                 ${v.gallery.map((url, gi) => `
                     <div class="relative group aspect-video rounded overflow-hidden border border-outline-variant">
-                        <img src="${url}" class="w-full h-full object-cover">
+                        <img src="${escapeHtml(optimizeImage(url, 400))}" class="w-full h-full object-cover">
                         <button type="button" onclick="removeVariantGalleryImage(${idx}, ${gi})" class="absolute top-0.5 right-0.5 bg-red-600 text-white p-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
                             <span class="material-symbols-outlined text-xs">close</span>
                         </button>
@@ -632,7 +641,7 @@ function renderBrandSelector(selectedId) {
     const container = document.getElementById("p-brand-container");
     container.innerHTML = currentBrands.map(b => `
         <button type="button" onclick="selectBrand(${b.id})" class="brand-btn p-2 border-2 rounded ${selectedId == b.id ? 'border-primary' : 'border-transparent'}">
-            <img src="${b.logo_url}" class="h-8 w-12 object-contain">
+            <img src="${escapeHtml(optimizeImage(b.logo_url, 300))}" class="h-8 w-12 object-contain">
         </button>
     `).join('');
 }
@@ -709,7 +718,7 @@ function renderBrands(brands) {
     const tbody = document.getElementById("brands-table-body");
     tbody.innerHTML = brands.map(b => `
         <tr>
-            <td class="px-6 py-4" data-label="Logo"><img src="${b.logo_url}" class="h-10 w-16 object-contain"></td>
+            <td class="px-6 py-4" data-label="Logo"><img src="${escapeHtml(optimizeImage(b.logo_url, 300))}" class="h-10 w-16 object-contain"></td>
             <td class="px-6 py-4" data-label="Name">${escapeHtml(b.name)}</td>
             <td class="px-6 py-4 text-right">
                 <button onclick="editBrand(${b.id})" class="text-blue-500 mr-3">Edit</button>

@@ -17,7 +17,7 @@ let priceRange = { min: 0, max: 0, current: 0 };
 let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
 
 // --- UI Utilities ---
-window.showToast = function(message, type = 'success') {
+window.showToast = function (message, type = 'success') {
     const existing = document.getElementById('custom-toast');
     if (existing) existing.remove();
 
@@ -39,8 +39,14 @@ window.showToast = function(message, type = 'success') {
     toast.innerHTML = `<span class="material-symbols-outlined">${icon}</span> <span>${escapeHtml(message)}</span>`;
     document.body.appendChild(toast);
 
-    setTimeout(() => { toast.classList.remove('translate-y-full', 'opacity-0'); }, 10);
+    // Entrance animation
+    requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-full', 'opacity-0');
+        toast.classList.add('translate-y-0', 'opacity-100');
+    });
+
     setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
         toast.classList.add('translate-y-full', 'opacity-0');
         setTimeout(() => toast.remove(), 300);
     }, 3000);
@@ -52,16 +58,38 @@ const escapeHtml = (unsafe) => {
     return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
 };
 
+// Optimizes remote images via wsrv.nl to fix huge memory footprint and slow loading on mobile
+const optimizeImage = (url, width) => {
+    if (!url) return '';
+    if (url.includes('wsrv.nl')) return url;
+    if (url.startsWith('https://')) {
+        return `https://wsrv.nl/?url=${encodeURIComponent(url)}&w=${width}&output=webp&q=80`;
+    }
+    return url;
+};
+
 // --- Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('sw.js')
             .catch(err => console.error('Service Worker registration failed:', err));
     }
+    if (window.Components) {
+        window.Components.injectAll();
+    }
     init();
 });
 
 async function init() {
+    // Quick fade-in transition
+    document.body.style.opacity = '0';
+    document.body.style.transition = 'opacity 0.15s ease-in-out';
+    requestAnimationFrame(() => {
+        document.body.style.opacity = '1';
+    });
+    
+    if (window.showLoader) window.showLoader();
+
     // Move language initialization to the very top to prevent flicker/delay
     await setLanguage(currentLang, false);
 
@@ -76,17 +104,19 @@ async function init() {
     const path = window.location.pathname;
     if (path.endsWith("/") || path.endsWith('/')) {
         renderHome();
-    } else if (path.endsWith("/LegendAutomotive/inventory")) {
+    } else if (path.endsWith("/inventory")) {
         initInventory();
-    } else if (path.endsWith("/LegendAutomotive/about")) {
+    } else if (path.endsWith("/about")) {
         // About page - static content, no additional initialization needed
-    } else if (path.endsWith("/LegendAutomotive/details")) {
+    } else if (path.endsWith("/details")) {
         renderDetails();
-    } else if (path.endsWith("/LegendAutomotive/contact")) {
+    } else if (path.endsWith("/contact")) {
         initContact();
-    } else if (path.endsWith("/LegendAutomotive/favorites")) {
+    } else if (path.endsWith("/favorites")) {
         renderFavorites();
     }
+
+    if (window.hideLoader) window.hideLoader();
 }
 
 // --- Mobile Menu Logic ---
@@ -173,7 +203,7 @@ async function setLanguage(lang, shouldRender = true) {
     }
 }
 
-window.toggleLanguage = function() {
+window.toggleLanguage = function () {
     setLanguage(currentLang === 'en' ? 'ar' : 'en');
 }
 
@@ -216,7 +246,7 @@ function setCurrency(currency) {
 }
 window.setCurrency = setCurrency;
 
-window.toggleCurrency = function() {
+window.toggleCurrency = function () {
     setCurrency(currentCurrency === 'USD' ? 'EGP' : 'USD');
 }
 
@@ -259,7 +289,7 @@ async function loadGlobalSettings() {
             const val = settings[key];
             if (!val) return;
             let links = [];
-            try { links = JSON.parse(val); } catch(e) { links = [val]; }
+            try { links = JSON.parse(val); } catch (e) { links = [val]; }
             links = links.filter(l => l && l !== '#');
             if (links.length === 0) return;
 
@@ -309,7 +339,7 @@ async function loadGlobalSettings() {
         }
 
         if (settings.hero_image && document.getElementById('hero-bg-image')) {
-            document.getElementById('hero-bg-image').src = settings.hero_image;
+            document.getElementById('hero-bg-image').src = optimizeImage(settings.hero_image, 1920);
             document.getElementById('hero-bg-image').classList.remove('hidden');
         }
 
@@ -336,7 +366,7 @@ async function loadCategories() {
 }
 
 // --- Rendering ---
-function createProductCard(p) {
+function createProductCard(p, index = 0) {
     const isAr = currentLang === 'ar';
     const name = isAr && p.name_ar ? p.name_ar : p.name;
     const fav = favorites.includes(p.id);
@@ -350,9 +380,9 @@ function createProductCard(p) {
 
     return `
     <div class="group relative flex flex-col rounded-xl overflow-hidden bg-surface-container-low transition-all duration-500 hover:-translate-y-2 border border-outline-variant/10">
-        <div class="relative aspect-[16/9] w-full overflow-hidden">
+        <div class="relative aspect-[16/9] w-full overflow-hidden bg-surface-container-high animate-pulse" id="skel-${p.id}">
             <a href="/details?id=${p.id}">
-                <img src="${escapeHtml(p.image_url)}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 ${p.is_sold_out ? 'grayscale' : ''}">
+                <img src="${escapeHtml(optimizeImage(p.image_url, 600))}" ${index < 4 ? 'fetchpriority="high"' : 'loading="lazy" decoding="async"'} class="absolute inset-0 w-full h-full object-cover transition-all duration-300 group-hover:scale-105 ${p.is_sold_out ? 'grayscale' : ''}" onload="document.getElementById('skel-${p.id}')?.classList.remove('animate-pulse');">
                 ${p.is_sold_out ? `<div class="sold-out-stamp" data-i18n="sold_out">SOLD OUT</div>` : ''}
             </a>
             <div class="absolute top-4 right-4 z-20">
@@ -384,8 +414,8 @@ function createProductCard(p) {
 function renderHome() {
     const container = document.getElementById('trending-container');
     if (!container) return;
-    const spotlight = products.filter(p => p.is_spotlight).sort((a,b) => a.order_spotlight - b.order_spotlight);
-    container.innerHTML = spotlight.map(p => createProductCard(p)).join('');
+    const spotlight = products.filter(p => p.is_spotlight).sort((a, b) => a.order_spotlight - b.order_spotlight);
+    container.innerHTML = spotlight.map((p, ix) => createProductCard(p, ix)).join('');
     updatePrices();
     updateDOMTranslations();
 }
@@ -393,6 +423,14 @@ function renderHome() {
 async function initInventory() {
     const container = document.getElementById('inventory-container');
     if (!container) return;
+
+    // Read query parameter for search
+    const params = new URLSearchParams(window.location.search);
+    const query = params.get('q');
+    const searchInput = document.getElementById('search-input');
+    if (query && searchInput) {
+        searchInput.value = query;
+    }
 
     // Fill category filter
     const categories = await loadCategories();
@@ -442,7 +480,7 @@ function initPriceSlider() {
         const pMin = ((curMin - absMin) / range) * 100;
         const pMax = ((curMax - absMin) / range) * 100;
 
-        fill.style.left  = pMin + '%';
+        fill.style.left = pMin + '%';
         fill.style.width = (pMax - pMin) + '%';
         minThumb.style.left = pMin + '%';
         maxThumb.style.left = pMax + '%';
@@ -492,9 +530,9 @@ function initPriceSlider() {
         document.addEventListener('touchend', onUp);
     }
 
-    minThumb.addEventListener('mousedown',  e => startDrag(e, true));
-    maxThumb.addEventListener('mousedown',  e => startDrag(e, false));
-    minThumb.addEventListener('touchstart', e => startDrag(e, true),  { passive: false });
+    minThumb.addEventListener('mousedown', e => startDrag(e, true));
+    maxThumb.addEventListener('mousedown', e => startDrag(e, false));
+    minThumb.addEventListener('touchstart', e => startDrag(e, true), { passive: false });
     maxThumb.addEventListener('touchstart', e => startDrag(e, false), { passive: false });
 
     updateUI();
@@ -504,8 +542,9 @@ function renderBrandFilters() {
     const container = document.getElementById('brand-filters-container');
     if (!container) return;
     container.innerHTML = brands.map(b => `
-        <button onclick="toggleBrandFilter(${b.id}, this)" class="w-16 h-16 p-2 rounded-xl border-2 transition-all flex items-center justify-center bg-surface-container-lowest ${activeBrandFilters.includes(b.id) ? 'border-primary' : 'border-outline-variant/20 hover:border-primary'}">
-            <img src="${b.logo_url}" alt="${b.name}" class="w-full h-full object-contain pointer-events-none">
+        <button onclick="toggleBrandFilter(${b.id}, this)" class="relative w-16 h-16 p-2 rounded-xl border-2 transition-all flex items-center justify-center bg-surface-container-lowest ${activeBrandFilters.includes(b.id) ? 'border-primary ring-2 ring-primary/30 scale-105' : 'border-outline-variant/20 hover:border-primary'}">
+            <img src="${b.logo_url}" alt="${b.name}" class="w-full h-full object-contain pointer-events-none ${activeBrandFilters.includes(b.id) ? 'opacity-100' : 'opacity-70 group-hover:opacity-100'}">
+            ${activeBrandFilters.includes(b.id) ? '<div class="absolute -top-2 -right-2 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center z-10 shadow-sm"><span class="material-symbols-outlined text-[14px] font-bold">check</span></div>' : ''}
         </button>
     `).join('');
 }
@@ -518,7 +557,7 @@ function renderColorFilters() {
     const seen = new Map(); // hex -> name
     products.forEach(p => {
         let variants = p.color_variants || [];
-        if (typeof variants === 'string') { try { variants = JSON.parse(variants); } catch(e) { variants = []; } }
+        if (typeof variants === 'string') { try { variants = JSON.parse(variants); } catch (e) { variants = []; } }
         variants.forEach(v => {
             if (v.hex && !seen.has(v.hex)) {
                 seen.set(v.hex, currentLang === 'ar' && v.name_ar ? v.name_ar : (v.name || v.hex));
@@ -542,7 +581,7 @@ function renderColorFilters() {
     `).join('');
 }
 
-window.toggleColorFilter = function(hex, btn) {
+window.toggleColorFilter = function (hex, btn) {
     const idx = activeColorFilters.indexOf(hex);
     if (idx === -1) activeColorFilters.push(hex);
     else activeColorFilters.splice(idx, 1);
@@ -550,7 +589,7 @@ window.toggleColorFilter = function(hex, btn) {
     filterInventory();
 };
 
-window.toggleBrandFilter = function(id, btn) {
+window.toggleBrandFilter = function (id, btn) {
     const idx = activeBrandFilters.indexOf(id);
     if (idx === -1) activeBrandFilters.push(id);
     else activeBrandFilters.splice(idx, 1);
@@ -574,17 +613,27 @@ function filterInventory() {
         let matchesColor = true;
         if (activeColorFilters.length > 0) {
             let variants = p.color_variants || [];
-            if (typeof variants === 'string') { try { variants = JSON.parse(variants); } catch(e) { variants = []; } }
+            if (typeof variants === 'string') { try { variants = JSON.parse(variants); } catch (e) { variants = []; } }
             const productHexes = variants.map(v => v.hex).filter(Boolean);
             matchesColor = activeColorFilters.some(h => productHexes.includes(h));
         }
 
         return matchesTerm && matchesCat && matchesBrand && matchesPrice && matchesColor;
-    }).sort((a,b) => a.order_explore - b.order_explore);
+    }).sort((a, b) => a.order_explore - b.order_explore);
 
     const container = document.getElementById('inventory-container');
     if (container) {
-        container.innerHTML = filtered.map(p => createProductCard(p)).join('');
+        if (filtered.length === 0) {
+            container.innerHTML = `
+                <div class="col-span-full flex flex-col items-center justify-center py-20 opacity-0 animate-[fadeIn_0.5s_ease-out_forwards]">
+                    <span class="material-symbols-outlined text-6xl text-outline-variant mb-6">search_off</span>
+                    <h3 class="text-2xl font-bold font-headline mb-2" data-i18n="no_results">No vehicles found</h3>
+                    <p class="text-neutral-500" data-i18n="adjust_filters">Try adjusting your filters or search query.</p>
+                </div>
+            `;
+        } else {
+            container.innerHTML = filtered.map((p, ix) => createProductCard(p, ix)).join('');
+        }
         updatePrices();
         updateDOMTranslations();
     }
@@ -641,34 +690,50 @@ async function renderDetails() {
     document.getElementById('spec-version').textContent = p.version || '-';
 
     const mainImg = document.getElementById('main-image');
-    if (mainImg) mainImg.src = p.image_url;
+    if (mainImg) {
+        mainImg.src = optimizeImage(p.image_url, 1200);
+        mainImg.onload = null;
+    }
 
     // Image Slider Logic
     let currentGalleryIndex = 0;
     let currentGalleryImages = [];
-    let galleryInterval = null;
+    let autoplayTimeout = null;
 
-    function startGalleryAutoplay() {
-        if (galleryInterval) clearInterval(galleryInterval);
+    function scheduleNextImage() {
+        clearTimeout(autoplayTimeout);
         if (currentGalleryImages.length > 1) {
-            galleryInterval = setInterval(() => {
+            autoplayTimeout = setTimeout(() => {
                 window.nextImage();
             }, 3000);
         }
     }
 
-    function stopGalleryAutoplay() {
-        if (galleryInterval) clearInterval(galleryInterval);
+    function startGalleryAutoplay() {
+        clearTimeout(autoplayTimeout);
+        const mainImg = document.getElementById('main-image');
+        if (!mainImg) return;
+        if (mainImg.complete) {
+            scheduleNextImage();
+        } else {
+            mainImg.onload = scheduleNextImage;
+        }
     }
-    
-    window.nextImage = function() {
+
+    function stopGalleryAutoplay() {
+        clearTimeout(autoplayTimeout);
+        const mainImg = document.getElementById('main-image');
+        if (mainImg) mainImg.onload = null;
+    }
+
+    window.nextImage = function () {
         if (currentGalleryImages.length <= 1) return;
         currentGalleryIndex = (currentGalleryIndex + 1) % currentGalleryImages.length;
         updateMainImage();
         startGalleryAutoplay(); // Reset interval
     };
-    
-    window.prevImage = function() {
+
+    window.prevImage = function () {
         if (currentGalleryImages.length <= 1) return;
         currentGalleryIndex = (currentGalleryIndex - 1 + currentGalleryImages.length) % currentGalleryImages.length;
         updateMainImage();
@@ -677,20 +742,28 @@ async function renderDetails() {
 
     function updateMainImage() {
         if (!currentGalleryImages[currentGalleryIndex]) return;
-        document.getElementById('main-image').src = currentGalleryImages[currentGalleryIndex];
-        
+        const mainImg = document.getElementById('main-image');
+        stopGalleryAutoplay();
+        mainImg.src = optimizeImage(currentGalleryImages[currentGalleryIndex], 1200);
+
         // Update thumbnails
+        const container = document.getElementById('gallery-thumbnails');
         document.querySelectorAll('#gallery-thumbnails button').forEach((b, idx) => {
             if (idx === currentGalleryIndex) {
                 b.classList.add('border-primary');
-                b.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                if (container) {
+                    container.scrollTo({
+                        left: b.offsetLeft - container.offsetWidth / 2 + b.offsetWidth / 2,
+                        behavior: 'smooth'
+                    });
+                }
             } else {
                 b.classList.remove('border-primary');
             }
         });
     }
 
-    window.selectImage = function(idx) {
+    window.selectImage = function (idx) {
         currentGalleryIndex = idx;
         updateMainImage();
         startGalleryAutoplay();
@@ -707,19 +780,19 @@ async function renderDetails() {
         const thumbnails = document.getElementById('gallery-thumbnails');
         const prevBtn = document.getElementById('btn-prev-img');
         const nextBtn = document.getElementById('btn-next-img');
-        
+
         if (!thumbnails) return;
         currentGalleryImages = images && images.length ? images : (p.gallery || []);
         currentGalleryIndex = 0;
-        
-        if (currentGalleryImages.length === 0) { 
-            thumbnails.innerHTML = ''; 
+
+        if (currentGalleryImages.length === 0) {
+            thumbnails.innerHTML = '';
             if (prevBtn) prevBtn.classList.add('hidden');
             if (nextBtn) nextBtn.classList.add('hidden');
             stopGalleryAutoplay();
-            return; 
+            return;
         }
-        
+
         if (prevBtn && nextBtn) {
             if (currentGalleryImages.length > 1) {
                 prevBtn.classList.remove('hidden');
@@ -732,10 +805,10 @@ async function renderDetails() {
 
         thumbnails.innerHTML = currentGalleryImages.map((url, idx) => `
             <button onclick="window.selectImage(${idx})" class="w-24 flex-shrink-0 aspect-video rounded-lg overflow-hidden border border-outline-variant/20 hover:border-primary transition-all">
-                <img src="${escapeHtml(url)}" class="w-full h-full object-cover">
+                <img src="${escapeHtml(optimizeImage(url, 400))}" loading="lazy" decoding="async" class="w-full h-full object-cover">
             </button>
         `).join('');
-        
+
         updateMainImage();
         startGalleryAutoplay();
     }
@@ -745,7 +818,7 @@ async function renderDetails() {
 
     // Color variants swatches
     let colorVariants = p.color_variants || [];
-    if (typeof colorVariants === 'string') { try { colorVariants = JSON.parse(colorVariants); } catch(e) { colorVariants = []; } }
+    if (typeof colorVariants === 'string') { try { colorVariants = JSON.parse(colorVariants); } catch (e) { colorVariants = []; } }
 
     const colorContainer = document.getElementById('color-selection-container');
     const colorOptions = document.getElementById('color-options');
@@ -772,11 +845,11 @@ async function renderDetails() {
 
         // Load first variant gallery if it has one
         if (colorVariants[0].gallery && colorVariants[0].gallery.length > 0) {
-            mainImg.src = colorVariants[0].gallery[0];
+            mainImg.src = optimizeImage(colorVariants[0].gallery[0], 1200);
             renderGallery(colorVariants[0].gallery);
         }
 
-        window.selectColorVariant = function(idx) {
+        window.selectColorVariant = function (idx) {
             const v = colorVariants[idx];
             if (!v) return;
             // Update swatch selection
@@ -793,7 +866,7 @@ async function renderDetails() {
             }
             // Switch gallery
             const gallery = v.gallery && v.gallery.length > 0 ? v.gallery : (p.gallery || []);
-            if (gallery.length > 0) mainImg.src = gallery[0];
+            if (gallery.length > 0) mainImg.src = optimizeImage(gallery[0], 1200);
             renderGallery(gallery);
         };
     } else if (colorContainer) {
@@ -850,17 +923,17 @@ async function renderDetails() {
 }
 
 // --- Details Page Modals ---
-window.openInquiryModal = function() {
+window.openInquiryModal = function () {
     const modal = document.getElementById('inquiry-modal');
     if (modal) modal.classList.remove('hidden');
 };
 
-window.closeInquiryModal = function() {
+window.closeInquiryModal = function () {
     const modal = document.getElementById('inquiry-modal');
     if (modal) modal.classList.add('hidden');
 };
 
-window.toggleDescription = function() {
+window.toggleDescription = function () {
     const wrapper = document.getElementById('vehicle-desc-wrapper');
     const fade = document.getElementById('vehicle-desc-fade');
     const btnText = document.querySelector('#btn-read-more [data-i18n]');
@@ -878,7 +951,7 @@ window.toggleDescription = function() {
         if (icon) icon.textContent = 'expand_less';
     }
 };
-window.closeDescriptionModal = () => {};
+window.closeDescriptionModal = () => { };
 
 function initContact() {
     const form = document.getElementById('contact-form');
@@ -897,6 +970,21 @@ function initContact() {
                 message: document.getElementById('c-message').value.trim()
             };
 
+            if (!payload.name || !payload.email || !payload.message) {
+                showToast(translations[currentLang]?.fill_required || 'Please fill in all required fields.', 'error');
+                btn.textContent = originalText;
+                btn.disabled = false;
+                return;
+            }
+
+            const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+            if (!emailRegex.test(payload.email)) {
+                showToast(translations[currentLang]?.invalid_email || 'Please enter a valid email address.', 'error');
+                btn.textContent = originalText;
+                btn.disabled = false;
+                return;
+            }
+
             try {
                 await window.messagesDb.create(payload);
                 showToast('Thank you! Message sent.');
@@ -912,7 +1000,7 @@ function initContact() {
     updateDOMTranslations();
 }
 
-window.toggleFavorite = function(id, btn) {
+window.toggleFavorite = function (id, btn) {
     const idx = favorites.indexOf(id);
     if (idx === -1) {
         favorites.push(id);
@@ -936,7 +1024,7 @@ window.toggleFavorite = function(id, btn) {
     }
 };
 
-window.toggleFavoriteDetails = function() {
+window.toggleFavoriteDetails = function () {
     const params = new URLSearchParams(window.location.search);
     const id = parseInt(params.get('id'));
     if (!id) return;
@@ -962,12 +1050,13 @@ function renderFavorites() {
 
     if (favProducts.length === 0) {
         container.innerHTML = `
-            <div class="col-span-full text-center py-20">
-                <span class="material-symbols-outlined text-6xl text-gray-300 mb-4">favorite_border</span>
-                <p class="text-xl text-gray-500" data-i18n="no_favorites">You haven't added any favorites yet.</p>
+            <div class="col-span-full flex flex-col items-center justify-center py-20 opacity-0 animate-[fadeIn_0.5s_ease-out_forwards]">
+                <span class="material-symbols-outlined text-6xl text-outline-variant mb-6">favorite_border</span>
+                <p class="text-2xl font-bold font-headline text-on-surface mb-6" data-i18n="no_favorites">You haven't added any favorites yet.</p>
+                <a href="/inventory" class="gold-shimmer text-on-primary px-8 py-3 rounded-lg font-bold shadow-lg hover:brightness-110 transition-all">Explore Inventory</a>
             </div>`;
     } else {
-        container.innerHTML = favProducts.map(p => createProductCard(p)).join('');
+        container.innerHTML = favProducts.map((p, ix) => createProductCard(p, ix)).join('');
     }
     updatePrices();
     updateDOMTranslations();
