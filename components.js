@@ -5,7 +5,11 @@ const Components = {
                 <div class="bg-gradient-to-b from-background to-transparent">
                     <div class="flex justify-between items-center w-full px-8 h-20">
                         <div class="flex items-center gap-4">
-                            <a href="/"><img src="assets/images/logo.jpg" alt="Legend Automotive" style="height:300px;width:auto"></a>
+                            <a href="/" class="relative block" style="pointer-events: none;">
+                                <img src="assets/images/logo.jpg" alt="Legend Automotive" style="height:300px;width:auto">
+                                <!-- Restricts the clickable area to just the navbar height -->
+                                <div class="absolute top-1/2 left-0 w-full h-20 -translate-y-1/2" style="pointer-events: auto; cursor: pointer;" title="Home"></div>
+                            </a>
                         </div>
                         
                         <div class="hidden md:flex flex-1 justify-center px-8">
