@@ -37,3 +37,23 @@ if (typeof window.supabase !== "undefined") {
     "Supabase JS library not loaded. Ensure the CDN script is included in your HTML.",
   );
 }
+
+const CACHE_TTL = 15 * 60 * 1000; // 15 minutes
+
+window.dbCache = {
+    get: (key) => {
+        const cached = localStorage.getItem(key);
+        if (!cached) return null;
+        try {
+            const { timestamp, data } = JSON.parse(cached);
+            if (Date.now() - timestamp < CACHE_TTL) return data;
+        } catch (e) {}
+        return null;
+    },
+    set: (key, data) => {
+        localStorage.setItem(key, JSON.stringify({ timestamp: Date.now(), data }));
+    },
+    clear: (...keys) => {
+        keys.forEach(k => localStorage.removeItem(k));
+    }
+};
