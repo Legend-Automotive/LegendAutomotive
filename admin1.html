@@ -102,11 +102,26 @@
           <form id="event-form" class="space-y-8">
             <div>
               <label class="block text-xs font-bold uppercase tracking-widest text-primary mb-2">Active Event Theme</label>
-              <select id="active-event" class="w-full rounded-lg px-4 py-3 outline-none text-sm font-bold tracking-wide">
+              <select id="active-event" class="w-full rounded-lg px-4 py-3 outline-none text-sm font-bold tracking-wide bg-[#0e0e0e]">
                 <option value="none">None (Default Theme)</option>
-                <option value="ramadan">Ramadan</option>
-                <option value="eid">Eid</option>
-                <option value="national">National Day</option>
+                <optgroup label="Islamic Holidays">
+                    <option value="ramadan">Ramadan</option>
+                    <option value="eid-fitr">Eid al-Fitr</option>
+                    <option value="eid-adha">Eid al-Adha</option>
+                    <option value="hijri-new-year">Islamic New Year (Hijri New Year)</option>
+                    <option value="mawlid">Mawlid al-Nabi</option>
+                </optgroup>
+                <optgroup label="Coptic Holidays">
+                    <option value="coptic-christmas">Coptic Christmas (Jan 7)</option>
+                    <option value="easter">Easter</option>
+                    <option value="sham-el-nessim">Sham El Nessim (Spring Festival)</option>
+                </optgroup>
+                <optgroup label="National Holidays">
+                    <option value="police-day">Police Day (Jan 25)</option>
+                    <option value="sinai-liberation">Sinai Liberation Day (Apr 25)</option>
+                    <option value="revolution-day">Revolution Day (Jul 23)</option>
+                    <option value="armed-forces-day">Armed Forces Day (Oct 6)</option>
+                </optgroup>
               </select>
             </div>
             <div class="pt-6 border-t border-outline-variant flex justify-end">

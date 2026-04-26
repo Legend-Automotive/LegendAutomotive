@@ -309,3 +309,59 @@ body.theme-national {
 body.theme-national .gold-shimmer {
     background: linear-gradient(135deg, #ce1126 0%, #8b0000 100%);
 }
+
+body.theme-eid-fitr, body.theme-eid-adha {
+    --color-primary: #f2ca50;
+    background-color: #1a1515;
+    background-image: radial-gradient(circle at 50% top, rgba(242, 202, 80, 0.15) 0%, transparent 60%);
+}
+
+body.theme-hijri-new-year {
+    --color-primary: #bfa15f;
+    background-color: #0d1210;
+    background-image: radial-gradient(circle at 50% top, rgba(191, 161, 95, 0.1) 0%, transparent 60%);
+}
+
+body.theme-mawlid {
+    --color-primary: #2e8b57;
+    background-color: #0b140e;
+    background-image: radial-gradient(circle at 50% top, rgba(46, 139, 87, 0.15) 0%, transparent 60%);
+}
+body.theme-mawlid .gold-shimmer { background: linear-gradient(135deg, #2e8b57 0%, #006400 100%); }
+
+/* Coptic Holidays */
+body.theme-coptic-christmas {
+    --color-primary: #8b0000;
+    background-color: #120909;
+    background-image: radial-gradient(circle at 50% top, rgba(139, 0, 0, 0.15) 0%, transparent 60%);
+}
+body.theme-coptic-christmas .gold-shimmer { background: linear-gradient(135deg, #8b0000 0%, #500000 100%); }
+
+body.theme-easter {
+    --color-primary: #dda0dd;
+    background-color: #141014;
+    background-image: radial-gradient(circle at 50% top, rgba(221, 160, 221, 0.1) 0%, transparent 60%);
+}
+body.theme-easter .gold-shimmer { background: linear-gradient(135deg, #dda0dd 0%, #8b008b 100%); }
+
+body.theme-sham-el-nessim {
+    --color-primary: #9acd32;
+    background-color: #10140e;
+    background-image: radial-gradient(circle at 50% top, rgba(154, 205, 50, 0.1) 0%, transparent 60%);
+}
+body.theme-sham-el-nessim .gold-shimmer { background: linear-gradient(135deg, #9acd32 0%, #556b2f 100%); }
+
+/* National Holidays */
+body.theme-police-day {
+    --color-primary: #1c528f;
+    background-color: #0a0e14;
+    background-image: radial-gradient(circle at 50% top, rgba(28, 82, 143, 0.2) 0%, transparent 60%);
+}
+body.theme-police-day .gold-shimmer { background: linear-gradient(135deg, #1c528f 0%, #0a203f 100%); }
+
+body.theme-sinai-liberation, body.theme-armed-forces-day {
+    --color-primary: #8b7355;
+    background-color: #14120e;
+    background-image: radial-gradient(circle at 50% top, rgba(139, 115, 85, 0.15) 0%, transparent 60%);
+}
+body.theme-sinai-liberation .gold-shimmer, body.theme-armed-forces-day .gold-shimmer { background: linear-gradient(135deg, #8b7355 0%, #554530 100%); }
