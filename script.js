@@ -102,17 +102,18 @@ async function init() {
     await loadProducts();
 
     const path = window.location.pathname;
-    if (path.endsWith("/") || path.endsWith('/')) {
+    const isHome = path === '/' || path.endsWith('/') || path.endsWith('/index.html') || path.endsWith('/index');
+    if (isHome) {
         renderHome();
-    } else if (path.endsWith("/inventory")) {
+    } else if (path.includes("/inventory")) {
         initInventory();
-    } else if (path.endsWith("/about")) {
+    } else if (path.includes("/about")) {
         // About page - static content, no additional initialization needed
-    } else if (path.endsWith("/details")) {
+    } else if (path.includes("/details")) {
         renderDetails();
-    } else if (path.endsWith("/contact")) {
+    } else if (path.includes("/contact")) {
         initContact();
-    } else if (path.endsWith("/favorites")) {
+    } else if (path.includes("/favorites")) {
         renderFavorites();
     }
 
@@ -434,10 +435,15 @@ function renderHome() {
     updateDOMTranslations();
 
     if (window.innerWidth < 768) {
+        // Reduced timeout and added a check to ensure we only scroll if we're actually at the top
         setTimeout(() => {
-            const spotlightSec = document.getElementById('spotlight-section');
-            if (spotlightSec) spotlightSec.scrollIntoView({ behavior: 'smooth' });
-        }, 2000);
+            if (window.scrollY < 100) {
+                const spotlightSec = document.getElementById('spotlight-section');
+                if (spotlightSec) {
+                    spotlightSec.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        }, 1500);
     }
 }
 
