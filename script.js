@@ -346,26 +346,8 @@ async function loadGlobalSettings() {
         if (settings.active_event && settings.active_event !== 'none') {
             document.body.className = document.body.className.replace(/\btheme-[a-z0-9_-]+\b/g, '').trim();
             document.body.classList.add(`theme-${settings.active_event}`);
-
-            const assetImage = document.getElementById('event-asset-image');
-            if (assetImage) {
-                let assetName = 'national.png';
-                if (['ramadan', 'eid-fitr', 'eid-adha', 'hijri-new-year', 'mawlid'].includes(settings.active_event)) {
-                    assetName = 'islamic.png';
-                } else if (['coptic-christmas', 'easter', 'sham-el-nessim'].includes(settings.active_event)) {
-                    assetName = 'coptic.png';
-                }
-                assetImage.src = `assets/images/events/${assetName}`;
-                assetImage.classList.remove('hidden');
-                setTimeout(() => assetImage.classList.remove('opacity-0'), 100);
-            }
         } else {
             document.body.className = document.body.className.replace(/\btheme-[a-z0-9_-]+\b/g, '').trim();
-            const assetImage = document.getElementById('event-asset-image');
-            if (assetImage) {
-                assetImage.classList.add('opacity-0');
-                setTimeout(() => assetImage.classList.add('hidden'), 1000);
-            }
         }
 
         // Live updates
