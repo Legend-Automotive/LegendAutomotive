@@ -351,6 +351,44 @@ async function loadGlobalSettings() {
             document.body.className = document.body.className.replace(/\btheme-[a-z0-9_-]+\b/g, '').trim();
         }
 
+        // Update JSON-LD structured data with dynamic contact/social links
+        try {
+            const autoDealerScript = document.getElementById('json-ld-autodealer');
+            const orgScript = document.getElementById('json-ld-organization'); // On contact page
+            
+            const getParsedLinks = (key) => {
+                const val = settings[key];
+                if (!val) return [];
+                let links = [];
+                try { links = JSON.parse(val); } catch (e) { links = [val]; }
+                return links.filter(l => l && l !== '#');
+            };
+
+            const phoneLinks = getParsedLinks('phone_number');
+            const fbLinks = getParsedLinks('facebook_link');
+            const igLinks = getParsedLinks('instagram_link');
+            const tkLinks = getParsedLinks('tiktok_link');
+            
+            let sameAs = [...fbLinks, ...igLinks, ...tkLinks].filter(Boolean);
+            
+            if (autoDealerScript) {
+                let data = JSON.parse(autoDealerScript.textContent);
+                if (phoneLinks.length > 0) data.telephone = phoneLinks[0];
+                if (sameAs.length > 0) data.sameAs = sameAs;
+                autoDealerScript.textContent = JSON.stringify(data);
+            }
+            if (orgScript) {
+                let data = JSON.parse(orgScript.textContent);
+                if (phoneLinks.length > 0 && data.contactPoint && data.contactPoint.length > 0) {
+                    data.contactPoint[0].telephone = phoneLinks[0];
+                }
+                if (sameAs.length > 0) data.sameAs = sameAs;
+                orgScript.textContent = JSON.stringify(data);
+            }
+        } catch(e) {
+            console.error("Failed to update JSON-LD", e);
+        }
+
         // Live updates
         if (!window.settingsSubscribed) {
             window.settingsSubscribed = true;
@@ -961,6 +999,63 @@ async function renderDetails() {
 
     updatePrices();
     updateDOMTranslations();
+
+    // Inject Dynamic SEO
+    const pageUrl = window.location.href;
+    const vName = currentLang === 'ar' && p.name_ar ? p.name_ar : p.name;
+    const vDescRaw = currentLang === 'ar' && p.description_ar ? p.description_ar : (p.description || "");
+    const vDesc = vDescRaw.length > 150 ? vDescRaw.substring(0, 150) + "..." : vDescRaw;
+    const vImg = p.image_url ? optimizeImage(p.image_url, 1200) : "https://legendautomotive.github.io/LegendAutomotive/assets/images/logo.jpg";
+    
+    document.title = vName + " | Legend Automotive";
+    
+    const ogTitle = document.getElementById('og-title');
+    if (ogTitle) ogTitle.content = vName + " | Legend Automotive";
+    const ogDesc = document.getElementById('og-description');
+    if (ogDesc) ogDesc.content = vDesc;
+    const ogImage = document.getElementById('og-image');
+    if (ogImage) ogImage.content = vImg;
+    const ogUrl = document.getElementById('og-url');
+    if (ogUrl) ogUrl.content = pageUrl;
+
+    const twTitle = document.getElementById('twitter-title');
+    if (twTitle) twTitle.content = vName + " | Legend Automotive";
+    const twDesc = document.getElementById('twitter-description');
+    if (twDesc) twDesc.content = vDesc;
+    const twImage = document.getElementById('twitter-image');
+    if (twImage) twImage.content = vImg;
+    const twUrl = document.getElementById('twitter-url');
+    if (twUrl) twUrl.content = pageUrl;
+
+    let ldJsonScript = document.getElementById('dynamic-json-ld');
+    if (!ldJsonScript) {
+        ldJsonScript = document.createElement('script');
+        ldJsonScript.type = 'application/ld+json';
+        ldJsonScript.id = 'dynamic-json-ld';
+        document.head.appendChild(ldJsonScript);
+    }
+    
+    const brandName = p.brand_id ? brands.find(b => b.id === p.brand_id)?.name : "Legend Automotive";
+
+    ldJsonScript.textContent = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": vName,
+        "image": vImg,
+        "description": vDescRaw,
+        "brand": {
+            "@type": "Brand",
+            "name": brandName || "Legend Automotive"
+        },
+        "offers": {
+            "@type": "Offer",
+            "url": pageUrl,
+            "priceCurrency": "EGP",
+            "price": p.discount_price && p.discount_price > 0 ? p.discount_price : (p.price_egp || 0),
+            "availability": "https://schema.org/InStock",
+            "itemCondition": "https://schema.org/UsedCondition"
+        }
+    });
 }
 
 // --- Details Page Modals ---
