@@ -450,7 +450,7 @@
             </button>
 
             <!-- Main fullscreen image -->
-            <img id="lg-img" src="" alt="Vehicle gallery image" draggable="false">
+            <img id="lg-img" alt="Vehicle gallery image" draggable="false" style="display:none">
 
             <!-- Next arrow -->
             <button class="lg-arrow" id="lg-next" aria-label="Next image">
@@ -464,272 +464,178 @@
         </div>
     </div>
 
-    <!-- Lightbox Script — completely self-contained, reads from existing gallery state -->
+    <!-- Lightbox Script — self-contained, event-delegation based -->
     <script>
     (function () {
         'use strict';
 
-        // ── State ──────────────────────────────────────────────────────────
-        let lgImages   = [];   // full-res URLs for the current active gallery
-        let lgIndex    = 0;    // currently displayed index
-        let lgOpen     = false;
+        var lgImages = [];
+        var lgIndex  = 0;
+        var lgOpen   = false;
+        var touchStartX = 0;
+        var touchDragging = false;
 
-        // Touch / swipe tracking
-        let touchStartX = 0;
-        let touchStartY = 0;
-        let touchDragging = false;
+        var overlay  = document.getElementById('lg-overlay');
+        var lgImg    = document.getElementById('lg-img');
+        var counter  = document.getElementById('lg-counter');
+        var thumbs   = document.getElementById('lg-thumbs');
 
-        // DOM refs (available after DOMContentLoaded)
-        const overlay  = document.getElementById('lg-overlay');
-        const lgImg    = document.getElementById('lg-img');
-        const counter  = document.getElementById('lg-counter');
-        const thumbs   = document.getElementById('lg-thumbs');
-        const closeBtn = document.getElementById('lg-close-btn');
-        const prevBtn  = document.getElementById('lg-prev');
-        const nextBtn  = document.getElementById('lg-next');
-
-        // ── Helpers ────────────────────────────────────────────────────────
-
-        /**
-         * Build full-res URL. Mirrors the existing optimizeImage function
-         * but targets maximum quality (1920px wide).
-         */
+        // ── Helpers ──────────────────────────────────────────
         function toFullRes(url) {
             if (!url) return '';
-            if (url.includes('wsrv.nl')) {
-                // Upgrade existing optimised URL to higher quality
-                return url.replace(/&w=\d+/, '&w=1920').replace(/&q=\d+/, '&q=95');
-            }
-            if (url.startsWith('https://')) {
+            if (url.indexOf('wsrv.nl') !== -1)
+                return url.replace(/&w=\d+/, '&w=1920').replace(/&q=\d+/, '&q=92');
+            if (url.indexOf('https://') === 0)
                 return 'https://wsrv.nl/?url=' + encodeURIComponent(url) + '&w=1920&output=webp&q=92';
-            }
             return url;
         }
 
-        /**
-         * Reads the current gallery from the page's thumbnail strip.
-         * Works dynamically regardless of which colour variant is selected.
-         */
-        function readGalleryFromPage() {
-            const thumbBtns = document.querySelectorAll('#gallery-thumbnails button');
-            if (!thumbBtns.length) {
-                // Fallback: just the single main image
-                const mainImg = document.getElementById('main-image');
-                return mainImg && mainImg.src ? [mainImg.src] : [];
+        function readGallery() {
+            var btns = document.querySelectorAll('#gallery-thumbnails button');
+            if (!btns.length) {
+                var mi = document.getElementById('main-image');
+                return (mi && mi.src) ? [mi.src] : [];
             }
-            return Array.from(thumbBtns).map(btn => {
-                const img = btn.querySelector('img');
-                return img ? img.getAttribute('src') : '';
-            }).filter(Boolean);
+            var out = [];
+            for (var k = 0; k < btns.length; k++) {
+                var im = btns[k].querySelector('img');
+                if (im && im.src) out.push(im.src);
+            }
+            return out;
         }
 
-        /**
-         * Returns the currently active thumbnail index on the details page.
-         */
-        function readActiveIndex() {
-            const thumbBtns = document.querySelectorAll('#gallery-thumbnails button');
-            let active = 0;
-            thumbBtns.forEach((btn, i) => {
-                if (btn.classList.contains('border-primary')) active = i;
-            });
-            return active;
+        function readActiveIdx() {
+            var btns = document.querySelectorAll('#gallery-thumbnails button');
+            for (var k = 0; k < btns.length; k++)
+                if (btns[k].classList.contains('border-primary')) return k;
+            return 0;
         }
 
-        // ── Open / Close ───────────────────────────────────────────────────
-
-        function openLightbox(startIndex) {
-            lgImages = readGalleryFromPage();
+        // ── Open / Close ─────────────────────────────────────
+        function openLightbox(idx) {
+            lgImages = readGallery();
             if (!lgImages.length) return;
-
-            lgIndex = (startIndex !== undefined) ? startIndex : readActiveIndex();
+            lgIndex = (idx !== undefined) ? idx : readActiveIdx();
             lgOpen  = true;
-
             overlay.classList.add('lg-open');
             document.body.style.overflow = 'hidden';
-
             buildThumbs();
-            showImage(lgIndex, false); // no transition on first open
+            showImg(lgIndex, false);
         }
 
         function closeLightbox() {
             lgOpen = false;
             overlay.classList.remove('lg-open');
             document.body.style.overflow = '';
-            lgImg.src = '';
+            lgImg.removeAttribute('src');
+            lgImg.style.display = 'none';
         }
 
-        // ── Navigation ────────────────────────────────────────────────────
-
-        function showImage(idx, animate) {
-            if (!lgImages.length) return;
-            // Wrap around
+        // ── Navigation ───────────────────────────────────────
+        function showImg(idx, animate) {
             lgIndex = ((idx % lgImages.length) + lgImages.length) % lgImages.length;
-
+            var newSrc = toFullRes(lgImages[lgIndex]);
             if (animate) {
                 lgImg.classList.add('lg-fade');
-            }
-
-            const newSrc = toFullRes(lgImages[lgIndex]);
-
-            const doSwap = () => {
-                lgImg.src = newSrc;
-                lgImg.loading = 'eager';
-                if (animate) {
-                    // After tiny delay, fade back in once enough pixels loaded
-                    requestAnimationFrame(() => {
-                        lgImg.classList.remove('lg-fade');
-                    });
-                }
-            };
-
-            if (animate) {
-                setTimeout(doSwap, 80);
+                setTimeout(function() {
+                    lgImg.src = newSrc;
+                    lgImg.style.display = '';
+                    requestAnimationFrame(function() { lgImg.classList.remove('lg-fade'); });
+                }, 80);
             } else {
-                doSwap();
+                lgImg.src = newSrc;
+                lgImg.style.display = '';
             }
-
-            // Counter
             counter.textContent = (lgIndex + 1) + ' / ' + lgImages.length;
-
-            // Highlight active thumb
-            document.querySelectorAll('.lg-thumb').forEach((t, i) => {
-                t.classList.toggle('lg-thumb-active', i === lgIndex);
-            });
-
-            // Scroll active thumb into view
-            const activeThumb = thumbs.children[lgIndex];
-            if (activeThumb) {
-                activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-            }
+            var tlist = thumbs.querySelectorAll('.lg-thumb');
+            for (var k = 0; k < tlist.length; k++)
+                tlist[k].classList.toggle('lg-thumb-active', k === lgIndex);
+            if (tlist[lgIndex])
+                tlist[lgIndex].scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' });
         }
 
-        function goNext() { showImage(lgIndex + 1, true); }
-        function goPrev() { showImage(lgIndex - 1, true); }
+        function goNext() { showImg(lgIndex + 1, true); }
+        function goPrev() { showImg(lgIndex - 1, true); }
 
-        // ── Thumbnails ────────────────────────────────────────────────────
-
+        // ── Thumbnail strip ──────────────────────────────────
         function buildThumbs() {
             thumbs.innerHTML = '';
-            lgImages.forEach((url, i) => {
-                const div = document.createElement('div');
-                div.className = 'lg-thumb';
-                const img = document.createElement('img');
-                // Use a modest size for thumbnails to keep bandwidth low
-                img.src = url.includes('wsrv.nl')
+            lgImages.forEach(function(url, i) {
+                var d = document.createElement('div');
+                d.className = 'lg-thumb';
+                var im = document.createElement('img');
+                im.src = (url.indexOf('wsrv.nl') !== -1)
                     ? url.replace(/&w=\d+/, '&w=200').replace(/&q=\d+/, '&q=70')
-                    : (url.startsWith('https://')
+                    : (url.indexOf('https://') === 0
                         ? 'https://wsrv.nl/?url=' + encodeURIComponent(url) + '&w=200&output=webp&q=70'
                         : url);
-                img.alt = 'Thumbnail ' + (i + 1);
-                img.loading = 'lazy';
-                img.decoding = 'async';
-                div.appendChild(img);
-                div.addEventListener('click', () => showImage(i, true));
-                thumbs.appendChild(div);
+                im.alt = 'Photo ' + (i + 1);
+                im.loading = 'lazy';
+                d.appendChild(im);
+                d.addEventListener('click', function(idx){ return function(){ showImg(idx, true); }; }(i));
+                thumbs.appendChild(d);
             });
         }
 
-        // ── Event Listeners ───────────────────────────────────────────────
+        // ── Static event listeners ───────────────────────────
+        document.getElementById('lg-close-btn').addEventListener('click', closeLightbox);
+        document.getElementById('lg-prev').addEventListener('click', goPrev);
+        document.getElementById('lg-next').addEventListener('click', goNext);
 
-        // Close button
-        closeBtn.addEventListener('click', closeLightbox);
-
-        // Arrow buttons
-        prevBtn.addEventListener('click', goPrev);
-        nextBtn.addEventListener('click', goNext);
-
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
+        document.addEventListener('keydown', function(e) {
             if (!lgOpen) return;
-            if (e.key === 'Escape' || e.key === 'Esc')       closeLightbox();
-            else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goNext();
-            else if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goPrev();
+            if (e.key === 'Escape') closeLightbox();
+            else if (e.key === 'ArrowRight') goNext();
+            else if (e.key === 'ArrowLeft')  goPrev();
         });
 
-        // Click outside the image to close (on the dark backdrop area)
-        overlay.addEventListener('click', (e) => {
-            if (e.target === overlay || e.target === document.getElementById('lg-stage')) {
-                closeLightbox();
-            }
+        overlay.addEventListener('click', function(e) {
+            if (e.target === overlay || e.target.id === 'lg-stage') closeLightbox();
         });
 
-        // ── Touch / Swipe support ─────────────────────────────────────────
-        overlay.addEventListener('touchstart', (e) => {
-            touchStartX = e.touches[0].clientX;
-            touchStartY = e.touches[0].clientY;
-            touchDragging = false;
+        overlay.addEventListener('touchstart', function(e) {
+            touchStartX = e.touches[0].clientX; touchDragging = false;
         }, { passive: true });
-
-        overlay.addEventListener('touchmove', (e) => {
-            const dx = Math.abs(e.touches[0].clientX - touchStartX);
-            const dy = Math.abs(e.touches[0].clientY - touchStartY);
-            if (dx > dy && dx > 8) touchDragging = true;
+        overlay.addEventListener('touchmove', function(e) {
+            if (Math.abs(e.touches[0].clientX - touchStartX) > 8) touchDragging = true;
         }, { passive: true });
-
-        overlay.addEventListener('touchend', (e) => {
+        overlay.addEventListener('touchend', function(e) {
             if (!touchDragging) return;
-            const dx = e.changedTouches[0].clientX - touchStartX;
-            if (Math.abs(dx) > 45) {
-                dx < 0 ? goNext() : goPrev();
-            }
+            var dx = e.changedTouches[0].clientX - touchStartX;
+            if (Math.abs(dx) > 45) { dx < 0 ? goNext() : goPrev(); }
             touchDragging = false;
         }, { passive: true });
 
-        // ── Hook into existing page image elements ────────────────────────
-
-        /**
-         * Attach click handlers to the main image and to all thumbnails.
-         * This runs after the page gallery is rendered (via MutationObserver).
-         */
-        function attachClickHandlers() {
-            // Main image → open at current active index
-            const mainImg = document.getElementById('main-image');
-            if (mainImg && !mainImg.dataset.lgBound) {
-                mainImg.dataset.lgBound = '1';
-                mainImg.addEventListener('click', () => {
-                    openLightbox(readActiveIndex());
-                });
-            }
-
-            // All thumbnail buttons → open at that specific index
-            document.querySelectorAll('#gallery-thumbnails button').forEach((btn, i) => {
-                if (!btn.dataset.lgBound) {
-                    btn.dataset.lgBound = '1';
-                    btn.addEventListener('click', () => {
-                        // Let the existing selectImage run first (tiny delay)
-                        setTimeout(() => openLightbox(i), 20);
-                    });
+        // ── Event delegation on parent containers ─────────────
+        // Main image container — clicking main image opens lightbox
+        var mediaContainer = document.getElementById('main-media-container');
+        if (mediaContainer) {
+            mediaContainer.addEventListener('click', function(e) {
+                // Only react to clicks on the main image itself
+                var mi = document.getElementById('main-image');
+                if (mi && (e.target === mi || mi.contains(e.target))) {
+                    openLightbox(readActiveIdx());
                 }
             });
         }
 
-        // Run once the DOM is ready
-        document.addEventListener('DOMContentLoaded', () => {
-            // Observe the thumbnail container so we re-bind whenever
-            // the gallery re-renders (e.g. on colour variant switch)
-            const thumbContainer = document.getElementById('gallery-thumbnails');
-            if (thumbContainer) {
-                const observer = new MutationObserver(() => {
-                    attachClickHandlers();
-                });
-                observer.observe(thumbContainer, { childList: true });
-            }
-            // Initial bind attempt (in case gallery already rendered)
-            attachClickHandlers();
+        // Thumbnail container — clicking any thumbnail opens lightbox
+        var thumbContainer = document.getElementById('gallery-thumbnails');
+        if (thumbContainer) {
+            thumbContainer.addEventListener('click', function(e) {
+                // Find which button was clicked
+                var btns = thumbContainer.querySelectorAll('button');
+                for (var k = 0; k < btns.length; k++) {
+                    if (btns[k] === e.target || btns[k].contains(e.target)) {
+                        var idx = k;
+                        // Wait for existing selectImage to update active state
+                        setTimeout(function() { openLightbox(idx); }, 50);
+                        break;
+                    }
+                }
+            });
+        }
 
-            // Also observe for late rendering (gallery injected by script.js async)
-            const detailsContainer = document.getElementById('details-container');
-            if (detailsContainer) {
-                const globalObs = new MutationObserver(() => {
-                    attachClickHandlers();
-                });
-                globalObs.observe(detailsContainer, { childList: true, subtree: true });
-                // Stop watching after 10 seconds (gallery is always ready by then)
-                setTimeout(() => globalObs.disconnect(), 10000);
-            }
-        });
-
-        // Expose for possible external use
         window.LegendGallery = { open: openLightbox, close: closeLightbox };
     })();
     </script>
