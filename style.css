@@ -599,3 +599,56 @@ body.theme-sinai-liberation .gold-shimmer, body.theme-armed-forces-day .gold-shi
         height: 40px;
     }
 }
+
+/* Mobile landscape — viewport height is very short (~400px).
+   Collapse header, shrink thumbnails so the image fills the screen. */
+@media (max-height: 500px) and (orientation: landscape) {
+    #lg-overlay {
+        flex-direction: row;      /* side-by-side: image | thumbs */
+        align-items: stretch;
+    }
+
+    #lg-header {
+        height: 48px;
+    }
+
+    #lg-stage {
+        flex: 1;
+        padding: 48px 44px 4px;
+        min-height: 0;
+    }
+
+    #lg-prev { left: 4px; }
+    #lg-next { right: 4px; }
+
+    .lg-arrow {
+        width: 36px;
+        height: 36px;
+    }
+
+    /* Rotate thumbnail strip to vertical sidebar on the right */
+    #lg-thumbs-wrap {
+        width: 80px;
+        flex-shrink: 0;
+        padding: 52px 6px 6px 0;
+        background: linear-gradient(to left, rgba(0,0,0,0.7) 0%, transparent 100%);
+        display: flex;
+        align-items: flex-start;
+    }
+
+    #lg-thumbs {
+        flex-direction: column;
+        justify-content: flex-start;
+        overflow-y: auto;
+        overflow-x: hidden;
+        height: 100%;
+        gap: 6px;
+        padding-bottom: 0;
+    }
+
+    .lg-thumb {
+        width: 64px;
+        height: 44px;
+        flex-shrink: 0;
+    }
+}
