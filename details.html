@@ -427,6 +427,314 @@
     <div id="global-contact-popup-placeholder"></div>
     <script src="components.js"></script>
 
+    <!-- ============================================================
+         LEGEND AUTOMOTIVE — FULLSCREEN GALLERY LIGHTBOX
+         Standalone addition. Does NOT modify any existing HTML above.
+         ============================================================ -->
+    <div id="lg-overlay" role="dialog" aria-modal="true" aria-label="Vehicle Gallery">
+        <!-- Gold top border rendered via ::before in CSS -->
+
+        <!-- Header: counter + close -->
+        <div id="lg-header">
+            <span id="lg-counter">1 / 1</span>
+            <button id="lg-close-btn" aria-label="Close gallery" title="Close (ESC)">
+                <span class="material-symbols-outlined" style="font-size:22px">close</span>
+            </button>
+        </div>
+
+        <!-- Image stage with prev/next arrows -->
+        <div id="lg-stage">
+            <!-- Previous arrow -->
+            <button class="lg-arrow" id="lg-prev" aria-label="Previous image">
+                <span class="material-symbols-outlined">chevron_left</span>
+            </button>
+
+            <!-- Main fullscreen image -->
+            <img id="lg-img" src="" alt="Vehicle gallery image" draggable="false">
+
+            <!-- Next arrow -->
+            <button class="lg-arrow" id="lg-next" aria-label="Next image">
+                <span class="material-symbols-outlined">chevron_right</span>
+            </button>
+        </div>
+
+        <!-- Thumbnail strip -->
+        <div id="lg-thumbs-wrap">
+            <div id="lg-thumbs"></div>
+        </div>
+    </div>
+
+    <!-- Lightbox Script — completely self-contained, reads from existing gallery state -->
+    <script>
+    (function () {
+        'use strict';
+
+        // ── State ──────────────────────────────────────────────────────────
+        let lgImages   = [];   // full-res URLs for the current active gallery
+        let lgIndex    = 0;    // currently displayed index
+        let lgOpen     = false;
+
+        // Touch / swipe tracking
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchDragging = false;
+
+        // DOM refs (available after DOMContentLoaded)
+        const overlay  = document.getElementById('lg-overlay');
+        const lgImg    = document.getElementById('lg-img');
+        const counter  = document.getElementById('lg-counter');
+        const thumbs   = document.getElementById('lg-thumbs');
+        const closeBtn = document.getElementById('lg-close-btn');
+        const prevBtn  = document.getElementById('lg-prev');
+        const nextBtn  = document.getElementById('lg-next');
+
+        // ── Helpers ────────────────────────────────────────────────────────
+
+        /**
+         * Build full-res URL. Mirrors the existing optimizeImage function
+         * but targets maximum quality (1920px wide).
+         */
+        function toFullRes(url) {
+            if (!url) return '';
+            if (url.includes('wsrv.nl')) {
+                // Upgrade existing optimised URL to higher quality
+                return url.replace(/&w=\d+/, '&w=1920').replace(/&q=\d+/, '&q=95');
+            }
+            if (url.startsWith('https://')) {
+                return 'https://wsrv.nl/?url=' + encodeURIComponent(url) + '&w=1920&output=webp&q=92';
+            }
+            return url;
+        }
+
+        /**
+         * Reads the current gallery from the page's thumbnail strip.
+         * Works dynamically regardless of which colour variant is selected.
+         */
+        function readGalleryFromPage() {
+            const thumbBtns = document.querySelectorAll('#gallery-thumbnails button');
+            if (!thumbBtns.length) {
+                // Fallback: just the single main image
+                const mainImg = document.getElementById('main-image');
+                return mainImg && mainImg.src ? [mainImg.src] : [];
+            }
+            return Array.from(thumbBtns).map(btn => {
+                const img = btn.querySelector('img');
+                return img ? img.getAttribute('src') : '';
+            }).filter(Boolean);
+        }
+
+        /**
+         * Returns the currently active thumbnail index on the details page.
+         */
+        function readActiveIndex() {
+            const thumbBtns = document.querySelectorAll('#gallery-thumbnails button');
+            let active = 0;
+            thumbBtns.forEach((btn, i) => {
+                if (btn.classList.contains('border-primary')) active = i;
+            });
+            return active;
+        }
+
+        // ── Open / Close ───────────────────────────────────────────────────
+
+        function openLightbox(startIndex) {
+            lgImages = readGalleryFromPage();
+            if (!lgImages.length) return;
+
+            lgIndex = (startIndex !== undefined) ? startIndex : readActiveIndex();
+            lgOpen  = true;
+
+            overlay.classList.add('lg-open');
+            document.body.style.overflow = 'hidden';
+
+            buildThumbs();
+            showImage(lgIndex, false); // no transition on first open
+        }
+
+        function closeLightbox() {
+            lgOpen = false;
+            overlay.classList.remove('lg-open');
+            document.body.style.overflow = '';
+            lgImg.src = '';
+        }
+
+        // ── Navigation ────────────────────────────────────────────────────
+
+        function showImage(idx, animate) {
+            if (!lgImages.length) return;
+            // Wrap around
+            lgIndex = ((idx % lgImages.length) + lgImages.length) % lgImages.length;
+
+            if (animate) {
+                lgImg.classList.add('lg-fade');
+            }
+
+            const newSrc = toFullRes(lgImages[lgIndex]);
+
+            const doSwap = () => {
+                lgImg.src = newSrc;
+                lgImg.loading = 'eager';
+                if (animate) {
+                    // After tiny delay, fade back in once enough pixels loaded
+                    requestAnimationFrame(() => {
+                        lgImg.classList.remove('lg-fade');
+                    });
+                }
+            };
+
+            if (animate) {
+                setTimeout(doSwap, 80);
+            } else {
+                doSwap();
+            }
+
+            // Counter
+            counter.textContent = (lgIndex + 1) + ' / ' + lgImages.length;
+
+            // Highlight active thumb
+            document.querySelectorAll('.lg-thumb').forEach((t, i) => {
+                t.classList.toggle('lg-thumb-active', i === lgIndex);
+            });
+
+            // Scroll active thumb into view
+            const activeThumb = thumbs.children[lgIndex];
+            if (activeThumb) {
+                activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+        }
+
+        function goNext() { showImage(lgIndex + 1, true); }
+        function goPrev() { showImage(lgIndex - 1, true); }
+
+        // ── Thumbnails ────────────────────────────────────────────────────
+
+        function buildThumbs() {
+            thumbs.innerHTML = '';
+            lgImages.forEach((url, i) => {
+                const div = document.createElement('div');
+                div.className = 'lg-thumb';
+                const img = document.createElement('img');
+                // Use a modest size for thumbnails to keep bandwidth low
+                img.src = url.includes('wsrv.nl')
+                    ? url.replace(/&w=\d+/, '&w=200').replace(/&q=\d+/, '&q=70')
+                    : (url.startsWith('https://')
+                        ? 'https://wsrv.nl/?url=' + encodeURIComponent(url) + '&w=200&output=webp&q=70'
+                        : url);
+                img.alt = 'Thumbnail ' + (i + 1);
+                img.loading = 'lazy';
+                img.decoding = 'async';
+                div.appendChild(img);
+                div.addEventListener('click', () => showImage(i, true));
+                thumbs.appendChild(div);
+            });
+        }
+
+        // ── Event Listeners ───────────────────────────────────────────────
+
+        // Close button
+        closeBtn.addEventListener('click', closeLightbox);
+
+        // Arrow buttons
+        prevBtn.addEventListener('click', goPrev);
+        nextBtn.addEventListener('click', goNext);
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (!lgOpen) return;
+            if (e.key === 'Escape' || e.key === 'Esc')       closeLightbox();
+            else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goNext();
+            else if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   goPrev();
+        });
+
+        // Click outside the image to close (on the dark backdrop area)
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay || e.target === document.getElementById('lg-stage')) {
+                closeLightbox();
+            }
+        });
+
+        // ── Touch / Swipe support ─────────────────────────────────────────
+        overlay.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+            touchDragging = false;
+        }, { passive: true });
+
+        overlay.addEventListener('touchmove', (e) => {
+            const dx = Math.abs(e.touches[0].clientX - touchStartX);
+            const dy = Math.abs(e.touches[0].clientY - touchStartY);
+            if (dx > dy && dx > 8) touchDragging = true;
+        }, { passive: true });
+
+        overlay.addEventListener('touchend', (e) => {
+            if (!touchDragging) return;
+            const dx = e.changedTouches[0].clientX - touchStartX;
+            if (Math.abs(dx) > 45) {
+                dx < 0 ? goNext() : goPrev();
+            }
+            touchDragging = false;
+        }, { passive: true });
+
+        // ── Hook into existing page image elements ────────────────────────
+
+        /**
+         * Attach click handlers to the main image and to all thumbnails.
+         * This runs after the page gallery is rendered (via MutationObserver).
+         */
+        function attachClickHandlers() {
+            // Main image → open at current active index
+            const mainImg = document.getElementById('main-image');
+            if (mainImg && !mainImg.dataset.lgBound) {
+                mainImg.dataset.lgBound = '1';
+                mainImg.addEventListener('click', () => {
+                    openLightbox(readActiveIndex());
+                });
+            }
+
+            // All thumbnail buttons → open at that specific index
+            document.querySelectorAll('#gallery-thumbnails button').forEach((btn, i) => {
+                if (!btn.dataset.lgBound) {
+                    btn.dataset.lgBound = '1';
+                    btn.addEventListener('click', () => {
+                        // Let the existing selectImage run first (tiny delay)
+                        setTimeout(() => openLightbox(i), 20);
+                    });
+                }
+            });
+        }
+
+        // Run once the DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            // Observe the thumbnail container so we re-bind whenever
+            // the gallery re-renders (e.g. on colour variant switch)
+            const thumbContainer = document.getElementById('gallery-thumbnails');
+            if (thumbContainer) {
+                const observer = new MutationObserver(() => {
+                    attachClickHandlers();
+                });
+                observer.observe(thumbContainer, { childList: true });
+            }
+            // Initial bind attempt (in case gallery already rendered)
+            attachClickHandlers();
+
+            // Also observe for late rendering (gallery injected by script.js async)
+            const detailsContainer = document.getElementById('details-container');
+            if (detailsContainer) {
+                const globalObs = new MutationObserver(() => {
+                    attachClickHandlers();
+                });
+                globalObs.observe(detailsContainer, { childList: true, subtree: true });
+                // Stop watching after 10 seconds (gallery is always ready by then)
+                setTimeout(() => globalObs.disconnect(), 10000);
+            }
+        });
+
+        // Expose for possible external use
+        window.LegendGallery = { open: openLightbox, close: closeLightbox };
+    })();
+    </script>
+    <!-- END LIGHTBOX FEATURE -->
+
 </body>
 
 </html>
