@@ -368,8 +368,6 @@ body.theme-sinai-liberation .gold-shimmer, body.theme-armed-forces-day .gold-shi
 
 /* ============================================================
    LEGEND AUTOMOTIVE — FULLSCREEN GALLERY LIGHTBOX
-   Added as a standalone feature extension. Does NOT modify
-   any existing styles above.
    ============================================================ */
 
 /* Overlay backdrop */
@@ -377,16 +375,13 @@ body.theme-sinai-liberation .gold-shimmer, body.theme-armed-forces-day .gold-shi
     position: fixed;
     inset: 0;
     z-index: 9999;
-    background: rgba(0, 0, 0, 0.96);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    background: rgba(0, 0, 0, 0.97);
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    align-items: stretch;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     overscroll-behavior: contain;
 }
 
@@ -404,36 +399,40 @@ body.theme-sinai-liberation .gold-shimmer, body.theme-armed-forces-day .gold-shi
     right: 0;
     height: 2px;
     background: linear-gradient(90deg, transparent 0%, #f2ca50 30%, #d4af37 70%, transparent 100%);
-    z-index: 10;
+    z-index: 20;
+    pointer-events: none;
 }
 
-/* Header bar */
+/* ── Header ─────────────────────────────────────────────── */
 #lg-header {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 64px;
+    height: 52px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 20px;
-    z-index: 10;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 100%);
+    padding: 0 16px;
+    z-index: 15;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.75) 0%, transparent 100%);
+    pointer-events: none;   /* pass clicks through to image */
 }
+
+#lg-header > * { pointer-events: all; }
 
 #lg-counter {
     font-family: 'Manrope', sans-serif;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.12em;
-    color: rgba(242, 202, 80, 0.8);
+    color: rgba(242, 202, 80, 0.85);
     text-transform: uppercase;
 }
 
 #lg-close-btn {
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     border: 1.5px solid rgba(242, 202, 80, 0.3);
     background: rgba(0, 0, 0, 0.5);
@@ -442,36 +441,40 @@ body.theme-sinai-liberation .gold-shimmer, body.theme-armed-forces-day .gold-shi
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: all 0.2s ease;
     flex-shrink: 0;
 }
-
 #lg-close-btn:hover {
     background: rgba(242, 202, 80, 0.15);
     border-color: #f2ca50;
-    transform: scale(1.08);
+    transform: scale(1.1);
 }
 
-/* Main image stage */
+/* ── Image stage ─────────────────────────────────────────── */
 #lg-stage {
     flex: 1;
+    min-height: 0;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    padding: 64px 80px 8px;
+    /* Only reserve space for header top; thumbnail strip overlays bottom */
+    padding: 52px 52px 0;
     box-sizing: border-box;
-    min-height: 0;
 }
 
+/* The image itself — use viewport units to guarantee it fills the screen */
 #lg-img {
-    max-width: 100%;
-    max-height: 100%;
+    display: block;
+    max-width: 95vw;
+    max-height: calc(100vh - 120px);  /* full screen minus header + thumb strip */
+    width: auto;
+    height: auto;
     object-fit: contain;
-    border-radius: 6px;
-    box-shadow: 0 0 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(242, 202, 80, 0.08);
-    transition: opacity 0.22s ease, transform 0.22s ease;
+    border-radius: 4px;
+    box-shadow: 0 0 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(242,202,80,0.06);
+    transition: opacity 0.2s ease, transform 0.2s ease;
     user-select: none;
     -webkit-user-select: none;
 }
@@ -481,13 +484,14 @@ body.theme-sinai-liberation .gold-shimmer, body.theme-armed-forces-day .gold-shi
     transform: scale(0.97);
 }
 
-/* Arrow nav buttons */
+/* ── Navigation arrows ─────────────────────────────────── */
+/* Positioned on the overlay, not inside the stage, so they never shrink the image */
 .lg-arrow {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 52px;
-    height: 52px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     border: 1.5px solid rgba(242, 202, 80, 0.25);
     background: rgba(0, 0, 0, 0.55);
@@ -499,57 +503,50 @@ body.theme-sinai-liberation .gold-shimmer, body.theme-armed-forces-day .gold-shi
     justify-content: center;
     cursor: pointer;
     z-index: 15;
-    transition: all 0.22s ease;
+    transition: all 0.2s ease;
     -webkit-tap-highlight-color: transparent;
 }
 
-.lg-arrow:hover {
-    background: rgba(242, 202, 80, 0.18);
-    border-color: #f2ca50;
-    transform: translateY(-50%) scale(1.1);
-}
+.lg-arrow:hover  { background: rgba(242,202,80,0.18); border-color: #f2ca50; transform: translateY(-50%) scale(1.1); }
+.lg-arrow:active { transform: translateY(-50%) scale(0.93); }
 
-.lg-arrow:active {
-    transform: translateY(-50%) scale(0.95);
-}
+#lg-prev { left: 10px; }
+#lg-next { right: 10px; }
 
-#lg-prev { left: 16px; }
-#lg-next { right: 16px; }
-
-/* Thumbnail strip */
+/* ── Thumbnail strip (overlays bottom, semi-transparent) ── */
 #lg-thumbs-wrap {
-    width: 100%;
-    padding: 12px 16px 20px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 8px 12px 10px;
     box-sizing: border-box;
-    flex-shrink: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+    background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, transparent 100%);
+    z-index: 10;
 }
 
 #lg-thumbs {
     display: flex;
-    gap: 8px;
+    gap: 6px;
     overflow-x: auto;
     justify-content: center;
-    padding-bottom: 4px;
     scrollbar-width: none;
     -ms-overflow-style: none;
 }
-
 #lg-thumbs::-webkit-scrollbar { display: none; }
 
 .lg-thumb {
     flex-shrink: 0;
-    width: 72px;
-    height: 50px;
-    border-radius: 5px;
+    width: 64px;
+    height: 44px;
+    border-radius: 4px;
     overflow: hidden;
-    border: 2px solid rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255,255,255,0.1);
     cursor: pointer;
-    transition: all 0.2s ease;
-    opacity: 0.55;
+    transition: all 0.18s ease;
+    opacity: 0.5;
     -webkit-tap-highlight-color: transparent;
 }
-
 .lg-thumb img {
     width: 100%;
     height: 100%;
@@ -557,98 +554,62 @@ body.theme-sinai-liberation .gold-shimmer, body.theme-armed-forces-day .gold-shi
     display: block;
     pointer-events: none;
 }
-
-.lg-thumb:hover {
-    opacity: 0.85;
-    border-color: rgba(242, 202, 80, 0.5);
-}
-
+.lg-thumb:hover        { opacity: 0.82; border-color: rgba(242,202,80,0.5); }
 .lg-thumb.lg-thumb-active {
     opacity: 1;
     border-color: #f2ca50;
-    box-shadow: 0 0 0 2px rgba(242, 202, 80, 0.3), 0 4px 16px rgba(0,0,0,0.5);
-    transform: scale(1.06);
+    box-shadow: 0 0 0 2px rgba(242,202,80,0.28);
+    transform: scale(1.07);
 }
 
-/* Cursor hint on main image / thumbnail on details page */
+/* ── Cursor hint ────────────────────────────────────────── */
 #main-image,
-#gallery-thumbnails button {
-    cursor: zoom-in;
-}
+#gallery-thumbnails button { cursor: zoom-in; }
 
-/* Mobile responsive */
+/* ── Portrait mobile (narrow screens) ─────────────────── */
 @media (max-width: 640px) {
     #lg-stage {
-        padding: 64px 52px 8px;
+        padding: 52px 36px 0;  /* tighter sides on small phones */
     }
-
-    #lg-prev { left: 6px; }
-    #lg-next { right: 6px; }
-
-    .lg-arrow {
-        width: 40px;
-        height: 40px;
+    #lg-img {
+        max-width: 96vw;
+        max-height: calc(100vh - 110px);
     }
-
-    .lg-arrow .material-symbols-outlined {
-        font-size: 20px;
-    }
-
-    .lg-thumb {
-        width: 56px;
-        height: 40px;
-    }
-}
-
-/* Mobile landscape — viewport height is very short (~400px).
-   Collapse header, shrink thumbnails so the image fills the screen. */
-@media (max-height: 500px) and (orientation: landscape) {
-    #lg-overlay {
-        flex-direction: row;      /* side-by-side: image | thumbs */
-        align-items: stretch;
-    }
-
-    #lg-header {
-        height: 48px;
-    }
-
-    #lg-stage {
-        flex: 1;
-        padding: 48px 44px 4px;
-        min-height: 0;
-    }
-
     #lg-prev { left: 4px; }
     #lg-next { right: 4px; }
+    .lg-arrow { width: 38px; height: 38px; }
+    .lg-arrow .material-symbols-outlined { font-size: 20px; }
+    .lg-thumb { width: 54px; height: 38px; }
+}
 
-    .lg-arrow {
-        width: 36px;
-        height: 36px;
+/* ── MOBILE LANDSCAPE — the critical fix ───────────────────
+   In landscape the viewport height is very short (~360-420px).
+   Goal: image fills ~90%+ of the screen height.
+   Thumbnails collapse to a tiny 36px strip overlaying the bottom.
+   Header shrinks to 38px. Arrows hug the edges.
+   ──────────────────────────────────────────────────────── */
+@media (max-height: 520px) and (orientation: landscape) {
+    #lg-header { height: 38px; padding: 0 10px; }
+    #lg-close-btn { width: 34px; height: 34px; }
+    #lg-close-btn .material-symbols-outlined { font-size: 18px; }
+
+    #lg-stage {
+        padding: 38px 40px 0;  /* header height top; arrows handle sides */
     }
 
-    /* Rotate thumbnail strip to vertical sidebar on the right */
-    #lg-thumbs-wrap {
-        width: 80px;
-        flex-shrink: 0;
-        padding: 52px 6px 6px 0;
-        background: linear-gradient(to left, rgba(0,0,0,0.7) 0%, transparent 100%);
-        display: flex;
-        align-items: flex-start;
+    #lg-img {
+        max-width: 90vw;
+        max-height: calc(100vh - 78px);  /* 38px header + 40px thumb strip */
     }
 
-    #lg-thumbs {
-        flex-direction: column;
-        justify-content: flex-start;
-        overflow-y: auto;
-        overflow-x: hidden;
-        height: 100%;
-        gap: 6px;
-        padding-bottom: 0;
-    }
+    /* Very tight arrows */
+    #lg-prev { left: 4px; }
+    #lg-next { right: 4px; }
+    .lg-arrow { width: 34px; height: 34px; }
+    .lg-arrow .material-symbols-outlined { font-size: 18px; }
 
-    .lg-thumb {
-        width: 64px;
-        height: 44px;
-        flex-shrink: 0;
-    }
+    /* Slim thumbnail strip */
+    #lg-thumbs-wrap { padding: 4px 8px 6px; }
+    .lg-thumb { width: 50px; height: 34px; }
+    #lg-thumbs { gap: 5px; }
 }
