@@ -480,9 +480,8 @@ function renderColorVariants() {
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3 items-end">
                 <div>
                     <label class="block text-[10px] font-bold uppercase text-neutral-400 mb-1">Color</label>
-                    <div class="flex gap-2 items-center">
-                        <input type="color" value="${escapeHtml(v.hex)}" onchange="updateColorVariant(${idx}, 'hex', this.value); this.nextElementSibling.value = this.value" class="h-10 w-10 rounded cursor-pointer border-none bg-transparent p-0 flex-shrink-0" style="background:none" />
-                        <input type="text" value="${escapeHtml(v.hex)}" placeholder="#000000" onchange="updateColorVariant(${idx}, 'hex', this.value); this.previousElementSibling.value = this.value; document.querySelector('[data-idx=\'${idx}\'] .color-preview').style.background = this.value" maxlength="7" class="flex-grow rounded px-2 py-2 text-xs font-mono" />
+                    <div class="flex flex-wrap gap-1.5">
+                        ${[['Black','#000000'],['White','#FFFFFF'],['Silver','#C0C0C0'],['Red','#FF0000'],['Blue','#0000FF'],['Gray','#808080'],['Beige','#F5F5DC'],['Dark Green','#006400'],['Yellow','#FFFF00'],['Brown','#8B4513']].map(([n,h]) => `<button type="button" title="${n}" onclick="updateColorVariant(${idx}, 'hex', '${h}')" class="w-7 h-7 rounded-full border-2 ${(v.hex||'').toUpperCase()===h?'border-primary ring-2 ring-primary':'border-white/20'} shadow hover:scale-110 transition-transform flex-shrink-0" style="background:${h}"></button>`).join('')}
                     </div>
                 </div>
                 <div>
