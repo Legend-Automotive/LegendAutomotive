@@ -618,30 +618,26 @@ function renderColorFilters() {
     const container = document.getElementById('color-filters-container');
     if (!container) return;
 
-    // Collect all unique hex colors across all products
-    const seen = new Map(); // hex -> name
-    products.forEach(p => {
-        let variants = p.color_variants || [];
-        if (typeof variants === 'string') { try { variants = JSON.parse(variants); } catch (e) { variants = []; } }
-        variants.forEach(v => {
-            if (v.hex && !seen.has(v.hex)) {
-                seen.set(v.hex, currentLang === 'ar' && v.name_ar ? v.name_ar : (v.name || v.hex));
-            }
-        });
-    });
+    const presetColors = [
+        ['Black',      '#000000'],
+        ['White',      '#FFFFFF'],
+        ['Silver',     '#C0C0C0'],
+        ['Red',        '#FF0000'],
+        ['Blue',       '#0000FF'],
+        ['Gray',       '#808080'],
+        ['Beige',      '#F5F5DC'],
+        ['Dark Green', '#006400'],
+        ['Yellow',     '#FFFF00'],
+        ['Brown',      '#8B4513']
+    ];
 
-    if (seen.size === 0) {
-        container.innerHTML = '<p class="text-xs text-neutral-600">No colors yet</p>';
-        return;
-    }
-
-    container.innerHTML = Array.from(seen.entries()).map(([hex, name]) => `
+    container.innerHTML = presetColors.map(([name, hex]) => `
         <button
-            title="${escapeHtml(name)}"
-            onclick="toggleColorFilter('${escapeHtml(hex)}', this)"
+            title="${name}"
+            onclick="toggleColorFilter('${hex}', this)"
             class="color-filter-dot w-7 h-7 rounded-full border-2 transition-all hover:scale-110 ${activeColorFilters.includes(hex) ? 'border-primary scale-110 ring-2 ring-primary/40' : 'border-white/20'}"
-            style="background:${escapeHtml(hex)}"
-            data-hex="${escapeHtml(hex)}"
+            style="background:${hex}"
+            data-hex="${hex}"
         ></button>
     `).join('');
 }
