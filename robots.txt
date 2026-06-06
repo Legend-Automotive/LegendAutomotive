@@ -1,5 +1,8 @@
 User-agent: *
-Disallow: /LegendAutomotive/admin.html
-Allow: /LegendAutomotive/
+Allow: /
+Disallow: /admin.html
+Disallow: /admin1.html
+Disallow: /admin.js
+Disallow: /admin1.js
 
-Sitemap: https://legendautomotive.github.io/LegendAutomotive/sitemap.xml
+Sitemap: https://www.legendautomotiveeg.com/sitemap.xml
