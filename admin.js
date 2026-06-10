@@ -586,7 +586,8 @@ async function handleSaveProduct(e) {
             transmission: document.getElementById("p-trans").value,
             fuel_type: document.getElementById("p-fuel").value,
             version: document.getElementById("p-version").value,
-            color_variants: currentColorVariants
+            color_variants: currentColorVariants,
+            instagram_video_url: document.getElementById("p-instagram-url").value.trim() || null
         };
 
         let file = document.getElementById("p-image").files[0];
@@ -670,6 +671,7 @@ function openModal(p = null) {
         document.getElementById("p-trans").value = p.transmission || "";
         document.getElementById("p-fuel").value = p.fuel_type || "";
         document.getElementById("p-version").value = p.version || "";
+        document.getElementById("p-instagram-url").value = p.instagram_video_url || "";
     }
     renderBrandSelector(p ? p.brand_id : null);
     productModal.classList.remove("hidden");

@@ -957,6 +957,19 @@ async function renderDetails() {
         }
     }
 
+    // Instagram video embed
+    const igSection = document.getElementById('instagram-video-section');
+    const igContainer = document.getElementById('instagram-video-container');
+    if (igSection && igContainer) {
+        const igUrl = p.instagram_video_url;
+        const igMatch = igUrl && igUrl.match(/instagram\.com\/(?:p|reel|tv)\/([A-Za-z0-9_-]+)/);
+        if (igMatch) {
+            const postId = igMatch[1];
+            igContainer.innerHTML = `<iframe src="https://www.instagram.com/p/${postId}/embed/" style="width:100%;max-width:540px;min-height:580px;border:0;border-radius:8px;overflow:hidden;" frameborder="0" scrolling="no" allowtransparency="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>`;
+            igSection.classList.remove('hidden');
+        }
+    }
+
     const inqForm = document.getElementById('inquiry-form');
     if (inqForm) {
         inqForm.onsubmit = async (e) => {
