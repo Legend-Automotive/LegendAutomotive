@@ -957,15 +957,42 @@ async function renderDetails() {
         }
     }
 
-    // Instagram video embed
+    // Instagram video thumbnail — opens post in new tab (more reliable than embed)
     const igSection = document.getElementById('instagram-video-section');
     const igContainer = document.getElementById('instagram-video-container');
     if (igSection && igContainer) {
         const igUrl = p.instagram_video_url;
         const igMatch = igUrl && igUrl.match(/instagram\.com\/(?:p|reel|tv)\/([A-Za-z0-9_-]+)/);
         if (igMatch) {
-            const postId = igMatch[1];
-            igContainer.innerHTML = `<iframe src="https://www.instagram.com/p/${postId}/embed/" style="width:100%;max-width:540px;min-height:580px;border:0;border-radius:8px;overflow:hidden;" frameborder="0" scrolling="no" allowtransparency="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>`;
+            const postUrl = igUrl.trim();
+            const link = document.createElement('a');
+            link.href = postUrl;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.style.cssText = 'display:block;width:100%;max-width:540px;aspect-ratio:4/5;border-radius:12px;overflow:hidden;position:relative;background:linear-gradient(135deg,#405de6 0%,#833ab4 35%,#e1306c 65%,#fd1d1d 85%,#fcaf45 100%);cursor:pointer;text-decoration:none;';
+            link.innerHTML = `
+                <div style="position:absolute;inset:0;background:rgba(0,0,0,0.38);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:24px;">
+                    <div class="ig-play-circle" style="width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,0.18);border:3px solid rgba(255,255,255,0.7);display:flex;align-items:center;justify-content:center;transition:transform 0.2s,background 0.2s;">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="white" style="margin-left:4px"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                    <div style="text-align:center;">
+                        <div style="display:flex;align-items:center;gap:8px;justify-content:center;margin-bottom:8px;">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                            <span style="color:white;font-size:16px;font-weight:700;letter-spacing:0.06em;text-shadow:0 1px 4px rgba(0,0,0,0.3);">Instagram</span>
+                        </div>
+                        <span style="color:rgba(255,255,255,0.85);font-size:13px;font-weight:500;text-shadow:0 1px 3px rgba(0,0,0,0.3);">Tap to watch on Instagram</span>
+                    </div>
+                </div>
+            `;
+            link.addEventListener('mouseenter', function () {
+                const circle = this.querySelector('.ig-play-circle');
+                if (circle) { circle.style.background = 'rgba(255,255,255,0.32)'; circle.style.transform = 'scale(1.1)'; }
+            });
+            link.addEventListener('mouseleave', function () {
+                const circle = this.querySelector('.ig-play-circle');
+                if (circle) { circle.style.background = 'rgba(255,255,255,0.18)'; circle.style.transform = 'scale(1)'; }
+            });
+            igContainer.appendChild(link);
             igSection.classList.remove('hidden');
         }
     }
