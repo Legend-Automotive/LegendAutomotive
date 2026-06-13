@@ -550,9 +550,28 @@
           <div class="space-y-4">
             <h4 class="text-primary font-bold uppercase tracking-widest text-[10px]">Video</h4>
             <div>
-              <label class="block text-xs font-medium text-neutral-400 mb-2">Instagram Video URL <span class="text-neutral-600">(Optional)</span></label>
-              <input type="url" id="p-instagram-url" class="w-full rounded-lg px-4 py-3 outline-none" placeholder="https://www.instagram.com/p/POST_ID/ or /reel/POST_ID/" />
-              <p class="text-[10px] text-neutral-500 mt-1.5">Paste the full Instagram post or Reel URL. The video will be embedded on the car details page.</p>
+              <label class="block text-xs font-medium text-neutral-400 mb-2">Car Video <span class="text-neutral-600">(Optional)</span></label>
+              <input type="hidden" id="p-instagram-url" />
+              <div id="video-drop-zone"
+                   class="flex flex-col items-center justify-center gap-2 w-full rounded-lg border-2 border-dashed border-outline-variant px-4 py-8 cursor-pointer text-neutral-500 hover:border-primary hover:text-primary transition-colors"
+                   onclick="document.getElementById('video-file-input').click()"
+                   ondragover="event.preventDefault(); this.classList.add('border-primary','text-primary')"
+                   ondragleave="this.classList.remove('border-primary','text-primary')"
+                   ondrop="handleVideoDrop(event)">
+                <span class="material-symbols-outlined text-3xl">upload_file</span>
+                <span class="text-xs font-medium">Drag &amp; drop an MP4 here, or click to select</span>
+              </div>
+              <input type="file" id="video-file-input" accept="video/mp4" class="hidden" onchange="handleVideoFileSelect(event)" />
+              <div id="video-upload-progress" class="hidden mt-3">
+                <div class="flex justify-between text-[10px] text-neutral-500 mb-1">
+                  <span>Uploading…</span><span id="video-progress-pct">0%</span>
+                </div>
+                <div class="h-1.5 rounded-full bg-outline-variant overflow-hidden">
+                  <div id="video-progress-bar" class="h-full bg-primary transition-all duration-150" style="width:0%"></div>
+                </div>
+              </div>
+              <video id="video-preview" class="hidden mt-3 w-full rounded-lg max-h-48 bg-black" controls muted playsinline></video>
+              <p class="text-[10px] text-neutral-500 mt-1.5">Upload an MP4 file. The video will be shown on the car details page.</p>
             </div>
           </div>
 

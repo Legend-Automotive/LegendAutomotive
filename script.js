@@ -994,6 +994,15 @@ async function renderDetails() {
             });
             igContainer.appendChild(link);
             igSection.classList.remove('hidden');
+        } else if (igUrl && /\.(mp4|webm|mov)(\?|$)/i.test(igUrl)) {
+            const vid = document.createElement('video');
+            vid.src = igUrl;
+            vid.controls = true;
+            vid.muted = true;
+            vid.playsInline = true;
+            vid.style.cssText = 'width:100%;max-width:540px;border-radius:12px;background:#000;display:block;';
+            igContainer.appendChild(vid);
+            igSection.classList.remove('hidden');
         }
     }
 

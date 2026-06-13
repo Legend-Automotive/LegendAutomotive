@@ -622,6 +622,7 @@ async function handleSaveProduct(e) {
 function openModal(p = null) {
     editingId = p ? p.id : null;
     productForm.reset();
+    resetVideoUI();
     currentGallery = p?.gallery || [];
     renderGalleryPreview();
 
@@ -672,6 +673,7 @@ function openModal(p = null) {
         document.getElementById("p-fuel").value = p.fuel_type || "";
         document.getElementById("p-version").value = p.version || "";
         document.getElementById("p-instagram-url").value = p.instagram_video_url || "";
+        if (p.instagram_video_url) showVideoPreview(p.instagram_video_url);
     }
     renderBrandSelector(p ? p.brand_id : null);
     productModal.classList.remove("hidden");
@@ -914,6 +916,93 @@ window.addSocialLink = function(type, val = "") {
     container.appendChild(div);
 };
 
+
+// --- Video upload ---
+function resetVideoUI() {
+    document.getElementById('p-instagram-url').value = '';
+    const zone = document.getElementById('video-drop-zone');
+    if (zone) zone.classList.remove('hidden');
+    const progress = document.getElementById('video-upload-progress');
+    if (progress) progress.classList.add('hidden');
+    const bar = document.getElementById('video-progress-bar');
+    if (bar) bar.style.width = '0%';
+    const pct = document.getElementById('video-progress-pct');
+    if (pct) pct.textContent = '0%';
+    const preview = document.getElementById('video-preview');
+    if (preview) { preview.classList.add('hidden'); preview.src = ''; }
+    const fileInput = document.getElementById('video-file-input');
+    if (fileInput) fileInput.value = '';
+}
+
+function showVideoPreview(url) {
+    const zone = document.getElementById('video-drop-zone');
+    if (zone) zone.classList.add('hidden');
+    const preview = document.getElementById('video-preview');
+    if (!preview) return;
+    preview.src = url;
+    preview.classList.remove('hidden');
+}
+
+window.handleVideoDrop = function(event) {
+    event.preventDefault();
+    const zone = document.getElementById('video-drop-zone');
+    zone.classList.remove('border-primary', 'text-primary');
+    const file = event.dataTransfer.files[0];
+    if (file && file.type === 'video/mp4') {
+        uploadVideoFile(file);
+    } else {
+        showToast('Please drop an MP4 file.', 'error');
+    }
+};
+
+window.handleVideoFileSelect = function(event) {
+    const file = event.target.files[0];
+    if (file) uploadVideoFile(file);
+};
+
+async function uploadVideoFile(file) {
+    const zone = document.getElementById('video-drop-zone');
+    const progress = document.getElementById('video-upload-progress');
+    const bar = document.getElementById('video-progress-bar');
+    const pct = document.getElementById('video-progress-pct');
+
+    zone.classList.add('hidden');
+    progress.classList.remove('hidden');
+    bar.style.width = '0%';
+    pct.textContent = '0%';
+
+    let fake = 0;
+    const tick = setInterval(() => {
+        fake = Math.min(fake + 6, 88);
+        bar.style.width = fake + '%';
+        pct.textContent = fake + '%';
+    }, 200);
+
+    try {
+        const path = `${Date.now()}-${sanitizeFilename(file.name)}`;
+        const { error } = await window.supabase.storage
+            .from('videos')
+            .upload(path, file, { upsert: true, contentType: 'video/mp4' });
+        clearInterval(tick);
+        if (error) throw error;
+
+        bar.style.width = '100%';
+        pct.textContent = '100%';
+
+        const publicUrl = window.supabase.storage.from('videos').getPublicUrl(path).data.publicUrl;
+        document.getElementById('p-instagram-url').value = publicUrl;
+
+        await new Promise(r => setTimeout(r, 350));
+        progress.classList.add('hidden');
+        showVideoPreview(publicUrl);
+        showToast('Video uploaded!', 'success');
+    } catch (err) {
+        clearInterval(tick);
+        progress.classList.add('hidden');
+        zone.classList.remove('hidden');
+        showToast('Video upload failed: ' + (err.message || err), 'error');
+    }
+}
 
 // Exports for testing
 if (typeof module !== 'undefined' && module.exports) {
