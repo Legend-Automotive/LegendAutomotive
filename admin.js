@@ -932,6 +932,8 @@ function resetVideoUI() {
     if (preview) { preview.classList.add('hidden'); preview.src = ''; }
     const fileInput = document.getElementById('video-file-input');
     if (fileInput) fileInput.value = '';
+    const deleteBtn = document.getElementById('video-delete-btn');
+    if (deleteBtn) deleteBtn.classList.add('hidden');
 }
 
 function showVideoPreview(url) {
@@ -941,7 +943,13 @@ function showVideoPreview(url) {
     if (!preview) return;
     preview.src = url;
     preview.classList.remove('hidden');
+    const deleteBtn = document.getElementById('video-delete-btn');
+    if (deleteBtn) deleteBtn.classList.remove('hidden');
 }
+
+window.deleteVideo = function() {
+    resetVideoUI();
+};
 
 window.handleVideoDrop = function(event) {
     event.preventDefault();

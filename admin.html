@@ -571,6 +571,11 @@
                 </div>
               </div>
               <video id="video-preview" class="hidden mt-3 w-full rounded-lg max-h-48 bg-black" controls muted playsinline></video>
+              <button type="button" id="video-delete-btn" onclick="deleteVideo()"
+                      class="hidden mt-2 flex items-center gap-1.5 text-xs font-bold text-red-500 hover:text-red-400 transition-colors">
+                <span class="material-symbols-outlined text-base">delete</span>
+                Delete video
+              </button>
               <p class="text-[10px] text-neutral-500 mt-1.5">Upload an MP4 file. The video will be shown on the car details page.</p>
             </div>
           </div>
