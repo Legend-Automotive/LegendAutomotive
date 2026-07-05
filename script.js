@@ -663,6 +663,7 @@ function filterInventory() {
     const cat = document.getElementById('filter-category')?.value || '';
     const minPrice = parseInt(document.getElementById('price-min-slider')?.value || 0);
     const maxPrice = parseInt(document.getElementById('price-max-slider')?.value || 999999999);
+    const fuelParam = new URLSearchParams(window.location.search).get('fuel');
 
     const filtered = products.filter(p => {
         const matchesTerm = p.name.toLowerCase().includes(term) || (p.name_ar && p.name_ar.includes(term));
@@ -679,7 +680,14 @@ function filterInventory() {
             matchesColor = activeColorFilters.some(h => productHexes.includes(h));
         }
 
-        return matchesTerm && matchesCat && matchesBrand && matchesPrice && matchesColor;
+        let matchesFuel = true;
+        if (fuelParam === 'electric') {
+            matchesFuel = ['Electric', 'REEV', 'DMI'].includes(p.fuel_type);
+        } else if (fuelParam === 'petrol') {
+            matchesFuel = p.fuel_type === 'Petrol';
+        }
+
+        return matchesTerm && matchesCat && matchesBrand && matchesPrice && matchesColor && matchesFuel;
     }).sort((a, b) => a.order_explore - b.order_explore);
 
     const container = document.getElementById('inventory-container');

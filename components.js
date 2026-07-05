@@ -22,6 +22,8 @@ const Components = {
                         <div class="hidden md:flex items-center space-x-10 rtl:space-x-reverse" id="nav-desktop-links">
                             <a class="nav-link font-manrope tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-primary transition-colors duration-300 ${window.location.pathname === '/' || window.location.pathname.endsWith('/index.html') ? 'hidden' : ''}" href="/" data-i18n="nav_home">Home</a>
                             <a class="nav-link font-manrope tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-primary transition-colors duration-300" href="/inventory" data-i18n="nav_inventory">Explore</a>
+                            <a class="nav-link font-manrope tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-primary transition-colors duration-300" href="/inventory?fuel=electric" data-fuel="electric">Electric</a>
+                            <a class="nav-link font-manrope tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-primary transition-colors duration-300" href="/inventory?fuel=petrol" data-fuel="petrol">Petrol</a>
                             <a class="nav-link font-manrope tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-primary transition-colors duration-300" href="/about" data-i18n="nav_about">About</a>
                             <a class="nav-link font-manrope tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-primary transition-colors duration-300" href="/contact" data-i18n="nav_contact">Contact Us</a>
                             <a class="nav-link font-manrope tracking-wider uppercase text-sm font-semibold text-neutral-400 hover:text-primary transition-colors duration-300" href="/favorites" aria-label="Favorites">
@@ -99,6 +101,8 @@ const Components = {
                     <nav class="flex flex-col space-y-6">
                         <a href="/" class="text-2xl font-headline font-bold text-on-surface hover:text-primary transition-colors" data-i18n="nav_home">Home</a>
                         <a href="/inventory" class="text-2xl font-headline font-bold text-on-surface hover:text-primary transition-colors" data-i18n="nav_inventory">Explore</a>
+                        <a href="/inventory?fuel=electric" class="text-2xl font-headline font-bold text-on-surface hover:text-primary transition-colors">Electric</a>
+                        <a href="/inventory?fuel=petrol" class="text-2xl font-headline font-bold text-on-surface hover:text-primary transition-colors">Petrol</a>
                         <a href="/favorites" class="text-2xl font-headline font-bold text-on-surface hover:text-primary transition-colors">Favorites</a>
                         <a href="/contact" class="text-2xl font-headline font-bold text-on-surface hover:text-primary transition-colors" data-i18n="nav_contact">Contact</a>
                         <button onclick="toggleLanguage()" class="text-left text-2xl font-headline font-bold text-on-surface hover:text-primary transition-colors flex justify-between items-center group">
@@ -202,14 +206,27 @@ const Components = {
         else if(pName.includes('/contact')) pName='/contact';
         else if(pName.includes('/favorites')) pName='/favorites';
 
+        const fuelParam = new URLSearchParams(window.location.search).get('fuel');
+
         document.querySelectorAll('.nav-link').forEach(link => {
             const h = link.getAttribute('href');
-            if(h === pName) {
+            const fuelAttr = link.getAttribute('data-fuel');
+
+            let isActive;
+            if (fuelAttr) {
+                isActive = pName === '/inventory' && fuelParam === fuelAttr;
+            } else if (h === '/inventory') {
+                isActive = pName === '/inventory' && !fuelParam;
+            } else {
+                isActive = h === pName;
+            }
+
+            if (isActive) {
                 link.classList.remove('text-neutral-400');
-                if(!link.querySelector('span')) {
+                if (!link.querySelector('span')) {
                     link.classList.add('text-primary', 'border-b-2', 'border-primary-container', 'pb-1');
                 } else {
-                    link.classList.add('text-primary'); 
+                    link.classList.add('text-primary');
                 }
             } else {
                 link.classList.replace('text-primary', 'text-neutral-400');
