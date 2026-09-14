@@ -1102,8 +1102,9 @@ async function renderDetails() {
     }
     
     const brandName = p.brand_id ? brands.find(b => b.id === p.brand_id)?.name : "Legend Automotive";
+    const mileageNum = p.mileage ? parseInt(String(p.mileage).replace(/[^0-9]/g, ''), 10) || 0 : 0;
 
-    ldJsonScript.textContent = JSON.stringify({
+    const productSchema = {
         "@context": "https://schema.org",
         "@type": "Product",
         "name": vName,
@@ -1113,15 +1114,28 @@ async function renderDetails() {
             "@type": "Brand",
             "name": brandName || "Legend Automotive"
         },
+        "seller": {
+            "@type": "AutoDealer",
+            "name": "Legend Automotive",
+            "url": "https://www.legendautomotiveeg.com"
+        },
+        "vehicleTransmission": p.transmission,
+        "fuelType": p.fuel_type,
         "offers": {
             "@type": "Offer",
             "url": pageUrl,
             "priceCurrency": "EGP",
             "price": p.discount_price && p.discount_price > 0 ? p.discount_price : (p.price_egp || 0),
-            "availability": "https://schema.org/InStock",
-            "itemCondition": "https://schema.org/UsedCondition"
+            "availability": p.is_upon_request ? "https://schema.org/PreOrder" : "https://schema.org/InStock",
+            "itemCondition": mileageNum > 0 ? "https://schema.org/UsedCondition" : "https://schema.org/NewCondition"
         }
-    });
+    };
+
+    if (mileageNum > 0) {
+        productSchema.mileageFromOdometer = mileageNum;
+    }
+
+    ldJsonScript.textContent = JSON.stringify(productSchema);
 }
 
 // --- Details Page Modals ---
