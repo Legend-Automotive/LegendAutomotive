@@ -45,6 +45,27 @@ const FUEL_TYPE_PAGES = [
     { loc: '/inventory?fuel=petrol', changefreq: 'weekly', priority: '0.7' },
 ];
 
+const COLOR_PAGES = [
+    { loc: '/inventory?color=White', changefreq: 'weekly', priority: '0.6' },
+    { loc: '/inventory?color=Black', changefreq: 'weekly', priority: '0.6' },
+    { loc: '/inventory?color=Silver', changefreq: 'weekly', priority: '0.6' },
+    { loc: '/inventory?color=Grey', changefreq: 'weekly', priority: '0.6' },
+    { loc: '/inventory?color=Blue', changefreq: 'weekly', priority: '0.6' },
+];
+
+const COMBINED_FILTER_PAGES = [
+    { loc: '/inventory?brand=BYD&fuel=electric', changefreq: 'weekly', priority: '0.7' },
+    { loc: '/inventory?brand=Deepal&fuel=electric', changefreq: 'weekly', priority: '0.7' },
+    { loc: '/inventory?brand=AVATR&fuel=electric', changefreq: 'weekly', priority: '0.7' },
+    { loc: '/inventory?brand=Zeekr&fuel=electric', changefreq: 'weekly', priority: '0.7' },
+    { loc: '/inventory?brand=Xiaomi+Auto&fuel=electric', changefreq: 'weekly', priority: '0.7' },
+    { loc: '/inventory?brand=Dongfeng&fuel=electric', changefreq: 'weekly', priority: '0.7' },
+    { loc: '/inventory?brand=Mercedes-Benz&fuel=petrol', changefreq: 'weekly', priority: '0.7' },
+    { loc: '/inventory?brand=Kia&fuel=petrol', changefreq: 'weekly', priority: '0.7' },
+    { loc: '/inventory?brand=Nissan&fuel=petrol', changefreq: 'weekly', priority: '0.7' },
+    { loc: '/inventory?brand=Volkswagen&fuel=petrol', changefreq: 'weekly', priority: '0.7' },
+];
+
 async function supabaseGet({ url, key }, table, select) {
     const endpoint = `${url}/rest/v1/${table}?select=${select}`;
 
@@ -105,41 +126,75 @@ function buildUrlEntry(loc, lastmod, changefreq, priority) {
     ].join('\n');
 }
 
+// Appends a lang=ar param to a URL, respecting any existing query string.
+function withArabicLang(loc) {
+    return loc.includes('?') ? `${loc}&lang=ar` : `${loc}?lang=ar`;
+}
+
 function buildSitemap({ products, brands, categories }, lastmod) {
-    const entries = [];
+    // Collected as {loc, changefreq, priority} objects first so we can
+    // derive the Arabic (?lang=ar) variants from the full base set afterward.
+    const records = [];
 
     for (const page of STATIC_PAGES) {
-        entries.push(buildUrlEntry(`${SITE_ORIGIN}${page.loc}`, lastmod, page.changefreq, page.priority));
+        records.push({ loc: `${SITE_ORIGIN}${page.loc}`, changefreq: page.changefreq, priority: page.priority });
     }
 
     for (const p of products) {
         if (p.id === undefined || p.id === null) continue;
         const loc = `${SITE_ORIGIN}/details?id=${encodeURIComponent(p.id)}`;
-        entries.push(buildUrlEntry(loc, lastmod, 'weekly', '0.8'));
+        records.push({ loc, changefreq: 'weekly', priority: '0.8' });
     }
 
     for (const b of brands) {
         if (!b.name) continue;
         const loc = `${SITE_ORIGIN}/inventory?brand=${encodeURIComponent(b.name)}`;
-        entries.push(buildUrlEntry(loc, lastmod, 'weekly', '0.7'));
+        records.push({ loc, changefreq: 'weekly', priority: '0.7' });
     }
 
     for (const page of FUEL_TYPE_PAGES) {
-        entries.push(buildUrlEntry(`${SITE_ORIGIN}${page.loc}`, lastmod, page.changefreq, page.priority));
+        records.push({ loc: `${SITE_ORIGIN}${page.loc}`, changefreq: page.changefreq, priority: page.priority });
     }
 
     for (const cat of categories) {
         const loc = `${SITE_ORIGIN}/inventory?category=${encodeURIComponent(cat)}`;
-        entries.push(buildUrlEntry(loc, lastmod, 'weekly', '0.7'));
+        records.push({ loc, changefreq: 'weekly', priority: '0.7' });
     }
 
-    return [
-        '<?xml version="1.0" encoding="UTF-8"?>',
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-        entries.join('\n'),
-        '</urlset>',
-        '',
-    ].join('\n');
+    for (const page of COLOR_PAGES) {
+        records.push({ loc: `${SITE_ORIGIN}${page.loc}`, changefreq: page.changefreq, priority: page.priority });
+    }
+
+    for (const page of COMBINED_FILTER_PAGES) {
+        records.push({ loc: `${SITE_ORIGIN}${page.loc}`, changefreq: page.changefreq, priority: page.priority });
+    }
+
+    // Arabic variants: one per existing URL above, same priority, weekly changefreq.
+    const arabicRecords = records.map(r => ({
+        loc: withArabicLang(r.loc),
+        changefreq: 'weekly',
+        priority: r.priority,
+    }));
+
+    const allRecords = records.concat(arabicRecords);
+    const entries = allRecords.map(r => buildUrlEntry(r.loc, lastmod, r.changefreq, r.priority));
+
+    return {
+        xml: [
+            '<?xml version="1.0" encoding="UTF-8"?>',
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+            entries.join('\n'),
+            '</urlset>',
+            '',
+        ].join('\n'),
+        counts: {
+            base: records.length,
+            arabic: arabicRecords.length,
+            total: allRecords.length,
+            colorPages: COLOR_PAGES.length,
+            combinedFilterPages: COMBINED_FILTER_PAGES.length,
+        },
+    };
 }
 
 async function main() {
@@ -151,7 +206,7 @@ async function main() {
     const categories = uniqueCategories(products);
 
     const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
-    const xml = buildSitemap({ products, brands, categories }, today);
+    const { xml, counts } = buildSitemap({ products, brands, categories }, today);
 
     fs.writeFileSync(OUTPUT_PATH, xml, 'utf8');
 
@@ -159,6 +214,10 @@ async function main() {
     console.log(`Brand filter URLs added: ${brands.length}`);
     console.log(`Fuel type URLs added: ${FUEL_TYPE_PAGES.length}`);
     console.log(`Category URLs added: ${categories.length}`);
+    console.log(`Color filter URLs added: ${counts.colorPages}`);
+    console.log(`Combined filter URLs added: ${counts.combinedFilterPages}`);
+    console.log(`Arabic (?lang=ar) URLs added: ${counts.arabic}`);
+    console.log(`Total URLs in sitemap: ${counts.total}`);
     console.log(`Sitemap written to: ${OUTPUT_PATH}`);
 }
 
