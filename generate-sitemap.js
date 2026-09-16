@@ -25,6 +25,7 @@ const STATIC_PAGES = [
     { loc: '/about', changefreq: 'monthly', priority: '0.7' },
     { loc: '/contact', changefreq: 'monthly', priority: '0.7' },
     { loc: '/favorites', changefreq: 'monthly', priority: '0.4' },
+    { loc: '/faq', changefreq: 'monthly', priority: '0.8' },
 ];
 
 function readSupabaseCredentials() {
