@@ -26,6 +26,11 @@ const STATIC_PAGES = [
     { loc: '/contact', changefreq: 'monthly', priority: '0.7' },
     { loc: '/favorites', changefreq: 'monthly', priority: '0.4' },
     { loc: '/faq', changefreq: 'monthly', priority: '0.8' },
+    { loc: '/best-electric-cars-egypt-2026', changefreq: 'monthly', priority: '0.8' },
+    { loc: '/byd-vs-nissan-n7-egypt', changefreq: 'monthly', priority: '0.8' },
+    { loc: '/chinese-vs-european-cars-egypt', changefreq: 'monthly', priority: '0.8' },
+    { loc: '/electric-car-charging-guide-egypt', changefreq: 'monthly', priority: '0.8' },
+    { loc: '/best-family-electric-car-egypt', changefreq: 'monthly', priority: '0.8' },
 ];
 
 function readSupabaseCredentials() {
