@@ -6,7 +6,7 @@ const Components = {
                     <div class="flex justify-between items-center w-full px-8 h-20">
                         <div class="flex items-center gap-4">
                             <a href="/" class="relative block" style="pointer-events: none;">
-                                <img src="assets/images/logo.jpg" alt="Legend Automotive" style="height:300px;width:auto">
+                                <img src="assets/images/logo.jpg" alt="Legend Automotive" width="300" height="300" style="height:300px;width:auto">
                                 <!-- Restricts the clickable area to just the navbar height -->
                                 <div class="absolute top-1/2 left-0 w-full h-20 -translate-y-1/2" style="pointer-events: auto; cursor: pointer;" title="Home"></div>
                             </a>
@@ -48,7 +48,7 @@ const Components = {
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-12 px-12 py-16 max-w-7xl mx-auto">
                     <div class="rtl:text-right">
                         <div class="flex items-center gap-3 mb-6">
-                            <a href="/"><img src="assets/images/logo.jpg" alt="Legend Automotive" class="site-logo" style="height:300px;width:auto"></a>
+                            <a href="/"><img src="assets/images/logo.jpg" alt="Legend Automotive" class="site-logo" width="300" height="300" style="height:300px;width:auto"></a>
                         </div>
                         <p class="font-inter text-xs text-neutral-500 max-w-xs leading-loose" data-i18n="footer_desc">
                             The destination for automotive excellence. We curate the world's most powerful machines for those who demand nothing less than the legendary.
@@ -87,7 +87,7 @@ const Components = {
             <div id="mobile-menu-drawer" class="fixed top-0 right-0 h-full w-[80%] max-w-sm bg-background z-[101] translate-x-full transition-transform duration-400 shadow-2xl flex flex-col">
                 <div class="flex justify-between items-center p-6 border-b border-outline-variant/10">
                     <div class="flex items-center gap-3">
-                        <a href="/"><img src="assets/images/logo.jpg" alt="Legend Automotive" class="site-logo" style="height:150px;width:auto"></a>
+                        <a href="/"><img src="assets/images/logo.jpg" alt="Legend Automotive" class="site-logo" width="150" height="150" style="height:150px;width:auto"></a>
                     </div>
                     <button id="mobile-menu-close" aria-label="Close Menu" class="p-2 text-primary active:scale-90 transition-transform">
                         <span class="material-symbols-outlined">close</span>

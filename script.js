@@ -417,13 +417,6 @@ function createProductCard(p, index = 0) {
     const name = isAr && p.name_ar ? p.name_ar : p.name;
     const fav = favorites.includes(p.id);
 
-    const formatShortPrice = (val) => {
-        if (!val || p.is_upon_request) return translations[currentLang]?.upon_request || 'Upon Request';
-        if (currentCurrency === 'EGP') return `${val.toLocaleString()} ${translations[currentLang]?.price_egp || 'L.E'}`;
-        const usd = Math.round(val / usdToEgpRate);
-        return `${currentLang === 'en' ? '$' : ''}${usd.toLocaleString()}${currentLang === 'ar' ? ' ' + (translations[currentLang]?.price_usd || 'USD') : ''}`;
-    };
-
     return `
     <div class="group relative flex flex-col rounded-xl overflow-hidden bg-surface-container-low transition-all duration-500 hover:-translate-y-2 border border-outline-variant/10">
         <div class="relative aspect-[16/9] w-full overflow-hidden bg-surface-container-high animate-pulse" id="skel-${p.id}">

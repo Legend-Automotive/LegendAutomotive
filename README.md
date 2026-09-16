@@ -49,4 +49,4 @@ Text content is stored in `data/translations.json` for internationalization.
 
 ## Customization
 
-*   **Currency Rate:** The exchange rate is managed via the **Admin Dashboard** in the "Settings" tab. It is stored in the Supabase `app_settings` table.
+*   **Currency Rate:** The exchange rate is managed via the **Admin Dashboard** in the "Settings" tab. It is stored in the Supabase `settings` table.
