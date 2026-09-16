@@ -1106,7 +1106,7 @@ async function renderDetails() {
 
     const productSchema = {
         "@context": "https://schema.org",
-        "@type": "Product",
+        "@type": "Vehicle",
         "name": vName,
         "image": vImg,
         "description": vDescRaw,
@@ -1135,7 +1135,31 @@ async function renderDetails() {
         productSchema.mileageFromOdometer = mileageNum;
     }
 
-    ldJsonScript.textContent = JSON.stringify(productSchema);
+    const breadcrumbSchema = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.legendautomotiveeg.com" },
+            { "@type": "ListItem", "position": 2, "name": "Inventory", "item": "https://www.legendautomotiveeg.com/inventory" },
+            { "@type": "ListItem", "position": 3, "name": vName, "item": `https://www.legendautomotiveeg.com/details?id=${p.id}` }
+        ]
+    };
+
+    const jsonLdGraph = [productSchema, breadcrumbSchema];
+
+    if (p.youtube_video_url) {
+        const videoSchema = {
+            "@context": "https://schema.org",
+            "@type": "VideoObject",
+            "name": vName,
+            "description": vDescRaw,
+            "thumbnailUrl": p.image_url,
+            "contentUrl": p.youtube_video_url
+        };
+        jsonLdGraph.push(videoSchema);
+    }
+
+    ldJsonScript.textContent = JSON.stringify(jsonLdGraph);
 }
 
 // --- Details Page Modals ---
