@@ -137,6 +137,9 @@ function buildSitemap({ products, brands, categories }, lastmod) {
         if (p.id === undefined || p.id === null) continue;
         const loc = `${SITE_ORIGIN}/details?id=${encodeURIComponent(p.id)}`;
         records.push({ loc, changefreq: 'weekly', priority: '0.8' });
+
+        const carLoc = `${SITE_ORIGIN}/cars/${encodeURIComponent(p.id)}.html`;
+        records.push({ loc: carLoc, changefreq: 'daily', priority: '0.9' });
     }
 
     for (const b of brands) {
