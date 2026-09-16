@@ -126,14 +126,7 @@ function buildUrlEntry(loc, lastmod, changefreq, priority) {
     ].join('\n');
 }
 
-// Appends a lang=ar param to a URL, respecting any existing query string.
-function withArabicLang(loc) {
-    return loc.includes('?') ? `${loc}&lang=ar` : `${loc}?lang=ar`;
-}
-
 function buildSitemap({ products, brands, categories }, lastmod) {
-    // Collected as {loc, changefreq, priority} objects first so we can
-    // derive the Arabic (?lang=ar) variants from the full base set afterward.
     const records = [];
 
     for (const page of STATIC_PAGES) {
@@ -169,15 +162,7 @@ function buildSitemap({ products, brands, categories }, lastmod) {
         records.push({ loc: `${SITE_ORIGIN}${page.loc}`, changefreq: page.changefreq, priority: page.priority });
     }
 
-    // Arabic variants: one per existing URL above, same priority, weekly changefreq.
-    const arabicRecords = records.map(r => ({
-        loc: withArabicLang(r.loc),
-        changefreq: 'weekly',
-        priority: r.priority,
-    }));
-
-    const allRecords = records.concat(arabicRecords);
-    const entries = allRecords.map(r => buildUrlEntry(r.loc, lastmod, r.changefreq, r.priority));
+    const entries = records.map(r => buildUrlEntry(r.loc, lastmod, r.changefreq, r.priority));
 
     return {
         xml: [
@@ -189,8 +174,7 @@ function buildSitemap({ products, brands, categories }, lastmod) {
         ].join('\n'),
         counts: {
             base: records.length,
-            arabic: arabicRecords.length,
-            total: allRecords.length,
+            total: records.length,
             colorPages: COLOR_PAGES.length,
             combinedFilterPages: COMBINED_FILTER_PAGES.length,
         },
@@ -216,7 +200,6 @@ async function main() {
     console.log(`Category URLs added: ${categories.length}`);
     console.log(`Color filter URLs added: ${counts.colorPages}`);
     console.log(`Combined filter URLs added: ${counts.combinedFilterPages}`);
-    console.log(`Arabic (?lang=ar) URLs added: ${counts.arabic}`);
     console.log(`Total URLs in sitemap: ${counts.total}`);
     console.log(`Sitemap written to: ${OUTPUT_PATH}`);
 }
