@@ -411,6 +411,7 @@ function renderProducts(products) {
       <td class="px-6 py-4" data-label="Preview"><img src="${escapeHtml(optimizeImage(p.image_url, 400))}" class="h-10 w-16 object-cover rounded"></td>
       <td class="px-6 py-4 font-medium" data-label="Vehicle">${escapeHtml(p.name)}<br><span class="text-xs text-gray-500">${escapeHtml(p.name_ar || '')}</span></td>
       <td class="px-6 py-4" data-label="Sold"><input type="checkbox" ${p.is_sold_out ? 'checked' : ''} onchange="toggleSoldOut(${p.id}, this)" class="rounded text-primary"></td>
+      <td class="px-6 py-4" data-label="Spotlight"><input type="checkbox" ${p.is_spotlight ? 'checked' : ''} onchange="toggleSpotlight(${p.id}, this)" class="rounded text-primary"></td>
       <td class="px-6 py-4" data-label="Price">${p.is_upon_request ? 'Upon Request' : (escapeHtml(p.price_egp?.toLocaleString()) + ' L.E')}</td>
       <td class="px-6 py-4" data-label="Category"><span class="bg-gray-100 dark:bg-white/10 px-2 py-1 rounded text-xs">${escapeHtml(p.category)}</span></td>
       <td class="px-6 py-4" data-label="Brand">${escapeHtml(p.brands?.name || '-')}</td>
@@ -441,6 +442,11 @@ document.getElementById("products-table-body")?.addEventListener("drop", e => {
 
 window.toggleSoldOut = async (id, cb) => {
     try { await window.productsDb.update(id, { is_sold_out: cb.checked }); showToast("Status updated"); }
+    catch (e) { cb.checked = !cb.checked; showToast("Update failed", "error"); }
+};
+
+window.toggleSpotlight = async (id, cb) => {
+    try { await window.productsDb.update(id, { is_spotlight: cb.checked }); showToast("Spotlight updated"); }
     catch (e) { cb.checked = !cb.checked; showToast("Update failed", "error"); }
 };
 
