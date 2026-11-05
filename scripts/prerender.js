@@ -36,6 +36,7 @@ async function prerender() {
 <title>${title}</title>
 <meta name="description" content="${desc.substring(0, 160)}">
 <meta name="robots" content="index, follow">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/images/favicon-round-192.png">
 <link rel="canonical" href="https://www.legendautomotiveeg.com/details?id=${p.id}">
 <meta property="og:type" content="product">
 <meta property="og:title" content="${title}">
