@@ -1013,6 +1013,8 @@ async function renderDetails() {
             vid.src = igUrl;
             vid.controls = true;
             vid.muted = true;
+            vid.autoplay = true;
+            vid.loop = true;
             vid.playsInline = true;
             vid.style.cssText = 'width:100%;max-width:540px;border-radius:12px;background:#000;display:block;';
             igContainer.appendChild(vid);
